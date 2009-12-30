@@ -5,7 +5,6 @@ import iweb2.ch4.model.Attribute;
 import iweb2.ch4.model.DataPoint;
 import iweb2.ch4.similarity.Distance;
 import iweb2.ch4.similarity.EuclideanDistance;
-import iweb2.util.config.IWeb2Config;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -48,7 +47,7 @@ public class SFData {
         validateAttrNames(attrNames, allAvailableAttributeNames);
         
         DataPoint[] allData = loadDataFromFile(
-        		IWeb2Config.getHome()+"/data/ch04/clusteringSF.dat", attrNames);
+                "C:/iWeb2/data/ch04/clusteringSF.dat", attrNames);
         
         Distance dist = new EuclideanDistance();
         SFDataset sfDataset = new SFDataset(allData, dist);

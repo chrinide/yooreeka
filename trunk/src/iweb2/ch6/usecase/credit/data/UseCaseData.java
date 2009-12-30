@@ -9,7 +9,6 @@ import iweb2.ch6.usecase.credit.data.users.UserType;
 import iweb2.ch6.usecase.credit.data.users.VeryGoodUserType;
 import iweb2.ch6.usecase.credit.util.DataGenerator;
 import iweb2.ch6.usecase.credit.util.DataUtils;
-import iweb2.util.config.IWeb2Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,10 +22,10 @@ public class UseCaseData {
      * Generated transactions will be saved into this file.
      */
     public static String TRAINING_USERS_FILENAME = 
-    	IWeb2Config.getHome()+"/data/ch06/generated-training-users.txt";
+        "c:/iWeb2/data/ch06/generated-training-users.txt";
     
     public static String TEST_USERS_FILENAME = 
-    	IWeb2Config.getHome()+"/data/ch06/generated-test-users.txt";
+        "c:/iWeb2/data/ch06/generated-test-users.txt";
 
     DataGenerator dataGenerator = new DataGenerator();
     
@@ -63,8 +62,8 @@ public class UseCaseData {
     
 	public void create(boolean overwrite) {
 		if (overwrite) {
-			TRAINING_USERS_FILENAME = IWeb2Config.getHome()+"/data/ch06/training-users.txt";
-			TEST_USERS_FILENAME = IWeb2Config.getHome()+"/data/ch06/test-users.txt";
+			TRAINING_USERS_FILENAME = "c:/iWeb2/data/ch06/training-users.txt";
+			TEST_USERS_FILENAME = "c:/iWeb2/data/ch06/test-users.txt";
 		}		
 		create();
 	}

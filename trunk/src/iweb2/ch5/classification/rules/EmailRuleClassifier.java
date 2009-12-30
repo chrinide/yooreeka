@@ -5,7 +5,6 @@ import iweb2.ch5.ontology.intf.Concept;
 import iweb2.ch5.usecase.email.data.Email;
 import iweb2.ch5.usecase.email.data.EmailData;
 import iweb2.ch5.usecase.email.data.EmailDataset;
-import iweb2.util.config.IWeb2Config;
 
 public class EmailRuleClassifier {
 
@@ -54,7 +53,7 @@ public class EmailRuleClassifier {
         EmailDataset ds = EmailData.createTestDataset();
         
         EmailRuleClassifier classifier = new EmailRuleClassifier(
-        		IWeb2Config.getHome()+"/data/ch05/spamRules.drl");
+                "c:/iWeb2/data/ch05/spamRules.drl");
 
         classifier.train();
 
@@ -76,7 +75,7 @@ public class EmailRuleClassifier {
          * should win over rules that detect spam content.
          */
         classifier = new EmailRuleClassifier(
-        		IWeb2Config.getHome()+"/data/ch05/spamRulesWithConflict.drl");
+            "c:/iWeb2/data/ch05/spamRulesWithConflict.drl");
 
         classifier.train();
         System.out.println("2. There should be no spam emails.\n" + 
