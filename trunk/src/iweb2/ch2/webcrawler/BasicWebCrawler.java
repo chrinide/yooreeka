@@ -67,9 +67,10 @@ public class BasicWebCrawler {
 
             int urlsProcessedAtThisDepth = 0;
             
+            boolean maxUrlsReached = false;
             boolean noMoreUrlsAtThisDepth = false;
             
-            while( maxUrlsLimitReached == false && noMoreUrlsAtThisDepth == false) {
+            while( maxUrlsReached == false && noMoreUrlsAtThisDepth == false) {
 
                 System.out.println("Starting url group: " + documentGroup + 
                         ", current depth: " + depth +

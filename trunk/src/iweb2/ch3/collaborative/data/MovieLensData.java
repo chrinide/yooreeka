@@ -1,7 +1,5 @@
 package iweb2.ch3.collaborative.data;
 
-import iweb2.util.config.IWeb2Config;
-
 import java.io.File;
 
 /**
@@ -18,7 +16,7 @@ public class MovieLensData {
     }
 
     public static MovieLensDataset createDataset(int numOfTestRatings) {
-        return createDataset(IWeb2Config.getHome()+"/data/ch03/MovieLens", numOfTestRatings);
+        return createDataset("C:/iWeb2/data/ch03/MovieLens", numOfTestRatings);
     }
     
     /**
