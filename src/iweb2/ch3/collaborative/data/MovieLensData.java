@@ -18,7 +18,7 @@ public class MovieLensData {
     }
 
     public static MovieLensDataset createDataset(int numOfTestRatings) {
-        return createDataset(IWeb2Config.getHome()+"/data/ch03/MovieLens", numOfTestRatings);
+        return createDataset(IWeb2Config.getProperty("iweb2.movielens.data.dir"), numOfTestRatings); 
     }
     
     /**
