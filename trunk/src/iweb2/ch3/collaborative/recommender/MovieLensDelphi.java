@@ -14,7 +14,7 @@ import java.util.List;
 /**
  * Recommender. Has to be initialized with similarity function and dataset.
  */
-public class MovieLensDelphi2 implements Recommender {
+public class MovieLensDelphi implements Recommender {
 
     private static final double DEFAULT_SIMILARITY_THRESHOLD = 0.35;
 
@@ -24,7 +24,7 @@ public class MovieLensDelphi2 implements Recommender {
         
     private MovieLensItemSimilarity itemSimilarityMatrix;
     
-    public MovieLensDelphi2(Dataset ds) {
+    public MovieLensDelphi(Dataset ds) {
     	System.out.println("Entering MovieLensDelphi(Dataset) constructor ...");
         
         this.dataSet = ds;
