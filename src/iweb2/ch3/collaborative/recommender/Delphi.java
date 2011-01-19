@@ -489,5 +489,15 @@ public class Delphi implements Recommender {
 	public Dataset getDataset() {
 	    return this.dataSet;
 	}
+
+	@Override
+	public double predictBasedOnItemAverage(Item item) {
+		return item.getAverageRating();
+	}
+
+	@Override
+	public double predictBasedOnUserAverage(User user) {
+		return user.getAverageRating();
+	}
     
 }
