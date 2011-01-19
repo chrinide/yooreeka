@@ -1,38 +1,33 @@
 package iweb2.ch3.shell;
 
-import iweb2.ch3.collaborative.evaluation.MovieLensRMSE;
+import iweb2.ch3.collaborative.data.MovieLensData;
+import iweb2.ch3.collaborative.data.MovieLensDataset;
+import iweb2.ch3.collaborative.evaluation.RMSEEstimator;
+import iweb2.ch3.collaborative.recommender.MovieLensDelphi;
 
-/*
- * 
- */
+
 public class MovieLensRMSESample {
 
-    MovieLensRMSE movieLensRMSE;
-    
-    public MovieLensRMSESample(String datasetName) {
-        movieLensRMSE = createMovieLensRMSE();
-    }
-        
-    private MovieLensRMSE createMovieLensRMSE() {
-        return new MovieLensRMSE();        
-    }
-    
-    public void compareErrors() {
-        
-        // User based similarity will produce OutOfMemory because currently 
-        // they don't discard rating count matrix after the calculation.
-
-        double[] errors = movieLensRMSE.calculate();
-        System.out.println("RMSE Errors:");
-        
-        for(int i=0; i<errors.length; i++) {
-        	System.out.println("RMSE ["+i+"] = "+errors[i]);
-        }
-    }
     
     public static void main(String[] args) throws Exception {
-        MovieLensRMSESample m = new MovieLensRMSESample("MovieLens");
-        m.compareErrors();
+    	
+    	int testSize = Integer.parseInt(args[0]);
+    	
+    	MovieLensDataset ds = MovieLensData.createDataset(testSize);
+
+    	// Create an instance of our recommender
+    	MovieLensDelphi delphi = new MovieLensDelphi(ds);
+    	        
+    	// Create an instance of the RMSE estimator
+    	RMSEEstimator rmseEstimator = new RMSEEstimator();
+    	        
+    	// Calculate the RMSE
+    	// rmseEstimator.calculateRMSE(delphi);
+
+    	// Compare RMSEs
+    	for (int i=0; i<10; i++) {
+    		delphi.setSimilarityThreshold(0.1d+i*0.05d);
+    		rmseEstimator.compareRMSEs(delphi);
+    	}
     }
-    
 }
