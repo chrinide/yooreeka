@@ -25,8 +25,8 @@ public class MovieLensRMSESample {
     	// rmseEstimator.calculateRMSE(delphi);
 
     	// Compare RMSEs
-    	for (int i=0; i<10; i++) {
-    		delphi.setSimilarityThreshold(0.1d+i*0.05d);
+    	for (int i=0; i<25; i++) {
+    		delphi.setSimilarityThreshold(0.05d+i*0.01d);
     		rmseEstimator.compareRMSEs(delphi);
     	}
     }
