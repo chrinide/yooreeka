@@ -11,7 +11,8 @@ import java.io.File;
 import java.util.List;
 
 /**
- * deprecated use <code>MovieLensDelphiRMSE</code> instead.
+ * 
+ * @deprecated use <code>MovieLensDelphiRMSE</code> instead.
  */
 public class MovieLensRMSE {
 
@@ -19,7 +20,7 @@ public class MovieLensRMSE {
     }
 
     public MovieLensDataset createTrainingDataset(int n) {
-        String dataDir = IWeb2Config.getHome()+"/data/ch03/MovieLens";
+        String dataDir = IWeb2Config.getProperty("iweb2.movielens.data.dir");
         
         File users = new File(dataDir, MovieLensDataset.USERS_FILENAME);
         File items = new File(dataDir, MovieLensDataset.ITEMS_FILENAME);
@@ -29,7 +30,7 @@ public class MovieLensRMSE {
     }
     
     public List<Rating> createTestRatings(int n) {
-        String dataDir = IWeb2Config.getHome()+"/data/ch03/MovieLens";
+        String dataDir = IWeb2Config.getProperty("iweb2.movielens.data.dir");
         
         File ratings = new File(dataDir, "u"+n+".test");
 
