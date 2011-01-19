@@ -27,8 +27,14 @@ public interface Recommender {
      */
     public List<PredictedItemRating> recommend(User user, int topN);    
     
+    // Predictions
     public double predictRating(User user, Item item);
     
+    public double predictBasedOnItemAverage(Item item);
+    
+    public double predictBasedOnUserAverage(User user);
+    
+    // Similarities
     public SimilarUser[] findSimilarUsers(User user);
     
     public SimilarUser[] findSimilarUsers(User user, int topN);
@@ -37,6 +43,7 @@ public interface Recommender {
 
     public SimilarItem[] findSimilarItems(Item item, int topN);    
     
+    // Auxiliary
     public Dataset getDataset();
     
     public double getSimilarityThreshold();
