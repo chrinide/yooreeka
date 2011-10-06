@@ -20,7 +20,7 @@ public class IWeb2Config {
 
     public static String getHome() {
 	
-    	return System.getProperty("iweb2.home");    		
+    	return props.getProperty("iweb2.home");    		
     }
     
     /*
