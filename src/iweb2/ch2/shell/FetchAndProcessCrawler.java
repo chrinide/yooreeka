@@ -37,11 +37,6 @@ public class FetchAndProcessCrawler {
     	
     	if ( rootDir == null || rootDir.trim().length() == 0) {
     		
-    		String prefix = System.getProperty("iweb2.home");
-    		if (prefix == null) {
-    			prefix = "..";
-    		}
-
     		rootDir = System.getProperty("iweb2.home")+System.getProperty("file.separator")+"data";
     	}
     	
