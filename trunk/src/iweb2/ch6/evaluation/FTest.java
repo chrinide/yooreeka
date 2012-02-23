@@ -2,7 +2,7 @@ package iweb2.ch6.evaluation;
 
 import iweb2.ch6.usecase.credit.util.ClassifierResults;
 
-public class FTest extends Test {
+public class FTest extends StatisticalTest {
 
     private ClassifierResults c1;
     private ClassifierResults c2;
@@ -10,8 +10,22 @@ public class FTest extends Test {
 
     private double L = 3.0;
     
+    /** 
+     * For test size: 500, Confidence interval: 0.05
+     * Null hypothesis: classifiers are the same
+     * Degrees of freedom: L - 1 = 2, 2 * (N - 1) = 2 * 499 = 998
+     * 
+     * F Distribution
+     * Rejected if F > 3.08
+     * 
+     * Tabulated values can be found at:
+     * http://www.itl.nist.gov/div898/handbook/eda/section3/eda3673.htm
+     */
     public FTest(ClassifierResults c1, ClassifierResults c2, ClassifierResults c3) {
-        this.c1 = c1;
+
+    	this.setThreshold(3.08d);
+    	
+    	this.c1 = c1;
         this.c2 = c2;
         this.c3 = c3;
         
@@ -47,6 +61,7 @@ public class FTest extends Test {
          * SSB
          */
         double sumOfjL2 = calculateSumOfjL2();
+        
         double SSB = sumOfjL2 / L  - L * N * p;
         
         /*
@@ -71,7 +86,7 @@ public class FTest extends Test {
         /*
          * F
          */
-        F = MSA / MSAB;
+        statistic = MSA / MSAB;
     }
 
     /*
@@ -113,30 +128,6 @@ public class FTest extends Test {
         
     }
     
-    private double F = 0.0;
-    
-    public double getF() {
-        return F;
-    }
-    
-    public boolean different() {
-        // For test size: 500
-        // Confidence interval: 0.05
-        // Null hypothesis: classifiers are the same
-        // Degrees of freedom: L - 1 = 2, 2 * (N - 1) = 2 * 499 = 998
-        // F Distribution
-        // Rejected if F > 3.08
-    	//
-    	// Tabulated values can be found at:
-    	// http://www.itl.nist.gov/div898/handbook/eda/section3/eda3673.htm
-    
-        if( F > 3.08) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     @Override
 	public void evaluate() {
     	print("_____________________________________________________");
@@ -156,18 +147,8 @@ public class FTest extends Test {
         print("Degrees of Freedom (1st): 2");
         print("Degrees of Freedom (2nd): 39998");
         print("Statistic threshold     : 3.08");
-        
-        String tmp;
-        if (different()) {
-        	tmp=">";
-        } else {
-        	tmp="<=";
-        }
-        print("_____________________________________________________");
-        
-        print("F = " + F + tmp+ "3.08");        	
-        
-        print("The classifiers are different: " + String.valueOf(different()).toUpperCase());
+
+        printResult();
     }
     
 }
