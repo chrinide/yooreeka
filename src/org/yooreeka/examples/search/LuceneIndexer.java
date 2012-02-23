@@ -2,10 +2,10 @@ package org.yooreeka.examples.search;
 
 import java.io.File;
 
-import org.yooreeka.internet.crawling.core.CrawlData;
-import org.yooreeka.internet.crawling.core.CrawlDataProcessor;
-import org.yooreeka.internet.crawling.util.FileUtils;
-import org.yooreeka.search.lucene.LuceneIndexBuilder;
+import org.yooreeka.algos.search.lucene.LuceneIndexBuilder;
+import org.yooreeka.util.internet.crawling.core.CrawlData;
+import org.yooreeka.util.internet.crawling.core.CrawlDataProcessor;
+import org.yooreeka.util.internet.crawling.util.FileUtils;
 
 public class LuceneIndexer {
 	

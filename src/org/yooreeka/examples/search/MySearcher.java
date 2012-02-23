@@ -12,12 +12,12 @@ import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.store.FSDirectory;
 
-import org.yooreeka.classification.bayesian.NaiveBayes;
-import org.yooreeka.internet.behavior.UserClick;
-import org.yooreeka.internet.behavior.UserQuery;
-import org.yooreeka.ontology.intf.Concept;
-import org.yooreeka.search.data.SearchResult;
-import org.yooreeka.search.ranking.Rank;
+import org.yooreeka.algos.search.data.SearchResult;
+import org.yooreeka.algos.search.ranking.Rank;
+import org.yooreeka.algos.taxis.bayesian.NaiveBayes;
+import org.yooreeka.algos.taxis.core.intf.Concept;
+import org.yooreeka.util.internet.behavior.UserClick;
+import org.yooreeka.util.internet.behavior.UserQuery;
 
 public class MySearcher {
 

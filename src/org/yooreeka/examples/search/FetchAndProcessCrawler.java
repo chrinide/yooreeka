@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.yooreeka.config.YooreekaConfigurator;
-import org.yooreeka.internet.crawling.core.BasicWebCrawler;
-import org.yooreeka.internet.crawling.core.CrawlData;
-import org.yooreeka.internet.crawling.core.URLFilter;
-import org.yooreeka.internet.crawling.core.URLNormalizer;
+import org.yooreeka.util.internet.crawling.core.BasicWebCrawler;
+import org.yooreeka.util.internet.crawling.core.CrawlData;
+import org.yooreeka.util.internet.crawling.core.URLFilter;
+import org.yooreeka.util.internet.crawling.core.URLNormalizer;
 
 public class FetchAndProcessCrawler {
 

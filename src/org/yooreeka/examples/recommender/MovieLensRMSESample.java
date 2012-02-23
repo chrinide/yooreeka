@@ -1,9 +1,9 @@
 package org.yooreeka.examples.recommender;
 
-import org.yooreeka.reco.collaborative.data.MovieLensData;
-import org.yooreeka.reco.collaborative.data.MovieLensDataset;
-import org.yooreeka.reco.collaborative.evaluation.RMSEEstimator;
-import org.yooreeka.reco.collaborative.recommender.MovieLensDelphi;
+import org.yooreeka.algos.reco.collab.data.MovieLensData;
+import org.yooreeka.algos.reco.collab.data.MovieLensDataset;
+import org.yooreeka.algos.reco.collab.evaluation.RMSEEstimator;
+import org.yooreeka.algos.reco.collab.recommender.MovieLensDelphi;
 
 public class MovieLensRMSESample {
 
