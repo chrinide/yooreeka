@@ -2,8 +2,10 @@ package iweb2.ch6.evaluation;
 
 import iweb2.ch6.usecase.credit.util.ClassifierResults;
 
-public class McNemarTest extends Test {
+public class McNemarTest extends StatisticalTest {
 
+	// The statistic is Chi-square
+	    
     private ClassifierResults c1;
     private ClassifierResults c2;
 
@@ -19,7 +21,12 @@ public class McNemarTest extends Test {
     private int n00 = 0; // both incorrect
     
     public McNemarTest(ClassifierResults c1, ClassifierResults c2) {
-        this.c1 = c1;
+        
+        // Using level of significance 0.05, and 1 degree of freedom: 
+        // reject null hypothesis if chi2 > 3.841 
+        
+    	this.setThreshold(3.841d);
+    	this.c1 = c1;
         this.c2 = c2;
         
         calculate();
@@ -46,29 +53,10 @@ public class McNemarTest extends Test {
         }
         
         double a = Math.abs(n01 - n10) - 1;
-        chi2 = a * a / (n01 + n10);
 
-        
+        statistic = a * a / (n01 + n10);
     }
-    
-    double chi2 = 0.0;
-    
-    public double getDiscrepancyStatistic() {
-        return chi2;
-    }
-    
-    
-    public boolean different() {
-        // using level of significance 0.05, 1 degree of freedom: 
-        // reject null hypothesis if chi2 > 3.841 
-        if( chi2 > 3.841) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
+     
     @Override
 	public void evaluate() {
     	
@@ -89,18 +77,8 @@ public class McNemarTest extends Test {
         print("Confidence Interval             : 0.05");
         print("Degrees of Freedom              : 1");
         print("Statistic threshold (Chi-square): 3.841");
-        
-        String tmp;
-        if (different()) {
-        	tmp=">";
-        } else {
-        	tmp="<=";
-        }
-        print("_____________________________________________________");
-        
-        print("Chi2 = " + chi2 + tmp +"3.841");
-        
-        print("The two classifiers are different: " + String.valueOf(different()).toUpperCase());
+                
+        printResult();        
     }
     
     public int getN11() {
