@@ -3,9 +3,9 @@
  */
 package org.yooreeka.examples.search;
 
-import org.yooreeka.search.ranking.DocRankMatrixBuilder;
-import org.yooreeka.search.ranking.PageRankMatrixH;
-import org.yooreeka.search.ranking.Rank;
+import org.yooreeka.algos.search.ranking.DocRankMatrixBuilder;
+import org.yooreeka.algos.search.ranking.PageRankMatrixH;
+import org.yooreeka.algos.search.ranking.Rank;
 
 
 /**

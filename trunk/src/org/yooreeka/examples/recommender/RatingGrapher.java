@@ -3,12 +3,12 @@ package org.yooreeka.examples.recommender;
 import java.io.File;
 import java.util.Collection;
 
+import org.yooreeka.algos.reco.collab.data.MovieLensDataset;
+import org.yooreeka.algos.reco.collab.model.Dataset;
+import org.yooreeka.algos.reco.collab.model.Item;
+import org.yooreeka.algos.reco.collab.model.Rating;
+import org.yooreeka.algos.reco.collab.model.User;
 import org.yooreeka.config.YooreekaConfigurator;
-import org.yooreeka.reco.collaborative.data.MovieLensDataset;
-import org.yooreeka.reco.collaborative.model.Dataset;
-import org.yooreeka.reco.collaborative.model.Item;
-import org.yooreeka.reco.collaborative.model.Rating;
-import org.yooreeka.reco.collaborative.model.User;
 import org.yooreeka.util.gui.XyGui;
 
 public class RatingGrapher {

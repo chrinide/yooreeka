@@ -3,11 +3,11 @@ package org.yooreeka.examples.recommender;
 import java.io.File;
 import java.util.List;
 
-import org.yooreeka.reco.collaborative.data.MovieLensDataset;
-import org.yooreeka.reco.collaborative.model.Dataset;
-import org.yooreeka.reco.collaborative.model.RecommendationType;
-import org.yooreeka.reco.collaborative.recommender.Delphi;
-import org.yooreeka.reco.collaborative.recommender.PredictedItemRating;
+import org.yooreeka.algos.reco.collab.data.MovieLensDataset;
+import org.yooreeka.algos.reco.collab.model.Dataset;
+import org.yooreeka.algos.reco.collab.model.RecommendationType;
+import org.yooreeka.algos.reco.collab.recommender.Delphi;
+import org.yooreeka.algos.reco.collab.recommender.PredictedItemRating;
 
 /**
  * @deprecated not used at the moment.

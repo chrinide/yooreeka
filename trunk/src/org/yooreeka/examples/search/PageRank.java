@@ -1,9 +1,9 @@
 package org.yooreeka.examples.search;
 
-import org.yooreeka.internet.crawling.core.CrawlData;
-import org.yooreeka.search.ranking.PageRankMatrixBuilder;
-import org.yooreeka.search.ranking.PageRankMatrixH;
-import org.yooreeka.search.ranking.Rank;
+import org.yooreeka.algos.search.ranking.PageRankMatrixBuilder;
+import org.yooreeka.algos.search.ranking.PageRankMatrixH;
+import org.yooreeka.algos.search.ranking.Rank;
+import org.yooreeka.util.internet.crawling.core.CrawlData;
 
 public class PageRank extends Rank {
     
