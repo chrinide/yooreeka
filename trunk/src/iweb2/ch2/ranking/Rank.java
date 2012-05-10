@@ -53,8 +53,7 @@ public abstract class Rank {
 		// This holds the values of the PageRank vector
         pR = new double[n];
         
-        // This is a copy of the PageRank vector from the previous iteration
-        // The only reason that we need this is for evaluating the error	
+        // This is a copy of the PageRank vector from the previous iteration	
         double[] tmpPR = new double[n];
 
         // Set the initial values (ad hoc)
@@ -110,7 +109,7 @@ public abstract class Rank {
         		
         		for (int j=0; j < n; j++) {
             		
-            		dummy += pR[j]*H[j][i];
+            		dummy += tmpPR[j]*H[j][i];
             	}
         		
         		pR[i] = dummy;
