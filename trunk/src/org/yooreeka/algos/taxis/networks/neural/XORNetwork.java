@@ -9,7 +9,8 @@ public class XORNetwork extends BaseNN {
 
     private static final long serialVersionUID = -511246579251846775L;
     
-
+    private static final double TINY_NUMBER = 0.00001d;
+    
     public XORNetwork(String name) {
         super(name);
     }
@@ -91,13 +92,18 @@ public class XORNetwork extends BaseNN {
         System.out.println("Training...");
 
        double nearZero = 0;
-       for(int i = 0; i < 4*1024; i++) {
+       for(int i = 0; i < 16*1024; i++) {
     	       	   
            nn.train(new double[] {nearZero, nearZero}, new double[] {0.0});
-           nn.train(new double[] {1-nearZero, 1-nearZero}, new double[] {0.0});
-           nn.train(new double[] {1-nearZero, nearZero}, new double[] {1.0});
-           nn.train(new double[] {nearZero, 1-nearZero}, new double[] {1.0});
-    	   nearZero = 0.0d + Math.random()*0.000000001d;
+           nn.train(new double[] {1+nearZero, 1+nearZero}, new double[] {0.0});
+           nn.train(new double[] {1+nearZero, nearZero}, new double[] {1.0});
+           nn.train(new double[] {nearZero, 1+nearZero}, new double[] {1.0});
+           
+           if (Math.random() < 0.5) {
+        	   nearZero = 0.0d + Math.random()*TINY_NUMBER;
+           } else {
+        	   nearZero = -(1.0d - Math.random()*TINY_NUMBER);
+           }
 
            //nn.printWeights();
        }
