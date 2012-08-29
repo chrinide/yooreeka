@@ -1,7 +1,5 @@
 package org.yooreeka.util.metrics;
 
-import iweb2.ch4.utils.TermFrequencyBuilder;
-
 public class CosineSimilarity implements SimilarityMeasure {
     
 	private static final long serialVersionUID = -3470234210362615980L;
