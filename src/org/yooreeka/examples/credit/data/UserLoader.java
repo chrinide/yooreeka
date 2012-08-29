@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.examples.credit.data.users.User;
-import org.yooreeka.examples.credit.util.DataUtils;
+import org.yooreeka.examples.credit.util.CreditDataUtils;
 
 
 public class UserLoader {
@@ -17,7 +17,7 @@ public class UserLoader {
     		YooreekaConfigurator.getHome()+"/data/ch06/test-users.txt";
 
     public static List<User> loadUsers(String filename) {
-        return DataUtils.loadUsers(filename);
+        return CreditDataUtils.loadUsers(filename);
     }
     
     public static UserDataset loadTrainingDataset() {
