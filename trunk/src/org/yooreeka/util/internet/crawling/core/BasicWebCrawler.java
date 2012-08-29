@@ -10,14 +10,14 @@ import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 import org.yooreeka.util.internet.crawling.model.KnownUrlEntry;
 import org.yooreeka.util.internet.crawling.model.Outlink;
 import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
-import org.yooreeka.util.internet.crawling.parser.common.DocumentParser;
-import org.yooreeka.util.internet.crawling.parser.common.DocumentParserFactory;
 import org.yooreeka.util.internet.crawling.transport.common.Transport;
 import org.yooreeka.util.internet.crawling.transport.file.FileTransport;
 import org.yooreeka.util.internet.crawling.transport.http.HTTPTransport;
 import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
 import org.yooreeka.util.internet.crawling.util.UrlGroup;
 import org.yooreeka.util.internet.crawling.util.UrlUtils;
+import org.yooreeka.util.parsing.common.DocumentParser;
+import org.yooreeka.util.parsing.common.DocumentParserFactory;
 
 public class BasicWebCrawler {
     
@@ -202,14 +202,13 @@ public class BasicWebCrawler {
                 doc = fetchedDocsDB.getDocument(id);
                 String url = doc.getDocumentURL();
                 
-                DocumentParser docParser = DocumentParserFactory
-                    .getInstance().getDocumentParser(doc.getContentType());
+                String contentType = doc.getContentType();
+                
+                DocumentParser docParser = DocumentParserFactory.getInstance().getDocumentParser(contentType);
                 ProcessedDocument parsedDoc = docParser.parse(doc);
                 parsedDocsService.saveDocument(parsedDoc);
-                crawlData.getKnownUrlsDB().updateUrlStatus(
-                        url, KnownUrlEntry.STATUS_PROCESSED_SUCCESS);                    
-            }
-            catch(Exception e) {
+                crawlData.getKnownUrlsDB().updateUrlStatus(url, KnownUrlEntry.STATUS_PROCESSED_SUCCESS);                    
+            } catch(Exception e) {
                 
             	if( doc != null  ) {
                 
