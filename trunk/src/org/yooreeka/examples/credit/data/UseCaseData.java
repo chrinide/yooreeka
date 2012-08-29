@@ -12,7 +12,7 @@ import org.yooreeka.examples.credit.data.users.User;
 import org.yooreeka.examples.credit.data.users.UserType;
 import org.yooreeka.examples.credit.data.users.VeryGoodUserType;
 import org.yooreeka.examples.credit.util.DataGenerator;
-import org.yooreeka.examples.credit.util.DataUtils;
+import org.yooreeka.examples.credit.util.CreditDataUtils;
 
 /**
  * Example for how to configure and generate file with transactions. 
@@ -83,7 +83,7 @@ public class UseCaseData {
         System.out.println("Generating users...");        
         List<User> allUsers = dataGenerator.generateUsers(userTypes);
         System.out.println("Saving users into '" + filename + "'");        
-        DataUtils.saveUsers(filename, allUsers);
+        CreditDataUtils.saveUsers(filename, allUsers);
     }
     
     public List<UserType> createUserTypes(int nUsers) {
