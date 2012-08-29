@@ -2,10 +2,12 @@ package org.yooreeka.util.internet.crawling.model;
 
 import java.util.Map;
 
+import org.yooreeka.util.parsing.common.AbstractDocument;
+
 /**
  * Collection of raw (unprocessed) data about crawled/fetched document.
  */ 
-public class FetchedDocument {
+public class FetchedDocument extends AbstractDocument {
     
     /*
      * Document id that was assigned by the FetcherModule.

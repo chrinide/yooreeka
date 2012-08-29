@@ -1,4 +1,4 @@
-package org.yooreeka.util.internet.crawling.parser.msword;
+package org.yooreeka.util.parsing.msword;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -8,17 +8,19 @@ import java.io.StringReader;
 
 import org.textmining.extraction.TextExtractor;
 import org.textmining.extraction.word.WordTextExtractorFactory;
-import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
-import org.yooreeka.util.internet.crawling.parser.common.DocumentParser;
-import org.yooreeka.util.internet.crawling.parser.common.DocumentParserException;
+import org.yooreeka.util.parsing.common.AbstractDocument;
+import org.yooreeka.util.parsing.common.DataEntry;
+import org.yooreeka.util.parsing.common.DocumentParser;
+import org.yooreeka.util.parsing.common.DocumentParserException;
 
-public class MSWordDocumentParser implements DocumentParser {
+public class MSWordDocumentParser extends DocumentParser {
 
-    public ProcessedDocument parse(FetchedDocument doc)
+    ProcessedDocument wordDoc = new ProcessedDocument();
+
+    public ProcessedDocument parse(AbstractDocument doc)
             throws DocumentParserException {
 
-        ProcessedDocument wordDoc = new ProcessedDocument();
         wordDoc.setDocumentType(ProcessedDocument.DOCUMENT_TYPE_MSWORD);
         wordDoc.setDocumentId(doc.getDocumentId());
         wordDoc.setDocumentURL(doc.getDocumentURL());
@@ -61,4 +63,10 @@ public class MSWordDocumentParser implements DocumentParser {
         
         return title;
     }
+
+	@Override
+	public DataEntry getDataEntry(int i) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -1,4 +1,4 @@
-package org.yooreeka.util.internet.crawling.parser.common;
+package org.yooreeka.util.parsing.common;
 
 import org.yooreeka.util.parsing.html.HTMLDocumentParser;
 import org.yooreeka.util.parsing.msword.MSWordDocumentParser;
@@ -26,12 +26,10 @@ public class DocumentParserFactory {
     public DocumentParser getDocumentParser(String type) 
         throws DocumentParserException {
         if( "text/html".equalsIgnoreCase(type) ) {
-            return (DocumentParser) new HTMLDocumentParser();
-        }
-        else if( "application/msword".equalsIgnoreCase(type) ) {
-            return (DocumentParser) new MSWordDocumentParser();
-        }
-        else {
+            return new HTMLDocumentParser();
+        } else if( "application/msword".equalsIgnoreCase(type) ) {
+            return new MSWordDocumentParser();
+        } else {
             throw new DocumentParserException("Unsupported document type: '"+ type + "'.");
             
         }

@@ -1,6 +1,6 @@
-package org.yooreeka.util.internet.crawling.parser.msword;
+package org.yooreeka.util.parsing.msword;
 
-import org.yooreeka.util.internet.crawling.parser.common.DocumentParserException;
+import org.yooreeka.util.parsing.common.DocumentParserException;
 
 public class MSWordDocumentParserException extends DocumentParserException {
 
