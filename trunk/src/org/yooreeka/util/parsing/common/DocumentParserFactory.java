@@ -25,13 +25,12 @@ public class DocumentParserFactory {
      */
     public DocumentParser getDocumentParser(String type) 
         throws DocumentParserException {
-        if( "text/html".equalsIgnoreCase(type) ) {
+        if( ProcessedDocument.TYPE_HTML.equalsIgnoreCase(type) ) {
             return new HTMLDocumentParser();
-        } else if( "application/msword".equalsIgnoreCase(type) ) {
+        } else if( ProcessedDocument.TYPE_MSWORD.equalsIgnoreCase(type) ) {
             return new MSWordDocumentParser();
         } else {
-            throw new DocumentParserException("Unsupported document type: '"+ type + "'.");
-            
+            throw new DocumentParserException("Unsupported document type: '"+ type + "'.");            
         }
     }
 }

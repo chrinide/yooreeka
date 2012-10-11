@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.examples.spamfilter.EmailClassifier;
-import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 import org.yooreeka.util.parsing.html.HTMLDocumentParser;
 
 

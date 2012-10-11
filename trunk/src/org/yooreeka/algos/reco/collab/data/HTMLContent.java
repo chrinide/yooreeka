@@ -1,17 +1,15 @@
 package org.yooreeka.algos.reco.collab.data;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.StringWriter;
-
-import org.apache.lucene.demo.html.HTMLParser;
 
 import org.yooreeka.algos.reco.collab.model.Content;
+import org.yooreeka.util.parsing.html.HTMLDocumentParser;
+import org.yooreeka.util.parsing.html.HTMLDocumentParserException;
 
 public class HTMLContent extends Content {
 
@@ -39,26 +37,25 @@ public class HTMLContent extends Content {
 	
 	
     private static String extractContentFromHtmlDoc(File htmlFile) {
-        FileInputStream fis = null;
+        
+    	String htmlText=null;
+    	FileInputStream fis = null;
         
         try {
             fis = new FileInputStream(htmlFile);
             Reader reader = new InputStreamReader(new BufferedInputStream(fis));
-            HTMLParser htmlParser = new HTMLParser(reader);
-            Reader r = htmlParser.getReader();
-            BufferedReader br = new BufferedReader(r);
-            String line = null;
-            StringWriter sw = new StringWriter();
-            while((line = br.readLine()) != null) {
-                sw.write(line);
-                sw.write(" ");
-            }
-            return sw.toString();
-        }
-        catch(IOException e) {
-            throw new RuntimeException(e);
-        }
-        finally {
+            HTMLDocumentParser htmlParser = new HTMLDocumentParser(reader);
+            
+            htmlText = htmlParser.getHtmlDoc().getText();
+        
+        } catch(IOException e) {
+            
+        	throw new RuntimeException(e);
+            
+        } catch (HTMLDocumentParserException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
             if( fis != null ) {
                 try {
                     fis.close();
@@ -68,6 +65,7 @@ public class HTMLContent extends Content {
                 }
             }
         }
+        return htmlText;
     }
     
 }

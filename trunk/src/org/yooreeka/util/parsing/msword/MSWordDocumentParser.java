@@ -8,20 +8,20 @@ import java.io.StringReader;
 
 import org.textmining.extraction.TextExtractor;
 import org.textmining.extraction.word.WordTextExtractorFactory;
-import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;
 import org.yooreeka.util.parsing.common.DocumentParser;
 import org.yooreeka.util.parsing.common.DocumentParserException;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
-public class MSWordDocumentParser extends DocumentParser {
+public class MSWordDocumentParser implements DocumentParser {
 
     ProcessedDocument wordDoc = new ProcessedDocument();
 
     public ProcessedDocument parse(AbstractDocument doc)
             throws DocumentParserException {
 
-        wordDoc.setDocumentType(ProcessedDocument.DOCUMENT_TYPE_MSWORD);
+        wordDoc.setDocumentType(ProcessedDocument.TYPE_MSWORD);
         wordDoc.setDocumentId(doc.getDocumentId());
         wordDoc.setDocumentURL(doc.getDocumentURL());
         

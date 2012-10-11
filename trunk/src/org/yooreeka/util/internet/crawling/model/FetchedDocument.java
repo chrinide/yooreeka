@@ -1,13 +1,15 @@
 package org.yooreeka.util.internet.crawling.model;
 
+import java.nio.charset.Charset;
 import java.util.Map;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 
 /**
  * Collection of raw (unprocessed) data about crawled/fetched document.
  */ 
-public class FetchedDocument extends AbstractDocument {
+public class FetchedDocument implements AbstractDocument {
     
     /*
      * Document id that was assigned by the FetcherModule.
@@ -96,5 +98,15 @@ public class FetchedDocument extends AbstractDocument {
 
     public void setDocumentMetadata(Map<String, String> metadata) {
         this.documentMetadata = metadata;
+    }
+    
+    public void print() {
+    	P.println("Document ID    : "+this.documentId);
+    	P.println("Content URL    : "+this.url);
+    	P.println("Content Type   : "+this.contentType);
+    	P.println("Content Charset: "+this.contentCharset);
+    	P.hline();
+    	P.println("CONTENT\n"+new String(this.getDocumentContent(),Charset.forName(contentCharset)));
+    	P.hline();
     }
 }

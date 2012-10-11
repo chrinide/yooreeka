@@ -1,16 +1,11 @@
 package org.yooreeka.examples.fraud.data;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.lucene.analysis.Token;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.yooreeka.algos.taxis.core.DoubleAttribute;
 import org.yooreeka.algos.taxis.core.StringAttribute;
 import org.yooreeka.algos.taxis.core.TrainingSet;
@@ -172,24 +167,9 @@ public class TransactionInstanceBuilder implements java.io.Serializable {
     }
     
     private String[] tokenizeTxnDescription(String description) {
-        ArrayList<String> terms = new ArrayList<String>();
+        String[] terms = description.split("\\s");
 
-        StandardAnalyzer analyzer = new StandardAnalyzer();
-        
-        TokenStream stream = 
-            analyzer.tokenStream("whatever", new StringReader(description));
-        
-        Token t = null;
-        try {
-            while ( (t = stream.next()) != null) {
-                terms.add(new String(t.termBuffer(), 0, t.termLength()));
-            }
-        }
-        catch(IOException e) {
-            throw new RuntimeException(e);
-        }
-        
-        return terms.toArray(new String[terms.size()]);
+        return terms;
     }
     
     

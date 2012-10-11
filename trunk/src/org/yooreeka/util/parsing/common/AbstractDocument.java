@@ -7,11 +7,15 @@ package org.yooreeka.util.parsing.common;
  * @author bmarmanis
  *
  */
-public abstract class AbstractDocument {
+public interface AbstractDocument {
 
-	abstract public String getDocumentId();
+	public String getDocumentId();
 
-	abstract public byte[] getDocumentContent();
+	public byte[] getDocumentContent();
 
-	abstract public String getDocumentURL();
+	public String getDocumentURL();
+
+	public String getContentType();
+	
+	public String getContentCharset();
 }

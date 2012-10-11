@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.Map;
 
 import org.yooreeka.util.internet.crawling.model.Outlink;
-import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
 import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
 import org.yooreeka.util.internet.crawling.util.FileUtils;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 public class ProcessedDocsDB {
     

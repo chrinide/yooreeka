@@ -3,21 +3,23 @@ package org.yooreeka.util.internet.crawling.core;
 
 import java.util.List;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.db.FetchedDocsDB;
 import org.yooreeka.util.internet.crawling.db.KnownUrlDB;
 import org.yooreeka.util.internet.crawling.db.ProcessedDocsDB;
 import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 import org.yooreeka.util.internet.crawling.model.KnownUrlEntry;
 import org.yooreeka.util.internet.crawling.model.Outlink;
-import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
 import org.yooreeka.util.internet.crawling.transport.common.Transport;
 import org.yooreeka.util.internet.crawling.transport.file.FileTransport;
 import org.yooreeka.util.internet.crawling.transport.http.HTTPTransport;
 import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
 import org.yooreeka.util.internet.crawling.util.UrlGroup;
 import org.yooreeka.util.internet.crawling.util.UrlUtils;
+import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DocumentParser;
 import org.yooreeka.util.parsing.common.DocumentParserFactory;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 public class BasicWebCrawler {
     
@@ -197,7 +199,7 @@ public class BasicWebCrawler {
     	List<String> docIds = fetchedDocsDB.getDocumentIds(groupId);
 
         for(String id : docIds) {
-            FetchedDocument doc = null;
+            AbstractDocument doc = null;
             try {
                 doc = fetchedDocsDB.getDocument(id);
                 String url = doc.getDocumentURL();
@@ -205,9 +207,17 @@ public class BasicWebCrawler {
                 String contentType = doc.getContentType();
                 
                 DocumentParser docParser = DocumentParserFactory.getInstance().getDocumentParser(contentType);
+                
+                //DEBBUG
+                P.println(docParser.toString());
+                P.println(doc.toString());
+                
                 ProcessedDocument parsedDoc = docParser.parse(doc);
+                
                 parsedDocsService.saveDocument(parsedDoc);
-                crawlData.getKnownUrlsDB().updateUrlStatus(url, KnownUrlEntry.STATUS_PROCESSED_SUCCESS);                    
+                
+                crawlData.getKnownUrlsDB().updateUrlStatus(url, KnownUrlEntry.STATUS_PROCESSED_SUCCESS);
+                
             } catch(Exception e) {
                 
             	if( doc != null  ) {
