@@ -18,10 +18,11 @@ set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\jigg-0.1.jar
 set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\rooster.jar
 
 set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\junit-4.1.jar
-set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-analyzers-2.3.0.jar
-set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-core-2.3.0.jar
-set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-demos-2.3.0.jar
-set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-memory-2.3.0.jar
+set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-analyzers-common-4.0.0-BETA.jar
+set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-core-4.0.0-BETA.jar
+set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-demo-4.0.0-BETA.jar
+set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-memory-4.0.0-BETA.jar
+set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\lucene-queryparser-4.0.0-BETA.jar
 set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\nekohtml.jar
 set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\poi-3.0.2-FINAL-20080204.jar
 set LIBJARS=%LIBJARS%;%IWEB2_HOME%\deploy\lib\resolver.jar
