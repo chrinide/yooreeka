@@ -1,26 +1,22 @@
 package org.yooreeka.algos.search.ranking;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
-import org.apache.lucene.index.TermFreqVector;
-import org.apache.lucene.store.FSDirectory;
-
-import org.yooreeka.algos.search.util.TermFreqMapUtils;
+import org.apache.lucene.store.SimpleFSDirectory;
+import org.yooreeka.algos.search.lucene.analyzer.TextDocumentTerms;
 import org.yooreeka.util.internet.crawling.core.CrawlDataProcessor;
-import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 public class DocRankMatrixBuilder implements CrawlDataProcessor {
     
-//    private static final Logger logger = Logger.getLogger(PageRankMatrixBuilder.class);
-
-	private final int TERMS_TO_KEEP = 3;
+//	private final int TERMS_TO_KEEP = 3;
 	
 	private int termsToKeep=0;
 	
@@ -42,7 +38,7 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
         throws IOException {
         List<Integer> docs = new ArrayList<Integer>();
         for(int i = 0, n = idxR.maxDoc(); i < n; i++) {
-            if( idxR.isDeleted(i) == false ) {
+            if( idxR.hasDeletions() == false ) {
                 Document doc = idxR.document(i);
                 if( eligibleForDocRank(doc.get("doctype") ) ) {
                     docs.add(i);
@@ -58,7 +54,7 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
      * DocRank on.
      */
     private boolean eligibleForDocRank(String doctype) {
-        return ProcessedDocument.DOCUMENT_TYPE_MSWORD.equalsIgnoreCase(doctype);
+        return ProcessedDocument.TYPE_MSWORD.equalsIgnoreCase(doctype);
     }
     
     private PageRankMatrixH buildMatrixH(IndexReader idxR) 
@@ -85,14 +81,14 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
         		
     			} else {
         		
-	                TermFreqVector x = idxR.getTermFreqVector(i, "content");
-	                TermFreqVector y = idxR.getTermFreqVector(j, "content");
-	                
-	                similarity = getImportance(x.getTerms(), x.getTermFrequencies(), 
-	                		                   y.getTerms(), y.getTermFrequencies());
+    				TextDocumentTerms xDocumentTerms = new TextDocumentTerms(docX.get("content"));
+
+        			Document docY = idxR.document(j);
+        			TextDocumentTerms yDocumentTerms = new TextDocumentTerms(docY.get("content"));
+
+	                similarity = getImportance(xDocumentTerms, yDocumentTerms);
 	                
 	                // add link from docX to docY 
-	                Document docY = idxR.document(j);
 	                String yURL = docY.get("url");
 	                
 	                docMatrix.addLink(xURL, yURL, similarity);
@@ -105,21 +101,15 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
         return docMatrix;
     }
     
-    /*
+	/*
      * Calculates importance of document Y in the context of document X
      */
-    private double getImportance(String[] xTerms, int[] xTermFreq, 
-                                 String[] yTerms, int[] yTermFreq) {
+    private double getImportance(TextDocumentTerms xTerms, 
+    							 TextDocumentTerms yTerms) {
     
-    	// xTerms is an array of the most frequent terms for the first document
-        Map<String, Integer> xFreqMap = buildFreqMap(xTerms, xTermFreq);
-
-        // yTerms is an array of the most frequent terms for the second document
-        Map<String, Integer> yFreqMap = buildFreqMap(yTerms, yTermFreq);
-
         // sharedTerms is the intersection of the two sets
-        Set<String> sharedTerms = new HashSet<String>(xFreqMap.keySet());
-        sharedTerms.retainAll(yFreqMap.keySet());
+        Set<String> sharedTerms = xTerms.getTf().keySet();
+        sharedTerms.retainAll(yTerms.getTf().keySet());
         
         double sharedTermsSum = 0.0;
         
@@ -130,11 +120,9 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
         double xF, yF;
         for(String term : sharedTerms) {
         	
-        	xF = xFreqMap.get(term).doubleValue();
-        	yF = yFreqMap.get(term).doubleValue();
+        	xF = xTerms.getTf().get(term).doubleValue();
+        	yF = yTerms.getTf().get(term).doubleValue();
             
-        	
-        	
         	sharedTermsSum += Math.round(Math.tanh(yF/xF));
         }
         
@@ -142,19 +130,19 @@ public class DocRankMatrixBuilder implements CrawlDataProcessor {
         return sharedTermsSum;
     }
     
-    private Map<String, Integer> buildFreqMap(String[] terms, int[] freq) {
-        
-        int topNTermsToKeep = (termsToKeep == 0)? TERMS_TO_KEEP: termsToKeep;
-        
-        Map<String, Integer> freqMap = 
-            TermFreqMapUtils.getTopNTermFreqMap(terms, freq, topNTermsToKeep);
-        
-        return freqMap;
-    }
+//    private Map<String, Integer> buildFreqMap(String[] terms, int[] freq) {
+//        
+//        int topNTermsToKeep = (termsToKeep == 0)? TERMS_TO_KEEP: termsToKeep;
+//        
+//        Map<String, Integer> freqMap = 
+//            TermFreqMapUtils.getTopNTermFreqMap(terms, freq, topNTermsToKeep);
+//        
+//        return freqMap;
+//    }
 
     public void run() {
         try {
-            IndexReader idxR = IndexReader.open(FSDirectory.getDirectory(indexDir));
+            DirectoryReader idxR = DirectoryReader.open(new SimpleFSDirectory(new File(indexDir)));
             matrixH = buildMatrixH(idxR);
         }
         catch(Exception e) {

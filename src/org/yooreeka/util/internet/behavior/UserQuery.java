@@ -1,13 +1,11 @@
 package org.yooreeka.util.internet.behavior;
 
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
 import java.util.Arrays;
 
-import org.apache.lucene.analysis.Token;
-import org.apache.lucene.analysis.TokenStream;
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
+import org.apache.lucene.index.Term;
+import org.apache.lucene.search.PhraseQuery;
+import org.apache.lucene.search.Query;
 
 /**
  * This is a class that encapsulates a personalized query
@@ -18,35 +16,25 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 public class UserQuery {
 
 	private String uid;
-	private String query;
+	private String queryString;
 	private String[] queryTerms;
+	private Query query;
 	
 	public UserQuery(String uid, String q) throws IOException {
 		
 		setUid(uid);
-		setQuery(q);
+		setQueryString(q);
 		
-		ArrayList<String> qTerms = new ArrayList<String>();
-		StandardAnalyzer analyzer = new StandardAnalyzer();
+		PhraseQuery query = new PhraseQuery();	
+		query.add(new Term("content",q));
 		
-		TokenStream stream = analyzer.tokenStream("query", new StringReader(q));
+		Term[] terms = query.getTerms(); 
+		queryTerms = new String[terms.length];
 		
-		boolean hasTokens = true; 
-		while (hasTokens) {
+		for (int i=0; i < terms.length; i++) {
 			
-			Token t = stream.next();
-			
-			if (t == null) {
-				
-				hasTokens = false;
-				
-			} else {
-				
-				qTerms.add(new String(t.termBuffer(), 0, t.termLength()));
-			}
+			queryTerms[i] = terms[i].text();
 		}
-		
-		queryTerms = qTerms.toArray(new String[qTerms.size()]);
 	}
 	
 	/**
@@ -66,15 +54,15 @@ public class UserQuery {
 	/**
 	 * @return the query
 	 */
-	public String getQuery() {
-		return query;
+	public String getQueryString() {
+		return queryString;
 	}
 
 	/**
 	 * @param query the query to set
 	 */
-	public void setQuery(String query) {
-		this.query = query;
+	public void setQueryString(String query) {
+		this.queryString = query;
 	}
 	
 	public String getName() {
@@ -97,7 +85,7 @@ public class UserQuery {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((query == null) ? 0 : query.hashCode());
+        result = prime * result + ((queryString == null) ? 0 : queryString.hashCode());
         result = prime * result + Arrays.hashCode(queryTerms);
         result = prime * result + ((uid == null) ? 0 : uid.hashCode());
         return result;
@@ -112,10 +100,10 @@ public class UserQuery {
         if (getClass() != obj.getClass())
             return false;
         final UserQuery other = (UserQuery) obj;
-        if (query == null) {
-            if (other.query != null)
+        if (queryString == null) {
+            if (other.queryString != null)
                 return false;
-        } else if (!query.equals(other.query))
+        } else if (!queryString.equals(other.queryString))
             return false;
         if (!Arrays.equals(queryTerms, other.queryTerms))
             return false;
@@ -126,5 +114,13 @@ public class UserQuery {
             return false;
         return true;
     }
+
+	public Query getQuery() {
+		return query;
+	}
+
+	public void setQuery(Query query) {
+		this.query = query;
+	}
 
 }

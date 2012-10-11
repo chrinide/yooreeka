@@ -1,18 +1,21 @@
 package org.yooreeka.examples.search;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.lucene.analysis.standard.StandardAnalyzer;
-import org.apache.lucene.queryParser.ParseException;
-import org.apache.lucene.queryParser.QueryParser;
-import org.apache.lucene.search.Hits;
+import org.apache.lucene.document.Document;
+import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.queryparser.flexible.core.QueryNodeException;
+import org.apache.lucene.queryparser.flexible.standard.StandardQueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
+import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-
 import org.yooreeka.algos.search.data.SearchResult;
+import org.yooreeka.algos.search.lucene.LuceneIndexBuilder;
 import org.yooreeka.algos.search.ranking.Rank;
 import org.yooreeka.algos.taxis.bayesian.NaiveBayes;
 import org.yooreeka.algos.taxis.core.intf.Concept;
@@ -29,14 +32,13 @@ public class MySearcher {
 	private static final String PRETTY_LINE = 
 		"_______________________________________________________________________";
 	
-	private String indexDir;
-
+	private File indexFile;
 	private NaiveBayes learner = null;
 	
 	private boolean verbose = true;
 	
     public MySearcher(String indexDir) {
-		this.indexDir = indexDir;
+		indexFile = new File(indexDir);
 	}
 	
 	public void setUserLearner(NaiveBayes nb) {
@@ -45,46 +47,57 @@ public class MySearcher {
 	
 	public SearchResult[] search(String query, int numberOfMatches) {
 	    
-		SearchResult[] docResults = new SearchResult[0];
+		SearchResult[] docResults=null;
 		
 		IndexSearcher is = null;
 		
+		Directory dir=null;
 		try {
-
-			is = new IndexSearcher(FSDirectory.getDirectory(indexDir));
+			dir = FSDirectory.open(indexFile);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		DirectoryReader dirReader=null;
+		try {
+			
+			dirReader = DirectoryReader.open(dir);
+			is = new IndexSearcher(dirReader);
 			
 		} catch (IOException ioX) {
 			System.out.println("ERROR: "+ioX.getMessage());
 		}
 
-		QueryParser qp = new QueryParser("content", new StandardAnalyzer());
-
-		Query q = null;
+		StandardQueryParser queryParserHelper = new StandardQueryParser();
+		Query q=null;
+		
 		try {
+		
+			q = queryParserHelper.parse(query, LuceneIndexBuilder.INDEX_FIELD_CONTENT);
 
-			q = qp.parse(query);
-
-		} catch (ParseException pX) {
-			System.out.println("ERROR: "+pX.getMessage());
-		}
-
-		Hits hits = null;
+		} catch (QueryNodeException e) {
+			e.printStackTrace();
+		} 
+		
+		TopDocs hits = null;		
 		try {
-			hits = is.search(q);
+			hits = is.search(q, numberOfMatches);
 
-			int n = Math.min(hits.length(), numberOfMatches);
-			docResults = new SearchResult[n];
+			docResults = new SearchResult[hits.totalHits];
 			
-			for (int i = 0; i < n; i++) {
+			for (int i = 0; i < hits.totalHits; i++) {
 
-				docResults[i] = new SearchResult(hits.doc(i).get("docid"),
-				                                 hits.doc(i).get("doctype"),
-				                                 hits.doc(i).get("title"),
-												 hits.doc(i).get("url"),
-												 hits.score(i));
+				Document hitDoc = is.doc(hits.scoreDocs[i].doc);
+				docResults[i] = new SearchResult(hitDoc.get("docid"),
+				                                 hitDoc.get("doctype"),
+				                                 hitDoc.get("title"),
+												 hitDoc.get("url"),
+												 hits.scoreDocs[i].score);
 			}
 
-			is.close();
+			dirReader.close();
+			dir.close();
 
 		} catch (IOException ioX) {
 			System.out.println("ERROR: "+ioX.getMessage());
@@ -120,16 +133,18 @@ public class MySearcher {
 		double m = 1 - (double) 1/n;
 
 		// actualNumberOfMatches <= numberOfMatches
-		int actualNumberOfMatches = docResults.length;
-
-		for (int i = 0; i < actualNumberOfMatches; i++) {
+		int i=0;
+		
+		while (i < docResults.length && docResults[i] != null) {
 
 			url = docResults[i].getUrl();
 			
 			double hScore = docResults[i].getScore() * Math.pow(pR.getPageRank(url),m);
 						
 			// Update the score of the results
-			docResults[i].setScore(hScore); 
+			docResults[i].setScore(hScore);
+			
+			i++;
 		}
 
 		// sort results by score
@@ -162,7 +177,7 @@ public class MySearcher {
 	 */
 	public SearchResult[] search(UserQuery uQuery, int numberOfMatches, Rank pR) {
 		
-		SearchResult[] docResults = search(uQuery.getQuery(), numberOfMatches);
+		SearchResult[] docResults = search(uQuery.getQueryString(), numberOfMatches);
 		
 		String url;
 		
@@ -240,7 +255,7 @@ public class MySearcher {
 		
         String header = "Search results using combined Lucene scores, " + 
 		                "page rank scores and user clicks:";
-        String query = "Query: user=" + uQuery.getUid() + ", query text=" + uQuery.getQuery();
+        String query = "Query: user=" + uQuery.getUid() + ", query text=" + uQuery.getQueryString();
         boolean showTitle = false;
 		printResults(header, query, docResults, showTitle);
 		
@@ -273,15 +288,19 @@ public class MySearcher {
             }
             pw.print("\n");
             for(int i = 0, n = values.length; i < n; i++) {
-                if( showDocTitle ) {
-                    pw.printf("Document Title: %s\n", values[i].getTitle());
-                }
-                pw.printf("Document URL: %-46s  -->  Relevance Score: %.15f\n", 
-                          values[i].getUrl(), values[i].getScore());
-                if( printEntrySeparator ) {   
-                    pw.printf(PRETTY_LINE);
-                    pw.printf("\n");
-                }
+            	if (values[i] != null) {
+	                if( showDocTitle ) {
+	                    pw.printf("Document Title: %s\n", values[i].getTitle());
+	                }
+	                pw.printf("Document URL: %-46s  -->  Relevance Score: %.15f\n", 
+	                          values[i].getUrl(), values[i].getScore());
+	                if( printEntrySeparator ) {   
+	                    pw.printf(PRETTY_LINE);
+	                    pw.printf("\n");
+	                }
+            	} else {
+            		pw.printf("Document: %s\n", "Not available, values[i] is NULL");
+            	}
             }
             if( !printEntrySeparator ) { 
                 pw.print(PRETTY_LINE);

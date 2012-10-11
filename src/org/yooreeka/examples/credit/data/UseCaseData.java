@@ -11,8 +11,8 @@ import org.yooreeka.examples.credit.data.users.GoodUserType;
 import org.yooreeka.examples.credit.data.users.User;
 import org.yooreeka.examples.credit.data.users.UserType;
 import org.yooreeka.examples.credit.data.users.VeryGoodUserType;
-import org.yooreeka.examples.credit.util.DataGenerator;
 import org.yooreeka.examples.credit.util.CreditDataUtils;
+import org.yooreeka.examples.credit.util.DataGenerator;
 
 /**
  * Example for how to configure and generate file with transactions. 

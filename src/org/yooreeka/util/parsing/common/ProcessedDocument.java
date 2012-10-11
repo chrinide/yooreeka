@@ -1,15 +1,23 @@
-package org.yooreeka.util.internet.crawling.model;
+package org.yooreeka.util.parsing.common;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.mozilla.universalchardet.UniversalDetector;
+import org.yooreeka.util.P;
+import org.yooreeka.util.internet.crawling.model.Outlink;
 
 /**
  * Represents Processed document with attributes that we are interested in.
  */
-public class ProcessedDocument {
+public class ProcessedDocument implements AbstractDocument {
     
-    public static final String DOCUMENT_TYPE_HTML = "html";
-    public static final String DOCUMENT_TYPE_MSWORD = "msword";
+	public static final String TYPE_TEXT = "text/plain";
+    public static final String TYPE_HTML = "text/html";
+    public static final String TYPE_MSWORD = "application/msword";
     
     /*
      * Unique document id.
@@ -113,4 +121,49 @@ public class ProcessedDocument {
                 ", url: " + documentURL + 
                 "]"; 
     }
+
+	@Override
+	public String getContentType() {
+		return getDocumentType();
+	}
+
+	@Override
+	public String getContentCharset() {
+		byte[] buf = new byte[4096];
+	    
+	    ByteArrayInputStream fis = new ByteArrayInputStream(getContent().getBytes());
+
+	    // (1)
+	    UniversalDetector detector = new UniversalDetector(null);
+
+	    // (2)
+	    int nread;
+	    try {
+			while ((nread = fis.read(buf)) > 0 && !detector.isDone()) {
+			  detector.handleData(buf, 0, nread);
+			}
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	    // (3)
+	    detector.dataEnd();
+
+	    // (4)
+	    String encoding = detector.getDetectedCharset();
+	    if (encoding != null) {
+	      P.println("Detected encoding = " + encoding);
+	    } else {
+	      P.println("No encoding detected.");
+	    }
+
+	    // (5)
+	    detector.reset();
+		return encoding;
+	}
+
+	@Override
+	public byte[] getDocumentContent() {
+		return getContent().getBytes(Charset.forName(getContentCharset()));
+	}
 }

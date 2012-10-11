@@ -41,9 +41,6 @@ public class CSVFile {
 		CSVParser csvParser = new CSVParser();
 		csvParser.parse(bReader);
 
-		// Sanity check
-		csvParser.print(10);
-
 		bReader.close();
 	}
 

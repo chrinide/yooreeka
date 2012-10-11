@@ -1,7 +1,5 @@
 package org.yooreeka.algos.reco.collab.model;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,10 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.lucene.analysis.Analyzer;
-import org.apache.lucene.analysis.Token;
-import org.apache.lucene.analysis.TokenStream;
-import org.yooreeka.algos.search.lucene.analyzer.CustomAnalyzer;
+import org.yooreeka.algos.search.lucene.analyzer.TextDocumentTerms;
 
 
 public class Content implements java.io.Serializable {
@@ -38,7 +33,7 @@ public class Content implements java.io.Serializable {
         this.text = text;
 
         
-        Map<String, Integer> allTermFrequencyMap = buildTermFrequencyMap(text);
+        Map<String, Integer> allTermFrequencyMap = (new TextDocumentTerms(text)).getTf();
         tfMap = getTopNTermFrequencies(allTermFrequencyMap, topNTerms);
 
         terms = new String[tfMap.size()];
@@ -85,37 +80,37 @@ public class Content implements java.io.Serializable {
         return id;
     }
     
-    private Map<String, Integer> buildTermFrequencyMap(String text) {
-
-        Analyzer analyzer = new CustomAnalyzer();
-        TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(text));
-
-        Map<String, Integer> termFrequencyMap = new HashMap<String, Integer>();        
-
-        boolean hasTokens = true;
-        try {
-            while (hasTokens) {
-                Token t = tokenStream.next();
-                if (t == null) {
-                    hasTokens = false;
-                } else {
-                    String term = new String(t.termBuffer(), 0, t.termLength());
-                    Integer frequency = termFrequencyMap.get(term);
-                    if( frequency == null ) {
-                        termFrequencyMap.put(term, 1);
-                    }
-                    else {
-                        termFrequencyMap.put(term, frequency + 1);
-                    }
-                }
-            }
-        }
-        catch(IOException e) {
-            throw new RuntimeException(e);
-        }
-        
-       return termFrequencyMap;
-    }
+//    private Map<String, Integer> buildTermFrequencyMap(String text) {
+//
+//        CustomAnalyzer analyzer = new CustomAnalyzer(Version.LUCENE_40);
+//        TokenStream tokenStream = analyzer.tokenStream("content", new StringReader(text));
+//
+//        Map<String, Integer> termFrequencyMap = new HashMap<String, Integer>();        
+//
+//        boolean hasTokens = true;
+//        try {
+//            while (hasTokens) {
+//                Token t = null;//tokenStream.next();
+//                if (t == null) {
+//                    hasTokens = false;
+//                } else {
+//                    String term = new String(t.termBuffer(), 0, t.termLength());
+//                    Integer frequency = termFrequencyMap.get(term);
+//                    if( frequency == null ) {
+//                        termFrequencyMap.put(term, 1);
+//                    }
+//                    else {
+//                        termFrequencyMap.put(term, frequency + 1);
+//                    }
+//                }
+//            }
+//        }
+//        catch(IOException e) {
+//            throw new RuntimeException(e);
+//        }
+//        
+//       return termFrequencyMap;
+//    }
     
     private Map<String, Integer> getTopNTermFrequencies(
             Map<String, Integer> termFrequencyMap, int topN) {

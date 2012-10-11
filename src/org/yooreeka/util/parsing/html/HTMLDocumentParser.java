@@ -23,39 +23,53 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.yooreeka.util.internet.crawling.model.FetchedDocument;
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.model.Outlink;
-import org.yooreeka.util.internet.crawling.model.ProcessedDocument;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;
 import org.yooreeka.util.parsing.common.DocumentParser;
-import org.yooreeka.util.parsing.common.DocumentParserException;
+import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
  * Parser for HTML documents. 
  */
-public class HTMLDocumentParser extends DocumentParser {
+public class HTMLDocumentParser implements DocumentParser {
 
+	ProcessedDocument htmlDoc;
+	
+	public HTMLDocumentParser() {
+		//NOTHING YET
+	}
+	
+	public HTMLDocumentParser(Reader reader) throws HTMLDocumentParserException {
+		HTMLDocumentParser p = new HTMLDocumentParser();
+		htmlDoc = p.parse(reader);
+	}
+	
     public ProcessedDocument parse(Reader reader) 
         throws HTMLDocumentParserException {
-        
-        ProcessedDocument htmlDoc = new ProcessedDocument();
-        htmlDoc.setDocumentType(ProcessedDocument.DOCUMENT_TYPE_HTML);
-        htmlDoc.setDocumentId(null);
-        htmlDoc.setDocumentURL(null);
+    	P.println("Entering HTMLDocumentParser.parse(Reader reader) ...");
+    	ProcessedDocument processedDocument = new ProcessedDocument();
+        processedDocument.setDocumentType(ProcessedDocument.TYPE_HTML);
+        processedDocument.setDocumentId(null);
+        processedDocument.setDocumentURL(null);
         InputSource inputSource = new InputSource();
         inputSource.setCharacterStream(reader);
-        parseHTML(htmlDoc, inputSource);
-        return htmlDoc;
+        parseHTML(processedDocument, inputSource);
+        return processedDocument;
     }
     
-    public ProcessedDocument parse(FetchedDocument doc) 
+    public ProcessedDocument parse(AbstractDocument doc) 
         throws HTMLDocumentParserException {
+    	P.println("Entering HTMLDocumentParser.parse(FetchedDocument doc) ...");
         ProcessedDocument htmlDoc = new ProcessedDocument();
-        htmlDoc.setDocumentType(ProcessedDocument.DOCUMENT_TYPE_HTML);
+        htmlDoc.setDocumentType(ProcessedDocument.TYPE_HTML);
         htmlDoc.setDocumentId(doc.getDocumentId());
         htmlDoc.setDocumentURL(doc.getDocumentURL());
         String documentCharset = doc.getContentCharset();
+
+        P.println("Converting the content bytes into a string ...");
+        
         InputStream contentBytes = new ByteArrayInputStream(doc.getDocumentContent());
         try {
             /* 
@@ -70,6 +84,7 @@ public class HTMLDocumentParser extends DocumentParser {
             parseHTML(htmlDoc, inputSource);
         }
         catch(UnsupportedEncodingException e) {
+        	e.printStackTrace();
             throw new HTMLDocumentParserException("Document parsing error: ", e);
         }
         return htmlDoc;
@@ -105,14 +120,17 @@ public class HTMLDocumentParser extends DocumentParser {
         try {
             parser.setProperty("http://cyberneko.org/html/properties/filters", filters);
         } catch (SAXException e) {
+        	e.printStackTrace();
             throw new HTMLDocumentParserException("Property is not supported", e);
         } 
         
         try {
             parser.parse(inputSource);
         } catch (SAXException e) {
+        	e.printStackTrace();
             throw new HTMLDocumentParserException("Parsing error: ", e);
         } catch (IOException e) {
+        	e.printStackTrace();
             throw new HTMLDocumentParserException("Parsing error: ", e);
         }
         
@@ -407,14 +425,17 @@ public class HTMLDocumentParser extends DocumentParser {
         return linkFilter;
     }
 
-	@Override
-	public ProcessedDocument parse(AbstractDocument doc)
-			throws DocumentParserException {
-		throw new DocumentParserException("Not implemented yet.");
+	public ProcessedDocument getHtmlDoc() {
+		return htmlDoc;
+	}
+
+	public void setHtmlDoc(ProcessedDocument htmlDoc) {
+		this.htmlDoc = htmlDoc;
 	}
 
 	@Override
 	public DataEntry getDataEntry(int i) {
+		// TODO Auto-generated method stub
 		return null;
 	}
 }

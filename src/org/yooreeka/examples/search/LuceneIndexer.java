@@ -1,6 +1,7 @@
 package org.yooreeka.examples.search;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.yooreeka.algos.search.lucene.LuceneIndexBuilder;
 import org.yooreeka.util.internet.crawling.core.CrawlData;
@@ -31,7 +32,13 @@ public class LuceneIndexer {
         FileUtils.deleteDir(luceneIndexRootDir);
         luceneIndexRootDir.mkdirs();
         
-        CrawlDataProcessor luceneIndexBuilder = new LuceneIndexBuilder(luceneIndexRootDir, crawlData);
+        CrawlDataProcessor luceneIndexBuilder = null;
+		try {
+			luceneIndexBuilder = new LuceneIndexBuilder(luceneIndexRootDir, crawlData);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         System.out.print("Starting the indexing ... ");
         
