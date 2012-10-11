@@ -4,7 +4,7 @@
 
      
 <!-- set global properties for this build -->
-<property name="project.Name" value="Algorithms of the Intelligent Web"/>
+<property name="project.Name" value="Yooreeka: A library for data mining, machine learning, soft computing, and mathematical analysis"/>
 <property name="iweb2.root" location=".."/>
 <property name="iweb2.build.dir" value="${iweb2.root}/build"/>
 <property name="iweb2.src" value="${iweb2.root}/src"/>
@@ -34,11 +34,13 @@
   <include name="jigg-0.1.jar"/>
   <include name="rooster.jar"/>
   <include name="junit-4.1.jar"/>
+  <include name="juniversalchardet-1.0.3.jar"/>
   <include name="log4j.jar"/>
-  <include name="lucene-analyzers-2.3.0.jar"/>
-  <include name="lucene-core-2.3.0.jar"/>
-  <include name="lucene-demos-2.3.0.jar"/>
-  <include name="lucene-memory-2.3.0.jar"/>
+  <include name="lucene-analyzers-common-4.0.0-BETA.jar"/>
+  <include name="lucene-core-4.0.0-BETA.jar"/>
+  <include name="lucene-demo-4.0.0-BETA.jar"/>
+  <include name="lucene-memory-4.0.0-BETA.jar"/>
+  <include name="lucene-queryparser-4.0.0-BETA.jar"/>
   <include name="nekohtml.jar"/>
   <include name="poi-3.0.2-FINAL-20080204.jar"/>
   <include name="resolver.jar"/>
@@ -200,13 +202,13 @@
 <target name="tidy"
           depends="clean-all"
           description="--> cleans up everything">
-  <delete dir="${iweb2.javadoc}/ch2" />
-  <delete dir="${iweb2.javadoc}/ch3" />
+  <delete dir="${iweb2.javadoc}" />
+  <!-- delete dir="${iweb2.javadoc}/ch3" />
   <delete dir="${iweb2.javadoc}/ch4" />
   <delete dir="${iweb2.javadoc}/ch5" />
   <delete dir="${iweb2.javadoc}/ch6" />
   <delete dir="${iweb2.javadoc}/ch7" />
-  <delete dir="${iweb2.javadoc}/util" />
+  <delete dir="${iweb2.javadoc}/util" / -->
   <delete> <fileset dir="." includes="**/*~" defaultexcludes="no"/> </delete>
 </target>
 
@@ -218,166 +220,26 @@
   -->
 <target name="docs" depends="init" description="--> creates the API documentation for iweb2">
   
-<!-- Chapter 2 -->
+<!-- Yooreeka API -->
   <echo message="Removing the old and creating a new Javadoc folder ..." />
 
-  <delete dir="${iweb2.javadoc}/ch2"/>
+  <delete dir="${iweb2.javadoc}"/>
   
-  <mkdir dir="${iweb2.javadoc}/ch2"/>
+  <mkdir dir="${iweb2.javadoc}"/>
 
-  <javadoc packagenames="iweb2.ch2.*"
+  <javadoc packagenames="org.yooreeka.*"
          sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/ch2"
+         destdir="${iweb2.javadoc}"
 	     author="true"
          version="true"
          use="true"
          windowtitle="${project.Name} API">
 
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
+    <doctitle><![CDATA[<h2>${project.Name}</h2>]]></doctitle>
     <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="Chapter 2 -- Core" packages="iweb2.ch2.cliks, iweb2.ch2.data,iweb2.ch2.lucene, iweb2.ch2.ranking"/>
-    <group title="Chapter 2 -- Web Crawler" packages="iweb2.ch2.w*"/>
-    <group title="Chapter 2 -- Utilities" packages="iweb2.ch2.shell"/>
     <link href="http://code.google.com/p/yooreeka/"/>
  </javadoc>
 
-<!-- Chapter 3 -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
-
-  <delete dir="${iweb2.javadoc}/ch3"/>
-  <mkdir  dir="${iweb2.javadoc}/ch3"/>
-
-  <javadoc packagenames="iweb2.ch3.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/ch3"
-	     author="true"
-         version="true"
-         use="true"
-         windowtitle="${project.Name} API">
-
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
-    <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="Chapter 3 -- Collaborative Filtering" packages="iweb2.ch3.collaborative.*"/>
-    <group title="Chapter 3 -- Content" packages="iweb2.ch3.content.*"/>
-    <group title="Chapter 3 -- Utilities" packages="iweb2.ch3.shell"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
- 
-<!-- Chapter 4 -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
-
-  <delete dir="${iweb2.javadoc}/ch4"/>
-  <mkdir  dir="${iweb2.javadoc}/ch4"/>
-
-  <javadoc packagenames="iweb2.ch4.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/ch4"
-	     author="true"
-         version="true"
-         use="true"
-         windowtitle="${project.Name} API">
-
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
-    <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="Chapter 4 -- Core" packages="iweb2.ch4.data, iweb2.ch4.model, iweb2.ch4.similarity"/>
-    <group title="Chapter 4 -- Clustering" packages="iweb2.ch2.w*"/>
-    <group title="Chapter 4 -- Utilities" packages="iweb2.ch4.utils"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
-
-<!-- Chapter 5 -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
-
-  <delete dir="${iweb2.javadoc}/ch5"/>
-  <mkdir  dir="${iweb2.javadoc}/ch5"/>
-
- <javadoc packagenames="iweb2.ch5.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/ch5"
-	     author="true"
-         version="true"
-         use="true"
-         windowtitle="${project.Name} API">
-
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
-    <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="Chapter 5" packages="iweb2.ch5.*"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
-
-<!-- Chapter 6 -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
-
-  <delete dir="${iweb2.javadoc}/ch6"/>
-  <mkdir  dir="${iweb2.javadoc}/ch6"/>
-
- <javadoc packagenames="iweb2.ch6.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/ch6"
-	     author="true"
-         version="true"
-         use="true"
-         windowtitle="${project.Name} API">
-
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
-    <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="Chapter 6" packages="iweb2.ch6"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
-
-<!-- Chapter 7 -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
-
-  <delete dir="${iweb2.javadoc}/ch7"/>
-  <mkdir  dir="${iweb2.javadoc}/ch7"/>
-
- <javadoc packagenames="iweb2.ch7.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/ch7"
-	     author="true"
-         version="true"
-         use="true"
-         windowtitle="${project.Name} API">
-
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
-    <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="Chapter 7" packages="iweb2.ch7"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
-
-<!-- Utilities -->
-  <echo message="Removing the old and creating a new Javadoc folder ..." />
-
-  <delete dir="${iweb2.javadoc}/util"/>
-  <mkdir  dir="${iweb2.javadoc}/util"/>
-
- <javadoc packagenames="iweb2.util.*"
-         sourcepath="${iweb2.src}"
-         destdir="${iweb2.javadoc}/util"
-	     author="true"
-         version="true"
-         use="true"
-         windowtitle="${project.Name} API">
-
-    <doctitle><![CDATA[<h1>${project.Name}</h1>]]></doctitle>
-    <bottom><![CDATA[<i>Copyright &#169; 2007-2009 Haralambos Marmanis &amp; Dmitry Babenko</i>]]></bottom>
-    <classpath refid="compile.classpath"/>
-    <tag name="todo" scope="all" description="To do:"/>
-    <group title="General Utilities" packages="iweb2.util.*"/>
-    <link href="http://code.google.com/p/yooreeka/"/>
- </javadoc>
  
   <echo message="docs build complete" />
 </target>
