@@ -202,13 +202,8 @@
 <target name="tidy"
           depends="clean-all"
           description="--> cleans up everything">
+  <delete dir="./eclipse" />
   <delete dir="${iweb2.javadoc}" />
-  <!-- delete dir="${iweb2.javadoc}/ch3" />
-  <delete dir="${iweb2.javadoc}/ch4" />
-  <delete dir="${iweb2.javadoc}/ch5" />
-  <delete dir="${iweb2.javadoc}/ch6" />
-  <delete dir="${iweb2.javadoc}/ch7" />
-  <delete dir="${iweb2.javadoc}/util" / -->
   <delete> <fileset dir="." includes="**/*~" defaultexcludes="no"/> </delete>
 </target>
 
