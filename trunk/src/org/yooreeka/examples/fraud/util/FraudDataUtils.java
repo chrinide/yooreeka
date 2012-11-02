@@ -2,11 +2,10 @@ package org.yooreeka.examples.fraud.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,22 +41,35 @@ public class FraudDataUtils {
     }
  
     static String[] loadTxnDescriptions(String filename) {
-        List<String> descriptions = new ArrayList<String>();
+        
+    	List<String> descriptions = new ArrayList<String>();
+
+        FileReader fReader = null;
+		try {
+			fReader = new FileReader(filename);
+		} catch (FileNotFoundException fnfX) {
+			fnfX.printStackTrace();
+		}
+		
         try {
-            FileInputStream fin = new FileInputStream(filename);
-            BufferedReader reader = new BufferedReader(new InputStreamReader(fin));
+            BufferedReader reader = new BufferedReader(fReader);
             String line = null;
             while( (line = reader.readLine()) != null) {
                 if( line.trim().length() > 0 ) {
                     descriptions.add(line);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(
                 "Failed to load descriptions from file: '" + filename + "' ", 
                 e);
         }
+        
+        try {
+			fReader.close();
+		} catch (IOException ioX) {
+			ioX.printStackTrace();
+		}
         
         return descriptions.toArray(new String[descriptions.size()]); 
     }
@@ -93,6 +105,8 @@ public class FraudDataUtils {
                     txns.add(txn);
                 }
             }
+            
+            fReader.close();
         }
         catch (IOException e) {
             throw new RuntimeException(

@@ -26,6 +26,8 @@ public class CSVParser implements DocumentParser {
 	 */
 	private ArrayList<CSVEntry> csvData;
 
+	private long linesParsed=0;
+
 	/**
 	 * 
 	 */
@@ -41,7 +43,7 @@ public class CSVParser implements DocumentParser {
 	 */
 	public CSVDocument parse(BufferedReader bR) throws IOException {
 
-		long linesParsed=0;
+		linesParsed=0;
 		
 		csvData = new ArrayList<CSVEntry>();
 
@@ -66,6 +68,10 @@ public class CSVParser implements DocumentParser {
 		
 		CSVDocument doc = new CSVDocument(csvData);
 		return doc;
+	}
+
+	public long getLinesParsed() {
+		return linesParsed;
 	}
 
 	@Override
