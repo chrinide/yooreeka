@@ -1,4 +1,4 @@
-package org.yooreeka.examples.search;
+package org.yooreeka.util.internet.crawling;
 
 import java.util.ArrayList;
 import java.util.List;
