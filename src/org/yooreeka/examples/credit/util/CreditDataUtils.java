@@ -2,6 +2,7 @@ package org.yooreeka.examples.credit.util;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -36,8 +37,15 @@ public class CreditDataUtils {
 
     public static List<User> loadUsers(String filename) {
         List<User> users = new ArrayList<User>();
+        
+        FileReader fReader = null;
+		try {
+			fReader = new FileReader(filename);
+		} catch (FileNotFoundException fnfX) {
+			fnfX.printStackTrace();
+		}
+		
         try {
-            FileReader fReader = new FileReader(filename);
             BufferedReader reader = new BufferedReader(fReader);
             String line = null;
             while( (line = reader.readLine()) != null) {
@@ -47,12 +55,17 @@ public class CreditDataUtils {
                     users.add(user);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException ioX) {
             throw new RuntimeException(
                 "Failed to load users from file: '" + filename + "' ", 
-                e);
+                ioX);
         }
+        
+        try {
+			fReader.close();
+		} catch (IOException ioX) {
+			ioX.printStackTrace();
+		}
         
         return users; 
     }
