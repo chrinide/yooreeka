@@ -3,15 +3,17 @@
 // ------------------------------------------------------
 import *;
 
+String yHome = YooreekaConfigurator.getHome();
+
 // Load data from Digg and save them in a file
-BaseDataset ds = DiggData.loadDataFromDigg("C:/iWeb2/data/ch03/digg_stories.csv");
+BaseDataset ds = DiggData.loadDataFromDigg(yHome+"/data/ch03/digg_stories.csv");
 
 // Load previously saved data
-BaseDataset ds = DiggData.loadData("C:/iWeb2/data/ch03/digg_stories.csv");
+BaseDataset ds = DiggData.loadData(yHome+"/data/ch03/digg_stories.csv");
 
 
 // 2. Pick a user randomly or by username
-iweb2.ch3.collaborative.model.User user = ds.getUser(1);
+org.yooreeka.algos.reco.collab.model.User user = ds.getUser(1);
 
 // Or pick some specific user by username
 //DiggData.showUsers();
@@ -24,7 +26,7 @@ DiggDelphi delphi = new DiggDelphi(ds);
 delphi.findSimilarUsers(user);
 delphi.recommend(user);
 
-// iweb2.ch3.collaborative.model.User u2 = ds.findUserByName("adrian67");
+// org.yooreeka.algos.reco.collab.model.User u2 = ds.findUserByName("adrian67");
 // delphi.findSimilarUsers(u2);
 // delphi.recommend(u2);
 

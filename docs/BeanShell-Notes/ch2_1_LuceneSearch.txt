@@ -7,7 +7,8 @@ import *;
 //
 // -- Data (default URL list)
 //
-FetchAndProcessCrawler crawler = new FetchAndProcessCrawler("C:/iWeb2/data/ch02",5,200);
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler crawler = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
 crawler.setDefaultUrls(); 
 crawler.run(); 
 

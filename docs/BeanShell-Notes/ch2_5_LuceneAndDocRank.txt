@@ -6,7 +6,8 @@ import *;
 //
 // -- Data (Business news in Word document format and 3 spam documents)
 //
-FetchAndProcessCrawler c = new FetchAndProcessCrawler("C:/iWeb2/data/ch02",5,200);
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler c = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
 c.setUrls("biz-docs"); 
 c.addDocSpam();
 c.run(); 
