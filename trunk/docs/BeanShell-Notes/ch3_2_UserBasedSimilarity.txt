@@ -3,6 +3,8 @@
 // ------------------------------------------------------
 import *;
 
+String yHome = YooreekaConfigurator.getHome();
+
 // The static method createDataset will create random ratings
 // for all the users, pick 75% of all the songs and assign ratings.
 //
@@ -15,7 +17,7 @@ BaseDataset ds = MusicData.createDataset();
 // Serialize the dataset, so that we can load it in the next script
 //
 
-ds.save("C:/iWeb2/data/ch3_2_dataset.ser");
+ds.save(yHome+"/data/ch03/dataset_script_2.ser");
 
 //
 // use Delphi with USER_BASED similarity
@@ -39,7 +41,7 @@ delphi.recommend(mu1);
 
 //------------------------------------------------------------------------
 //BaseDataset ds = MusicData.createDataset();
-//ds.save("C:/iWeb2/deploy/data/ch3_2_dataset.ser");
+//ds.save(yHome+"/data/ch03/dataset_script_2.ser");
 //Delphi delphi = new Delphi(ds,RecommendationType.USER_BASED);
 //delphi.setVerbose(true);
 //MusicUser mu1 = ds.pickUser("Bob");

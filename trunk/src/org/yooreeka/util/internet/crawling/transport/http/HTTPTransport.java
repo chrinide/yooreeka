@@ -1,3 +1,33 @@
+/*
+ *   ________________________________________________________________________________________
+ *   
+ *   Y O O R E E K A
+ *   A library for data mining, machine learning, soft computing, and mathematical analysis
+ *   ________________________________________________________________________________________ 
+ *    
+ *   The Yooreeka project started with the code of the book "Algorithms of the Intelligent Web " 
+ *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
+ *   are valuable in any software application.
+ *  
+ *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ * 
+ *   Certain library functions depend on other Open Source software libraries, which are covered 
+ *   by different license agreements. See the NOTICE file distributed with this work for additional 
+ *   information regarding copyright ownership and licensing.
+ * 
+ *   Marmanis Group LLC licenses this file to You under the Apache License, Version 2.0 (the "License"); 
+ *   you may not use this file except in compliance with the License.  
+ *   You may obtain a copy of the License at
+ *
+ *       http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *   Unless required by applicable law or agreed to in writing, software distributed under 
+ *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
+ *   either express or implied. See the License for the specific language governing permissions and
+ *   limitations under the License.
+ *   
+ */
 package org.yooreeka.util.internet.crawling.transport.http;
 
 import java.io.BufferedInputStream;
@@ -35,42 +65,6 @@ public class HTTPTransport implements Transport {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see iweb2.ch2.webcrawler.transport.common.Transport#init()
-	 */
-	public void init() {
-
-		System.out.println("Initializing HTTPTransport ...");
-
-		httpclient = new DefaultHttpClient();
-
-		// Create a local instance of cookie store
-		cookieStore = new BasicCookieStore();
-
-		// Create local HTTP context
-		localContext = new BasicHttpContext();
-
-		// Bind custom cookie store to the local context
-		localContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
-
-		// httpclient.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
-		// httpclient.getHttpConnectionManager().getParams().setSoTimeout(30000);
-		// httpclient.setState(initialState);
-		// httpclient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
-		//
-		// //httpclient.getParams().setParameter(HttpClientParams.ALLOW_CIRCULAR_REDIRECTS,
-		// Boolean.TRUE);
-		//
-		// // Set default number of connections per host to 1
-		// httpclient.getHttpConnectionManager().
-		// getParams().setMaxConnectionsPerHost(
-		// HostConfiguration.ANY_HOST_CONFIGURATION, 1);
-		// // Set max for total number of connections
-		// httpclient.getHttpConnectionManager().getParams().setMaxTotalConnections(10);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
 	 * @see iweb2.ch2.webcrawler.transport.common.Transport#clear()
 	 */
 	public void clear() {
@@ -78,66 +72,7 @@ public class HTTPTransport implements Transport {
 		// initialState = null;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * iweb2.ch2.webcrawler.transport.common.Transport#fetch(java.lang.String)
-	 */
-	public FetchedDocument fetch(String documentUrl) throws TransportException {
-
-		FetchedDocument doc = null;
-
-		HttpGet httpget = new HttpGet(documentUrl);
-
-		System.out.println("executing request " + httpget.getURI());
-
-		// Pass local context as a parameter
-		HttpResponse response = null;
-		try {
-			response = httpclient.execute(httpget, localContext);
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		HttpEntity entity = response.getEntity();
-
-		System.out.println("----------------------------------------");
-		System.out.println(response.getStatusLine());
-		if (entity != null) {
-			System.out.println("Response content length: "
-					+ entity.getContentLength());
-		}
-		List<Cookie> cookies = cookieStore.getCookies();
-		for (int i = 0; i < cookies.size(); i++) {
-			System.out.println("Local cookie: " + cookies.get(i));
-		}
-
-		try {
-			doc = createDocument(documentUrl, entity);
-		} catch(IOException e) {
-			throw new TransportException("Failed to fetch url: '" + documentUrl + "': ", e);
-		} finally {
-			// Consume response content
-			try {
-				EntityUtils.consume(entity);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			System.out.println("----------------------------------------");
-
-			// When HttpClient instance is no longer needed,
-			// shut down the connection manager to ensure
-			// immediate deallocation of all system resources
-			httpclient.getConnectionManager().shutdown();			
-		}
-
-		return doc;
-	}
-
-	private FetchedDocument createDocument(String targetURL, HttpEntity entity) 
+	private FetchedDocument createDocument(String targetURL, HttpEntity entity)
 			throws IOException, HTTPTransportException {
 		FetchedDocument doc = new FetchedDocument();
 
@@ -221,6 +156,102 @@ public class HTTPTransport implements Transport {
 		doc.setDocumentContent(data);
 		doc.setDocumentMetadata(new HashMap<String, String>());
 		return doc;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * iweb2.ch2.webcrawler.transport.common.Transport#fetch(java.lang.String)
+	 */
+	public FetchedDocument fetch(String documentUrl) throws TransportException {
+
+		FetchedDocument doc = null;
+
+		HttpGet httpget = new HttpGet(documentUrl);
+
+		System.out.println("executing request " + httpget.getURI());
+
+		// Pass local context as a parameter
+		HttpResponse response = null;
+		try {
+			response = httpclient.execute(httpget, localContext);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		HttpEntity entity = response.getEntity();
+
+		System.out.println("----------------------------------------");
+		System.out.println(response.getStatusLine());
+		if (entity != null) {
+			System.out.println("Response content length: "
+					+ entity.getContentLength());
+		}
+		List<Cookie> cookies = cookieStore.getCookies();
+		for (int i = 0; i < cookies.size(); i++) {
+			System.out.println("Local cookie: " + cookies.get(i));
+		}
+
+		try {
+			doc = createDocument(documentUrl, entity);
+		} catch (IOException e) {
+			throw new TransportException("Failed to fetch url: '" + documentUrl
+					+ "': ", e);
+		} finally {
+			// Consume response content
+			try {
+				EntityUtils.consume(entity);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println("----------------------------------------");
+
+			// When HttpClient instance is no longer needed,
+			// shut down the connection manager to ensure
+			// immediate deallocation of all system resources
+			httpclient.getConnectionManager().shutdown();
+		}
+
+		return doc;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see iweb2.ch2.webcrawler.transport.common.Transport#init()
+	 */
+	public void init() {
+
+		System.out.println("Initializing HTTPTransport ...");
+
+		httpclient = new DefaultHttpClient();
+
+		// Create a local instance of cookie store
+		cookieStore = new BasicCookieStore();
+
+		// Create local HTTP context
+		localContext = new BasicHttpContext();
+
+		// Bind custom cookie store to the local context
+		localContext.setAttribute(ClientContext.COOKIE_STORE, cookieStore);
+
+		// httpclient.getHttpConnectionManager().getParams().setConnectionTimeout(30000);
+		// httpclient.getHttpConnectionManager().getParams().setSoTimeout(30000);
+		// httpclient.setState(initialState);
+		// httpclient.getParams().setCookiePolicy(CookiePolicy.BROWSER_COMPATIBILITY);
+		//
+		// //httpclient.getParams().setParameter(HttpClientParams.ALLOW_CIRCULAR_REDIRECTS,
+		// Boolean.TRUE);
+		//
+		// // Set default number of connections per host to 1
+		// httpclient.getHttpConnectionManager().
+		// getParams().setMaxConnectionsPerHost(
+		// HostConfiguration.ANY_HOST_CONFIGURATION, 1);
+		// // Set max for total number of connections
+		// httpclient.getHttpConnectionManager().getParams().setMaxTotalConnections(10);
 	}
 
 	public boolean pauseRequired() {

@@ -3,20 +3,22 @@
 // ------------------------------------------------------
 import *;
 
+String yHome = YooreekaConfigurator.getHome();
+
 // 0. Load data from Digg
 //    DiggData.loadDataFromDigg();
-//    DiggData.saveData("C:/iWeb2/deploy/data/ch3_digg_stories.csv");
+//    DiggData.saveData(yHome+"/data/ch03/digg_stories.csv");
 //
-DiggData.loadData("C:/iWeb2/deploy/data/ch3_digg_stories.csv");
+DiggData.loadData(yHome+"/data/ch03/digg_stories.csv");
 BaseDataset ds = DiggData.createDataset();
 
 
 // 2. Pick a user randomly or by username
-iweb2.ch3.collaborative.model.User user = ds.getUser(1);
+org.yooreeka.algos.reco.collab.model.User user = ds.getUser(1);
 
 // Or pick some specific user by username
 //DiggData.showUsers();
-//User user = ds.findUserByName("<some name>");
+//org.yooreeka.algos.reco.collab.model.User user = ds.findUserByName("<some name>");
 
 
 // 3. Show similar users

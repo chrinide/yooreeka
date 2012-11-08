@@ -6,11 +6,10 @@ import *;
 //
 // -- Data (Business news URLs and 3 spam pages)
 //
-FetchAndProcessCrawler crawler = new FetchAndProcessCrawler("C:/iWeb2/data/ch02",5,200);
+String yHome = YooreekaConfigurator.getHome();
+FetchAndProcessCrawler crawler = new FetchAndProcessCrawler(yHome+"/data/ch02",5,200);
 crawler.setUrls("biz"); 
-crawler.addUrl("file:///c:/iWeb2/data/ch02/spam-biz-01.html");
-crawler.addUrl("file:///c:/iWeb2/data/ch02/spam-biz-02.html");
-crawler.addUrl("file:///c:/iWeb2/data/ch02/spam-biz-03.html");
+crawler.addDocSpam();
 crawler.run(); 
 
 //
