@@ -25,7 +25,7 @@
 
 <!-- list of all jars that are currently used in iweb2 app -->
 <patternset id="thirdparty.jars">
-	<include name="activation.jar"/>
+	<!--include name="activation.jar"/ -->
 	<include name="antlr-runtime-3.0.jar"/>
 	<include name="./crawler4j-libs/apache-mime4j-core-0.7.jar"/>
 	<include name="./crawler4j-libs/apache-mime4j-dom-0.7.jar"/>
@@ -45,10 +45,10 @@
 	<include name="httpcore-4.2.2.jar"/>
 	<include name="httpmime-4.2.2.jar"/>
 	<include name="janino-2.5.10.jar"/>
-	<include name="jaxb-all-deps.jar"/>
-	<include name="jaxb-api.jar"/>
-	<include name="jaxb-impl.jar"/>
-	<include name="jaxb-xjc.jar"/>
+	<!-- include name="jaxb-all-deps.jar"/ -->
+	<!-- include name="jaxb-api.jar"/ -->
+	<!-- include name="jaxb-impl.jar"/ -->
+	<!-- include name="jaxb-xjc.jar"/ -->
 	<include name="./crawler4j-libs/je-4.0.92.jar"/>	
 	<include name="jfreechart.jar"/>
 	<include name="jgraph.jar"/>
