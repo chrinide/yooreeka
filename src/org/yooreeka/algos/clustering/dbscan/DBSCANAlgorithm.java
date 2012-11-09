@@ -37,12 +37,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
 import org.yooreeka.algos.clustering.utils.ObjectToIndexMapping;
 import org.yooreeka.config.YooreekaConfigurator;
+import org.yooreeka.util.P;
 import org.yooreeka.util.metrics.Distance;
 import org.yooreeka.util.metrics.TermFrequencyBuilder;
 
@@ -108,15 +110,16 @@ public class DBSCANAlgorithm {
 		elements[3] = new DataPoint("D", new double[] {});
 		elements[4] = new DataPoint("E", new double[] {});
 
-		double[][] a = new double[][] { { 0, 1, 2, 2, 3 }, { 1, 0, 2, 4, 3 },
-				{ 2, 2, 0, 1, 5 }, { 2, 4, 1, 0, 3 }, { 3, 3, 5, 3, 0 } };
+		double[][] a = new double[][] { { 0, 0, 0, 0, 1 }, { 0, 0, 0, 0, 2 },
+				{ 2, 2, 2, 11, 31 }, { 2, 2, 2, 10, 30 }, { 60, 60, 60, 0, 0 } };
 
-		double threshold = 2.0;
+		double eps = 0.5;
 		int minPoints = 2;
 
-		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(elements, a, threshold,
+		DBSCANAlgorithm dbscan = new DBSCANAlgorithm(elements, a, eps,
 				minPoints);
-		dbscan.cluster();
+		
+		printResults(dbscan.cluster(), eps,minPoints);
 	}
 
 	/*
@@ -139,7 +142,7 @@ public class DBSCANAlgorithm {
 	/*
 	 * Identifies a set of Noise points.
 	 */
-	private int CLUSTER_ID_NOISE = -1;
+	private static int CLUSTER_ID_NOISE = -1;
 
 	/*
 	 * Identifies a set of Unclassified points.
@@ -272,10 +275,6 @@ public class DBSCANAlgorithm {
 			}
 		}
 
-		if (verbose) {
-			printResults(allClusters);
-		}
-
 		// Group with Noise elements returned as well
 		return allClusters;
 	}
@@ -372,8 +371,7 @@ public class DBSCANAlgorithm {
 	private void init(DataPoint[] points, double neighborThreshold,
 			int minPoints) {
 
-		LOG.setLevel(YooreekaConfigurator.getLevel(DBSCANAlgorithm.class
-				.getName()));
+		LOG.setLevel(Level.FINEST); //YooreekaConfigurator.getLevel(DBSCANAlgorithm.class.getName()));
 
 		this.points = points;
 		this.eps = neighborThreshold;
@@ -416,24 +414,25 @@ public class DBSCANAlgorithm {
 		}
 	}
 
-	private void printResults(List<Cluster> allClusters) {
-		LOG.info("DBSCAN Clustering with NeighborThreshold=" + this.eps
-				+ " minPoints=" + this.minPoints);
-		LOG.info("Clusters:");
+	public static void printResults(List<Cluster> allClusters, double eps, int minPoints) {
+		StringBuilder sb = new StringBuilder();
+		sb.append("DBSCAN Clustering with NeighborThreshold=").append(eps);
+		sb.append(", minPoints=").append(minPoints).append("\n");
+		sb.append("Clusters:\n");
 		String noiseElements = "no noise elements";
 		for (Cluster c : allClusters) {
 			if (String.valueOf(CLUSTER_ID_NOISE).equals(c.getLabel())) {
 				// print noise data at the end
 				noiseElements = c.getElementsAsString();
 			} else {
-				LOG.info("____________________________________________________________\n");
-				LOG.info(c.getLabel() + ": \n" + c.getElementsAsString());
-				LOG.info("____________________________________________________________\n\n");
+				sb.append("____________________________________________________________\n");
+				sb.append(c.getLabel()).append(": \n").append(c.getElementsAsString());
+				sb.append("____________________________________________________________\n\n");
 			}
 		}
-		LOG.info("Noise Elements:\n " + noiseElements);
+		sb.append("Noise Elements:\n ").append(noiseElements).append("\n");
+		P.println(sb.toString());
 	}
-
 	private boolean removePointFromCluster(DataPoint p, int clusterId) {
 		boolean removed = false;
 		Set<DataPoint> points = clusters.get(clusterId);

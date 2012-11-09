@@ -47,14 +47,17 @@ public abstract class Rank {
 
 	private static final Logger LOG = Logger.getLogger(Rank.class.getName());
 
+	public static final double DEFAULT_ALPHA   = 0.8;
+	public static final double DEFAULT_EPSILON = 0.001;
+
 	/**
 	 * This is the percentage of time that a random surfer follows the structure
 	 * of the web.
 	 */
-	private double alpha = 0.8;
+	private double alpha = DEFAULT_ALPHA;
 
 	/** This is the error tolerance for convergence */
-	private double epsilon = 0.001;
+	private double epsilon = DEFAULT_EPSILON;
 
 	double[] pR;
 

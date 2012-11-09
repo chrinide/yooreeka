@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-2012 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,32 +26,39 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *   
+ *
  */
 package org.yooreeka.util;
 
-import java.nio.charset.Charset;
-
 /**
+ * Various constants to avoid typing literals and values in the code.
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
- * 
+ *
  */
-public class P {
+public class C {
 
-	/**
-	 * Print a 54 character (-) horizontal line.
+	/*
+	 * NUMERICAL CONSTANTS
 	 */
-	public static void hline() {
-		println("---------- ---------- ---------- ---------- ----------");
-	}
+	public final static int  ZERO_INT = 0;
+	public final static long ZERO_LONG = 0;
+	public final static double ZERO_DOUBLE = 0.0;
 
-	public static void main(String[] args) {
-		println(Charset.defaultCharset().displayName());
-		println("" + P.class.getName());
-	}
+	public final static int  ONE_INT = 1;
+	public final static long ONE_LONG = 1;
+	public final static double ONE_DOUBLE = 1.0;
 
-	public static void println(String s) {
-		System.out.println(s);
-	}
+	/*
+	 * LITERAL CONSTANTS
+	 */
+	public static final String EMPTY_STRING="";
+	public static final String LINE_FEED="\n";
+	public static final String UNDERSCORE="_";
+	public static final String DASH="-";
+	public static final String SEMICOLON=";";
+	public static final String COMMA=",";
+	public static final String COLON=":";
+	public static final String DOT=".";
+	
 }
