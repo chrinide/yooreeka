@@ -43,7 +43,6 @@ import java.util.logging.Logger;
 import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
 import org.yooreeka.algos.clustering.utils.ObjectToIndexMapping;
-import org.yooreeka.config.YooreekaConfigurator;
 import org.yooreeka.util.P;
 import org.yooreeka.util.metrics.Distance;
 import org.yooreeka.util.metrics.TermFrequencyBuilder;
