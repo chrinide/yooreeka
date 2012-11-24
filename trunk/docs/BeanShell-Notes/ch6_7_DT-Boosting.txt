@@ -20,6 +20,6 @@ arcx4.setClassifierPopulation(3);
 
 arcx4.train();
 
-CreditErrorEstimator arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
+arcx4ee  = new CreditErrorEstimator(testDS, arcx4);
 
 arcx4ee.run();
