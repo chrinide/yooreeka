@@ -14,10 +14,10 @@ delphiUC.setVerbose(true);
 //
 // Show me users like X (top 5)
 //
-org.yooreeka.algos.reco.collab.data.NewsUser nu1 = ds.pickUser("Bob");
+org.yooreeka.algos.reco.collab.data.NewsUser nu1 = (NewsUser)ds.pickUser("Bob");
 delphiUC.findSimilarUsers(nu1);
 
-org.yooreeka.algos.reco.collab.data.NewsUser nu2 = ds.pickUser("John");
+org.yooreeka.algos.reco.collab.data.NewsUser nu2 = (NewsUser)ds.pickUser("John");
 delphiUC.findSimilarUsers(nu2);
 
 //---------------------------------------------------------
