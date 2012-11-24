@@ -42,6 +42,7 @@ import java.util.logging.Level;
 public class YooreekaConfigurator {
 
 	public static final String DATA_DIR = "iweb2.data.dir";
+	public static final String CRAWL_DATA_DIR="iweb2.crawl.dir";
 	public static final String TEMP_DIR = "iweb2.temp.dir";
 	public static final String MOVIELENS_DATA_DIR = "iweb2.movielens.data.dir";
 	public static final String MOVIELENSTEST_DATA_DIR = "iweb2.ch3.movielenstest.data.dir";
@@ -53,7 +54,7 @@ public class YooreekaConfigurator {
 	public static final String LOG_LEVEL_FINE = "FINE";
 	public static final String LOG_LEVEL_FINER = "FINER";
 	public static final String LOG_LEVEL_FINEST = "FINEST";
-
+		
 	/*
 	 * System property name that can be used to override default properties
 	 * file.
@@ -83,7 +84,6 @@ public class YooreekaConfigurator {
 		}
 
 		props = readProperties(resourceName);
-
 	}
 
 	public static String getHome() {
