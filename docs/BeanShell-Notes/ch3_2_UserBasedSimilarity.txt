@@ -28,10 +28,10 @@ delphi.setVerbose(true);
 //
 // Show me users like X (top 5)
 //
-MusicUser mu1 = ds.pickUser("Bob");
+MusicUser mu1 = (MusicUser)ds.pickUser("Bob");
 delphi.findSimilarUsers(mu1);
 
-MusicUser mu2 = ds.pickUser("John");
+MusicUser mu2 = (MusicUser)ds.pickUser("John");
 delphi.findSimilarUsers(mu2);
 
 //
