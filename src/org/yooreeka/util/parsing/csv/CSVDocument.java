@@ -35,17 +35,37 @@ import java.util.ArrayList;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
- * A <tt>CSVDocument</tt> is an <tt>ArrayList</tt> of <tt></tt>
+ * A <tt>CSVDocument</tt> is an <tt>ArrayList</tt> of <tt>CSVEntry</tt>s
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
 public class CSVDocument extends ProcessedDocument {
 
-	ArrayList<CSVEntry> csvData;
+	private ArrayList<CSVEntry> csvData;
+	private boolean hasHeaders;
+
 
 	public CSVDocument(ArrayList<CSVEntry> data) {
 		csvData = data;
 	}
 
+	public CSVEntry getHeaders() {
+		return csvData.get(0);
+	}
+	
+	public boolean hasHeaders() {
+		return	hasHeaders;
+	}
+	
+	public void hasHeaders(boolean val) {
+		hasHeaders = val;
+	}
+
+	/**
+	 * @return the csvData
+	 */
+	public ArrayList<CSVEntry> getCsvData() {
+		return csvData;
+	}
 }
