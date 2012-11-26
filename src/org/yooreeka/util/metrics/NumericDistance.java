@@ -30,6 +30,11 @@
  */
 package org.yooreeka.util.metrics;
 
-public interface Distance {
+/**
+ * 
+ * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
+ *
+ */
+public interface NumericDistance {
 	double getDistance(double[] x, double[] y);
 }
