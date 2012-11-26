@@ -32,6 +32,7 @@ package org.yooreeka.util.parsing.csv;
 
 import java.util.ArrayList;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
@@ -42,16 +43,20 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
  */
 public class CSVDocument extends ProcessedDocument {
 
+	private CSVEntry headers;
 	private ArrayList<CSVEntry> csvData;
 	private boolean hasHeaders;
 
-
+	public CSVDocument() {
+		csvData = new ArrayList<CSVEntry>();
+	}
+	
 	public CSVDocument(ArrayList<CSVEntry> data) {
 		csvData = data;
 	}
 
 	public CSVEntry getHeaders() {
-		return csvData.get(0);
+		return headers;
 	}
 	
 	public boolean hasHeaders() {
@@ -67,5 +72,22 @@ public class CSVDocument extends ProcessedDocument {
 	 */
 	public ArrayList<CSVEntry> getCsvData() {
 		return csvData;
+	}
+	
+	public void print(String printSeparator) {
+		P.hline();
+		P.println(getHeaders().toString(printSeparator));
+		P.hline();
+		for (CSVEntry e : csvData) {
+			P.println(e.toString(printSeparator));
+		}
+		P.hline();
+	}
+
+	/**
+	 * @param headers the headers to set
+	 */
+	public void setHeaders(CSVEntry headers) {
+		this.headers = headers;
 	}
 }

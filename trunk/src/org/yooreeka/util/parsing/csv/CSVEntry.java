@@ -41,8 +41,8 @@ import org.yooreeka.util.parsing.common.DataEntry;
  */
 public class CSVEntry extends DataEntry {
 
-	private static final String DEFAULT_SEPARATOR_CHAR = ",";
-	private String separatorChar;
+	public static final String DEFAULT_SEPARATOR = ",";
+	private String separator;
 	
 	private String[] data;
 
@@ -53,12 +53,12 @@ public class CSVEntry extends DataEntry {
 	public CSVEntry(String csvLine, String sepChar) {
 
 		if (sepChar == null) {
-			setSeparatorChar(CSVEntry.DEFAULT_SEPARATOR_CHAR);
+			setSeparator(CSVEntry.DEFAULT_SEPARATOR);
 		} else {
-			setSeparatorChar(sepChar);
+			setSeparator(sepChar);
 		}
 		
-		data = csvLine.split(getSeparatorChar());
+		data = csvLine.split(getSeparator());
 	}
 
 	public String[] getData() {
@@ -74,24 +74,35 @@ public class CSVEntry extends DataEntry {
 	@Override
 	public String toString() {
 
+		return toString(CSVEntry.DEFAULT_SEPARATOR);
+	}
+
+	public String toString(String printSeparator) {
 		StringBuilder sb = new StringBuilder();
+		int i=1;
+
 		for (String s : data) {
-			sb.append(s).append(", ");
+			if (i<data.length) {
+				sb.append(s).append(printSeparator);
+			} else {
+				sb.append(s);
+			}
+			i++;
 		}
 		return sb.toString();
 	}
-
+	
 	/**
 	 * @return the separatorChar
 	 */
-	public String getSeparatorChar() {
-		return separatorChar;
+	public String getSeparator() {
+		return separator;
 	}
 
 	/**
 	 * @param separatorChar the separatorChar to set
 	 */
-	public void setSeparatorChar(String separatorChar) {
-		this.separatorChar = separatorChar;
+	public void setSeparator(String separatorChar) {
+		this.separator = separatorChar;
 	}
 }

@@ -34,7 +34,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;
@@ -52,20 +51,22 @@ public class CSVParser implements DocumentParser {
 	/**
 	 * 
 	 */
-	private ArrayList<CSVEntry> csvData;
+	private CSVDocument d;
 
+	private CSVFile csvFile;
+	
 	private long linesParsed = 0;
 
 	/**
 	 * 
 	 */
-	public CSVParser() {
-		// NOTHING YET
+	public CSVParser(CSVFile f) {
+		this.csvFile = f;
 	}
 
 	@Override
 	public DataEntry getDataEntry(int i) {
-		return csvData.get(i);
+		return d.getCsvData().get(i);
 	}
 
 	public long getLinesParsed() {
@@ -95,9 +96,9 @@ public class CSVParser implements DocumentParser {
 	 */
 	public CSVDocument parse(BufferedReader bR) throws IOException {
 
-		linesParsed = 0;
+		d = new CSVDocument();
 
-		csvData = new ArrayList<CSVEntry>();
+		linesParsed = 0;
 
 		boolean hasMoreLines = true;
 		String line;
@@ -112,13 +113,23 @@ public class CSVParser implements DocumentParser {
 
 			} else {
 
-				CSVEntry csvEntry = new CSVEntry(line);
-				csvData.add(csvEntry);
+				CSVEntry csvEntry = new CSVEntry(line, getSeparator());
+				if (linesParsed == 0) {
+					d.setHeaders(csvEntry); 
+				} else {
+					d.getCsvData().add(csvEntry);					
+				}
 				linesParsed++;
 			}
 		}
 
-		CSVDocument doc = new CSVDocument(csvData);
-		return doc;
+		return d;
+	}
+
+	/**
+	 * @return the separator
+	 */
+	public String getSeparator() {
+		return csvFile.getSeparator();
 	}
 }

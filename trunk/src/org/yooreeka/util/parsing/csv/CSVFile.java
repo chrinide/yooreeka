@@ -48,8 +48,10 @@ public class CSVFile {
 
 	private File file;
 
-	private CSVDocument doc;
+	private String separator;
 
+	private CSVDocument doc;
+	
 	// Whether a CSV file has Headers
 	private boolean hasHeaders;
 
@@ -80,7 +82,7 @@ public class CSVFile {
 		FileReader fReader = new FileReader(file);
 		BufferedReader bReader = new BufferedReader(fReader);
 
-		CSVParser csvParser = new CSVParser();
+		CSVParser csvParser = new CSVParser(this);
 		doc = csvParser.parse(bReader);
 
 		bReader.close();
@@ -129,5 +131,19 @@ public class CSVFile {
 
 		CSVFile f = new CSVFile(args[0], true, s);
 		f.read();
+	}
+
+	/**
+	 * @return the separatorChar
+	 */
+	public String getSeparator() {
+		return separator;
+	}
+
+	/**
+	 * @param separatorChar the separatorChar to set
+	 */
+	public void setSeparator(String val) {
+		separator = val;
 	}
 }

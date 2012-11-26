@@ -43,7 +43,7 @@ public class P {
 	 * Print a 54 character (-) horizontal line.
 	 */
 	public static void hline() {
-		println("---------- ---------- ---------- ---------- ----------");
+		println("---------- ---------- ---------- ---------- ---------- ----------");
 	}
 
 	public static void main(String[] args) {
