@@ -34,7 +34,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import org.yooreeka.util.parsing.common.DataField;
 import org.yooreeka.util.parsing.common.DataType;
@@ -46,6 +45,55 @@ import org.yooreeka.util.parsing.common.DataType;
  * 
  */
 public class CSVFile {
+
+	private File file;
+
+	private CSVDocument doc;
+
+	// Whether a CSV file has Headers
+	private boolean hasHeaders;
+
+	public CSVFile(String fileName, boolean hasHeaders, CSVSchema schema) {
+
+		this.hasHeaders = hasHeaders;
+
+		file = new File(fileName);
+	}
+
+	public CSVEntry getHeaders() {
+
+		CSVEntry e = null;
+
+		if (doc.hasHeaders()) {
+			e = doc.getHeaders();
+		}
+
+		return e;
+	}
+
+	public boolean hasHeaders() {
+		return hasHeaders;
+	}
+
+	public CSVDocument read() throws IOException {
+
+		FileReader fReader = new FileReader(file);
+		BufferedReader bReader = new BufferedReader(fReader);
+
+		CSVParser csvParser = new CSVParser();
+		doc = csvParser.parse(bReader);
+
+		bReader.close();
+		
+		return doc;
+	}
+
+	/**
+	 * @return the doc
+	 */
+	public CSVDocument getDoc() {
+		return doc;
+	}
 
 	/**
 	 * @param args
@@ -81,44 +129,5 @@ public class CSVFile {
 
 		CSVFile f = new CSVFile(args[0], true, s);
 		f.read();
-	}
-	private File file;
-
-	private ArrayList<CSVEntry> csvData = new ArrayList<CSVEntry>();
-
-	// By default a CSV file has Headers
-	private boolean hasHeaders;
-
-	public CSVFile(String fileName, boolean hasHeaders, CSVSchema schema) {
-
-		this.hasHeaders = hasHeaders;
-
-		file = new File(fileName);
-	}
-
-	public CSVEntry getHeaders() {
-
-		CSVEntry e = null;
-
-		if (hasHeaders) {
-			e = csvData.get(0);
-		}
-
-		return e;
-	}
-
-	public boolean hasHeaders() {
-		return hasHeaders;
-	}
-
-	public void read() throws IOException {
-
-		FileReader fReader = new FileReader(file);
-		BufferedReader bReader = new BufferedReader(fReader);
-
-		CSVParser csvParser = new CSVParser();
-		csvParser.parse(bReader);
-
-		bReader.close();
 	}
 }

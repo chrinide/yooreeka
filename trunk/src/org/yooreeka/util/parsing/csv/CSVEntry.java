@@ -41,11 +41,24 @@ import org.yooreeka.util.parsing.common.DataEntry;
  */
 public class CSVEntry extends DataEntry {
 
+	private static final String DEFAULT_SEPARATOR_CHAR = ",";
+	private String separatorChar;
+	
 	private String[] data;
 
 	public CSVEntry(String csvLine) {
+		this(csvLine,null);
+	}
+	
+	public CSVEntry(String csvLine, String sepChar) {
 
-		data = csvLine.split(",");
+		if (sepChar == null) {
+			setSeparatorChar(CSVEntry.DEFAULT_SEPARATOR_CHAR);
+		} else {
+			setSeparatorChar(sepChar);
+		}
+		
+		data = csvLine.split(getSeparatorChar());
 	}
 
 	public String[] getData() {
@@ -66,5 +79,19 @@ public class CSVEntry extends DataEntry {
 			sb.append(s).append(", ");
 		}
 		return sb.toString();
+	}
+
+	/**
+	 * @return the separatorChar
+	 */
+	public String getSeparatorChar() {
+		return separatorChar;
+	}
+
+	/**
+	 * @param separatorChar the separatorChar to set
+	 */
+	public void setSeparatorChar(String separatorChar) {
+		this.separatorChar = separatorChar;
 	}
 }
