@@ -32,7 +32,12 @@ package org.yooreeka.util.metrics;
 
 import java.util.Arrays;
 
-public class CosineDistance implements Distance {
+/**
+ * 
+ * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
+ *
+ */
+public class CosineDistance implements NumericDistance {
 
 	private CosineSimilarity cosin = new CosineSimilarity();
 
