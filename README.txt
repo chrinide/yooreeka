@@ -27,10 +27,15 @@ ______________________________________________________________________________
 		SET JAVA_HOME=C:\jdk1.5.0_12
 		SET ANT_HOME=C:\apache-ant-1.7.0
 		SET PATH=%JAVA_HOME%\bin;%ANT_HOME%\bin;%PATH%
+		
+		SET JAVA_TOOL_OPTIONS=-Dfile.encoding=UTF8
 	
 	If your JDK or Ant are installed elsewhere, please, change the above values 
 	accordingly.
 
+    The JAVA_TOOL_OPTIONS ensures that files containing UTF-8 characters 
+    will not cause the build to fail.
+    
 	At this point you should be able to run java and ant from command line 
 	without errors. If you've only configured environment for your current 
 	command line interpreter make sure that you perform steps 3 and 4 in 
