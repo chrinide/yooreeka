@@ -30,7 +30,7 @@
  */
 package org.yooreeka.util.metrics;
 
-public class EuclideanDistance implements Distance {
+public class EuclideanDistance implements NumericDistance {
 
 	public EuclideanDistance() {
 		// empty
