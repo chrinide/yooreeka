@@ -33,15 +33,15 @@ package org.yooreeka.algos.clustering.test;
 import java.util.Arrays;
 
 import org.yooreeka.algos.clustering.model.DataPoint;
-import org.yooreeka.util.metrics.Distance;
+import org.yooreeka.util.metrics.NumericDistance;
 
 public class SFDataset {
 
 	private DataPoint[] data;
-	private Distance distance;
+	private NumericDistance distance;
 	private double[][] adjacencyMatrix;
 
-	public SFDataset(DataPoint[] data, Distance distance) {
+	public SFDataset(DataPoint[] data, NumericDistance distance) {
 		this.data = data;
 		this.distance = distance;
 		this.adjacencyMatrix = calculateAdjacencyMatrix();

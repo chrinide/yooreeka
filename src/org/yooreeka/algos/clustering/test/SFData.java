@@ -43,7 +43,7 @@ import org.yooreeka.algos.clustering.model.Attribute;
 import org.yooreeka.algos.clustering.model.DataPoint;
 import org.yooreeka.algos.clustering.partitional.NearestNeighborAlgorithm;
 import org.yooreeka.config.YooreekaConfigurator;
-import org.yooreeka.util.metrics.Distance;
+import org.yooreeka.util.metrics.NumericDistance;
 import org.yooreeka.util.metrics.EuclideanDistance;
 
 public class SFData {
@@ -74,7 +74,7 @@ public class SFData {
 		DataPoint[] allData = loadDataFromFile(YooreekaConfigurator.getHome()
 				+ "/data/ch04/clusteringSF.dat", attrNames);
 
-		Distance dist = new EuclideanDistance();
+		NumericDistance dist = new EuclideanDistance();
 		SFDataset sfDataset = new SFDataset(allData, dist);
 		return sfDataset;
 	}

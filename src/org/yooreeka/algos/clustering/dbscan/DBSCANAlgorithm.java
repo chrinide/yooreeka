@@ -44,7 +44,7 @@ import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
 import org.yooreeka.algos.clustering.utils.ObjectToIndexMapping;
 import org.yooreeka.util.P;
-import org.yooreeka.util.metrics.Distance;
+import org.yooreeka.util.metrics.NumericDistance;
 import org.yooreeka.util.metrics.TermFrequencyBuilder;
 
 /**
@@ -74,7 +74,7 @@ public class DBSCANAlgorithm {
 	private static final Logger LOG = Logger.getLogger(DBSCANAlgorithm.class
 			.getName());
 
-	private static double[][] calculateAdjacencyMatrix(Distance distance,
+	private static double[][] calculateAdjacencyMatrix(NumericDistance distance,
 			DataPoint[] points, boolean useTermFrequencies) {
 		int n = points.length;
 		double[][] a = new double[n][n];
@@ -183,7 +183,7 @@ public class DBSCANAlgorithm {
 	 * @param minPoints
 	 *            number of neighbors for point to be considered a core point.
 	 */
-	public DBSCANAlgorithm(DataPoint[] points, Distance distance, double eps,
+	public DBSCANAlgorithm(DataPoint[] points, NumericDistance distance, double eps,
 			int minPoints, boolean useTermFrequencies) {
 
 		init(points, eps, minPoints);
