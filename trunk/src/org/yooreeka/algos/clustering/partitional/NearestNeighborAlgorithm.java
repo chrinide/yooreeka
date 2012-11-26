@@ -38,7 +38,7 @@ import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.algos.clustering.model.DataPoint;
 import org.yooreeka.algos.clustering.utils.ObjectToIndexMapping;
 import org.yooreeka.config.YooreekaConfigurator;
-import org.yooreeka.util.metrics.Distance;
+import org.yooreeka.util.metrics.NumericDistance;
 import org.yooreeka.util.metrics.EuclideanDistance;
 
 public class NearestNeighborAlgorithm {
@@ -89,7 +89,7 @@ public class NearestNeighborAlgorithm {
 	/*
 	 * Distance metric that will be used to calculate distance between elements.
 	 */
-	private Distance dist = new EuclideanDistance();
+	private NumericDistance dist = new EuclideanDistance();
 
 	/*
 	 * DataPoint -> Index mapping. Used to access data in distance matrix.
@@ -224,7 +224,7 @@ public class NearestNeighborAlgorithm {
 		}
 	}
 
-	public void setDistance(Distance dist) {
+	public void setDistance(NumericDistance dist) {
 		this.dist = dist;
 	}
 }
