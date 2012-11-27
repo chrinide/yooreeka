@@ -34,12 +34,15 @@ ______________________________________________________________________________
 	accordingly.
 
     The JAVA_TOOL_OPTIONS ensures that files containing UTF-8 characters 
-    will not cause the build to fail.
+    will not cause the build to fail. Details about this environment variable
+    can be found here: 
     
-	At this point you should be able to run java and ant from command line 
-	without errors. If you've only configured environment for your current 
-	command line interpreter make sure that you perform steps 3 and 4 in 
-	the same instance of interpreter.
+    http://docs.oracle.com/javase/7/docs/platform/jvmti/jvmti.html#tooloptions
+    
+    At this point you should be able to run java and ant from command line 
+    without errors. If you've only configured environment for your current 
+    command line interpreter make sure that you perform steps 3 and 4 in 
+    the same instance of interpreter.
 
 ______________________________________________________________________________		
 3. Reset your CLASSPATH environment variable
