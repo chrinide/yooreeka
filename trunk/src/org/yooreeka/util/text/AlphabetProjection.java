@@ -56,20 +56,20 @@ public class AlphabetProjection {
 	 * <tt>dimensionality</tt> determines the number of <tt>String</tt> vectors
 	 * that we will use.
 	 */
-	private static final int DEFAULT_DIMENSIONALITY = 10;
+	public static final int DEFAULT_DIMENSIONALITY = 10;
 	private int dimensionality;
 	
 	/**
 	 * <tt>baseLength</tt> determines the length of the <TT>String</TT> vectors
 	 * that we will use.
 	 */
-	private static final int DEFAULT_BASELENGTH = 10;
+	public static final int DEFAULT_BASELENGTH = 10;
 	private int baselength;
 	
 	// TODO: This covers only the English language. Create a separate character basis class
 	//       that has all the character bases and invoke them statically as needed.
 	
-	private static final char[] DEFAULT_CHARACTER_BASIS = { 'e', 't', 'a', 'o', 'n', 'r', 'i', 's',
+	public static final char[] DEFAULT_CHARACTER_BASIS = { 'e', 't', 'a', 'o', 'n', 'r', 'i', 's',
 			'h', 'd', 'l', 'f', 'c', 'm', 'u', 'g', 'y', 'p', 'w', 'b', 'v',
 			'k', 'x', 'j', 'q', 'z' };
 	private char[] characterBasis;
@@ -110,7 +110,7 @@ public class AlphabetProjection {
 			baselength = AlphabetProjection.DEFAULT_BASELENGTH;
 		}
 		
-		if (charBasis == null) {
+		if (charBasis != null) {
 			characterBasis = charBasis;
 		} else {
 			characterBasis = AlphabetProjection.DEFAULT_CHARACTER_BASIS;
@@ -220,6 +220,17 @@ public class AlphabetProjection {
 	// --------------------------------------------------------------------------------
 	// AUXILIARY METHODS
 	// --------------------------------------------------------------------------------
+    /**
+     * Creates instance with default parameters (suitable when you are unaware of 
+     * best parameters to constructor.
+     * 
+     * @return instance with default parameters applied.
+     * 
+     */
+    public static AlphabetProjection getDefault() {
+        return new AlphabetProjection(DEFAULT_DIMENSIONALITY, DEFAULT_BASELENGTH, DEFAULT_CHARACTER_BASIS);
+    }
+    
 	public double distance(String val1, String val2) {
 
 		EuclideanDistance euclid = new EuclideanDistance();

@@ -34,6 +34,8 @@ import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 
+import org.yooreeka.util.P;
+
 /**
  * Central place to access to application properties.
  * 
@@ -165,11 +167,14 @@ public class YooreekaConfigurator {
 
 		try {
 
-			InputStream inStream = YooreekaConfigurator.class
-					.getResourceAsStream(resourceName);
-			assert (inStream != null);
-			props.load(inStream);
-
+			InputStream inStream = YooreekaConfigurator.class.getResourceAsStream(resourceName);
+			
+			if (inStream != null) {
+				props.load(inStream);
+			} else {
+				printNoPropertiesFound();
+				setStaticProperties();
+			}
 		} catch (Exception e) {
 			String message = "Failed to load properties from resource: '"
 					+ resourceName + "'.";
@@ -177,5 +182,39 @@ public class YooreekaConfigurator {
 			throw new RuntimeException(message, e);
 		}
 		return props;
+	}
+	
+	/**
+	 * Set the following values if <tt>iweb2.properties</tt> cannot be found:
+	 * <pre>
+	 *   iweb2.home=C:/iWeb2
+	 *   iweb2.data.dir=C:/iWeb2/data
+	 *   iweb2.crawl.dir=C:/iWeb2/data/crawls
+	 *   iweb2.temp.dir=C:/iWeb2/deploy/temp
+	 *   iweb2.movielens.data.dir=C:/iWeb2/data/ch03/MovieLens
+	 * </pre>
+	 * 
+	 * NOTE: This shouldn't happen but rather than having people getting stuck with setting up properties
+	 * we can provide a default set of values (which is what they would get from the "Download" distro by
+	 * default anyway) ...
+	 * 
+	 * Obviously, this will only work on MS Windows ...
+	 */
+	public static void setStaticProperties() {
+		props.put("iweb2.home", "C:/iWeb2");
+		props.put("iweb2.data.dir", "C:/iWeb2/data");
+		props.put("iweb2.crawl.dir", "C:/iWeb2/data/crawls");
+		props.put("iweb2.temp.dir", "C:/iWeb2/deploy/temp");
+		props.put("iweb2.movielens.data.dir", "C:/iWeb2/data/ch03/MovieLens");
+	}
+	
+	private static void printNoPropertiesFound() {
+		P.hline();
+		P.println("  Oops!");
+		P.println("  The file __ iweb2.properties __ was not found!");
+		P.println("  Did you set up the system properly?");
+		P.hline();
+		P.println("  WARNING: Loading DEFAULT property values ...");
+		P.hline();
 	}
 }
