@@ -30,10 +30,6 @@
  */
 package org.yooreeka.test;
 
-import org.yooreeka.examples.spamfilter.EmailClassifier;
-import org.yooreeka.examples.spamfilter.data.Email;
-import org.yooreeka.examples.spamfilter.data.EmailData;
-import org.yooreeka.examples.spamfilter.data.EmailDataset;
 
 
 /**
@@ -51,36 +47,5 @@ public class TestSandbox {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		// Create and train classifier
-		EmailDataset trainEmailDS = EmailData.createTrainingDataset();
-		EmailClassifier emailFilter = new EmailClassifier(trainEmailDS, 10);
-		emailFilter.train();
-
-		// Let's classify some emails from training set. If we can't get them right
-		// then we are in trouble :-)
-		Email email = null;
-		email = trainEmailDS.findEmailById("biz-04.html");
-		emailFilter.classify(email);
-
-		email = trainEmailDS.findEmailById("usa-03.html");
-		emailFilter.classify(email);
-
-		// Now, let's classify previously unseen emails
-
-		EmailDataset testEmailDS = EmailData.createTestDataset();
-		email = testEmailDS.findEmailById("biz-01.html");
-		emailFilter.classify(email);
-
-		email = testEmailDS.findEmailById("sport-01.html");
-		emailFilter.classify(email);
-
-		email = testEmailDS.findEmailById("usa-01.html");
-		emailFilter.classify(email);
-
-		email = testEmailDS.findEmailById("world-01.html");
-		emailFilter.classify(email);
-
-		email = testEmailDS.findEmailById("spam-biz-01.html");
-		emailFilter.classify(email);
 	}
 }
