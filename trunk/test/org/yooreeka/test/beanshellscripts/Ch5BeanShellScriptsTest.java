@@ -28,17 +28,18 @@
  *   limitations under the License.
  *   
  */
-package iweb2.beanshellscripts;
+package org.yooreeka.test.beanshellscripts;
+
 
 import junit.framework.TestCase;
 
-public class Ch3BeanShellScriptsTest extends TestCase {
+public class Ch5BeanShellScriptsTest extends TestCase {
 
-    public Ch3BeanShellScriptsTest(String name) {
+    public Ch5BeanShellScriptsTest(String name) {
         super(name);
     }
     
-    public void test_evalCh3Scripts() throws Exception {
-        ScriptEvalUtils.runScripts("ch3");
+    public void test_evalCh5Scripts() throws Exception {
+        ScriptEvalUtils.runScripts("ch5");
     }
 }

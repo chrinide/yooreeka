@@ -28,17 +28,32 @@
  *   limitations under the License.
  *   
  */
-package iweb2.beanshellscripts;
+package org.yooreeka.test.beanshellscripts;
 
-import junit.framework.TestCase;
+import junit.framework.Test;
+import junit.framework.TestSuite;
 
-public class Ch7BeanShellScriptsTest extends TestCase {
+public class AllChaptersTestSuite extends TestSuite {
 
-    public Ch7BeanShellScriptsTest(String name) {
-        super(name);
+    // Works for JUnit 3. 
+    public static Test suite() {
+        TestSuite suite = 
+            new TestSuite("Tests for All BeanShell scripts");
+
+        suite.addTestSuite(Ch2BeanShellScriptsTest.class);
+        suite.addTestSuite(Ch3BeanShellScriptsTest.class);
+        suite.addTestSuite(Ch4BeanShellScriptsTest.class);
+        suite.addTestSuite(Ch5BeanShellScriptsTest.class);
+        suite.addTestSuite(Ch6BeanShellScriptsTest.class);
+        suite.addTestSuite(Ch7BeanShellScriptsTest.class);
+        
+        return suite;
     }
     
-    public void test_evalCh7Scripts() throws Exception {
-        ScriptEvalUtils.runScripts("ch7");
+    
+    
+    public AllChaptersTestSuite() {
+        
     }
+    
 }
