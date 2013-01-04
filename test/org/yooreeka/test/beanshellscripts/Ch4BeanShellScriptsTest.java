@@ -28,7 +28,8 @@
  *   limitations under the License.
  *   
  */
-package iweb2.beanshellscripts;
+package org.yooreeka.test.beanshellscripts;
+
 
 import junit.framework.TestCase;
 

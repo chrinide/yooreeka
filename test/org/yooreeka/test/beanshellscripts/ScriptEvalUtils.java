@@ -28,7 +28,7 @@
  *   limitations under the License.
  *   
  */
-package iweb2.beanshellscripts;
+package org.yooreeka.test.beanshellscripts;
 
 import java.io.File;
 import java.util.ArrayList;
