@@ -28,7 +28,7 @@
  *   limitations under the License.
  *   
  */
-package org.yooreeka.examples.newsgroups;
+package org.yooreeka.examples.newsgroups.crawling;
 
 import java.io.File;
 import java.io.FilenameFilter;
