@@ -15,9 +15,9 @@
 	<property name="y.distro" value="${y.build.dir}/dist"/>
 	<property name="y.deploy" value="${y.root}/deploy"/>
 	<property name="y.deploy.lib" value="${y.deploy}/lib"/>
-	<property name="log.dir" value="${y.root}/log"/>
+	<property name="log.dir" value="${y.build.dir}/log"/>
+	<property name="temp.dir" value="${y.build.dir}/temp"/>
 	<property name="data.dir" value="${y.root}/data"/>
-	<property name="temp.dir" value="${y.root}/temp"/>
 	<property name="tools.dir" value="${y.root}/tools"/>
 
 	<property name="yooreeka.jar" value="yooreeka-2.0.jar"/>
@@ -199,6 +199,9 @@
           description="--> cleans up y.classes and dist directories, if any.">
 		<delete dir="${y.classes}"/>
 		<delete dir="${y.distro}" />
+		<delete dir="${log.dir}" />
+		<delete dir="${temp.dir}" />
+						
 		<delete file="${y.deploy.lib}/${yooreeka.jar}"/>
 		<delete>
 			<fileset dir="${y.deploy.lib}">
