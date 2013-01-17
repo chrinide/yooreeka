@@ -5,20 +5,23 @@
 
 	<!-- set global properties for this build -->
 	<property name="project.Name" value="Yooreeka: A library for data mining, machine learning, soft computing, and mathematical analysis"/>
+
 	<property name="y.root" location=".."/>
-	<property name="y.build.dir" value="${y.root}/build"/>
-	<property name="y.src" value="${y.root}/src"/>
-	<property name="y.test" value="${y.root}/test"/>
-	<property name="y.classes" value="${y.build.dir}/bytecode"/>
+	<property name="y.build" value="${y.root}/build"/>
+	<property name="y.data" value="${y.root}/data"/>
+	<property name="y.deploy" value="${y.root}/deploy"/>
 	<property name="y.javadoc" value="${y.root}/docs/javadoc"/>
 	<property name="y.lib" value="${y.root}/lib"/>
-	<property name="y.distro" value="${y.build.dir}/dist"/>
-	<property name="y.deploy" value="${y.root}/deploy"/>
+	<property name="y.src" value="${y.root}/src"/>
+	<property name="y.test" value="${y.root}/test"/>
+	<property name="y.tools" value="${y.root}/tools"/>
+
+	<property name="y.build.bytecode" value="${y.build}/bytecode"/>
+	<property name="y.build.dist" value="${y.build}/dist"/>
+	<property name="y.build.log" value="${y.build}/log"/>
+	<property name="y.build.temp" value="${y.build}/temp"/>
+
 	<property name="y.deploy.lib" value="${y.deploy}/lib"/>
-	<property name="log.dir" value="${y.build.dir}/log"/>
-	<property name="temp.dir" value="${y.build.dir}/temp"/>
-	<property name="data.dir" value="${y.root}/data"/>
-	<property name="tools.dir" value="${y.root}/tools"/>
 
 	<property name="yooreeka.jar" value="yooreeka-2.0.jar"/>
 
@@ -111,9 +114,9 @@
 			<format property="year" pattern="yyyy" />
 		</tstamp>
 		<!-- Create the build directory structure used by compile -->
-		<mkdir dir="${y.classes}"/>
-		<mkdir dir="${temp.dir}"/>
-		<mkdir dir="${log.dir}"/>
+		<mkdir dir="${y.build.bytecode}"/>
+		<mkdir dir="${y.build.temp}"/>
+		<mkdir dir="${y.build.log}"/>
 		<echo message="------------------- ${project.Name} ----------------------"/>
 		<echo message=""/>
 		<echo message="PATH = ${env.PATH}"/>
@@ -123,7 +126,7 @@
 		<echo message="------------------------------------------------------"/>
 		<echo message=""/>
 		<echo message="root: ${y.root}"/>
-		<echo message="build: ${y.build.dir}"/>
+		<echo message="build: ${y.build}"/>
 		<echo message="deploy: ${y.deploy}"/>
 
 		<!-- check that build was started with empty classpath -->
@@ -148,7 +151,7 @@
 	<!-- Compile the java code into bytecode -->
 	<target name="compile" depends="init">
 		<javac srcdir="${y.src};${y.test}"
-         destdir="${y.classes}"
+         destdir="${y.build.bytecode}"
 	 fork="true"
          debug="on"
   	     compiler="modern"
@@ -165,11 +168,11 @@
 	<!-- Default target -->
 	<target name="dist" depends="compile">
 
-		<mkdir dir="${y.distro}"/>
+		<mkdir dir="${y.build.dist}"/>
 
 
-		<!-- Put everything in ${y.classes} into the JAR file -->
-		<jar jarfile="${y.distro}/${yooreeka.jar}" basedir="${y.classes}" update="true">
+		<!-- Put everything in ${y.build.bytecode} into the JAR file -->
+		<jar jarfile="${y.build.dist}/${yooreeka.jar}" basedir="${y.build.bytecode}" update="true">
 			<manifest>
 				<section name="common">
 					<attribute name="Implementation-Title" value="Yooreeka"/>
@@ -179,7 +182,7 @@
 			</manifest>
 		</jar>
 
-		<copy file="${y.distro}/${yooreeka.jar}" todir="${y.deploy.lib}" />
+		<copy file="${y.build.dist}/${yooreeka.jar}" todir="${y.deploy.lib}" />
 		<copy todir="${y.deploy.lib}">
 			<fileset dir="${y.lib}">
 				<patternset refid="thirdparty.jars"/>
@@ -196,11 +199,11 @@
        ===================================================================
   -->
 	<target name="clean"
-          description="--> cleans up y.classes and dist directories, if any.">
-		<delete dir="${y.classes}"/>
-		<delete dir="${y.distro}" />
-		<delete dir="${log.dir}" />
-		<delete dir="${temp.dir}" />
+          description="--> cleans up y.build.bytecode and dist directories, if any.">
+		<delete dir="${y.build.bytecode}"/>
+		<delete dir="${y.build.dist}" />
+		<delete dir="${y.build.log}" />
+		<delete dir="${y.build.temp}" />
 						
 		<delete file="${y.deploy.lib}/${yooreeka.jar}"/>
 		<delete>
@@ -220,7 +223,7 @@
           depends="clean"
           description="--> cleans up bytecode, distros, and old source files">
 
-		<delete dir="${y.distro}" />
+		<delete dir="${y.build.dist}" />
 		<delete>
 			<fileset dir="${basedir}" includes="**/*~" defaultexcludes="no"/>
 		</delete>
@@ -232,6 +235,14 @@
 		</delete>
 		<delete>
 			<fileset dir="." includes="**/*.jar" defaultexcludes="no"/>
+		</delete>
+		<delete includeemptydirs="true">
+		    <fileset dir="${y.data}" defaultexcludes="false">
+		       <include name="**/crawl-*/**" />
+		       <include name="**/lucene-index*/**" />
+		    	<include name="ch03/dataset_script_2.ser" />
+		    	<include name="ch05/MyNeuralClassifier" />
+		    </fileset>
 		</delete>
 	</target>
 
@@ -247,6 +258,7 @@
 		<delete dir="${y.javadoc}" />
 		<delete>
 			<fileset dir="." includes="**/*~" defaultexcludes="no"/>
+			<fileset dir="${y.deploy}/bin" includes="**/yooreeka.log" defaultexcludes="no"/>						
 		</delete>
 	</target>
 
@@ -295,27 +307,27 @@
     ant test -Dtest=DataSetTest
     ant test -Dtest=*TestExt
     -->
-	<junit fork="yes" tempdir="${temp.dir}"
+	<junit fork="yes" tempdir="${y.build.temp}"
       errorProperty="test.failed"
       failureProperty="test.failed"
       reloading="false">
 		<jvmarg value="-Xmx1024M"/>
-		<sysproperty key="data.dir" file="${data.dir}"/>
-		<sysproperty key="temp.dir" file="${temp.dir}"/>
+		<sysproperty key="data.dir" file="${y.data}"/>
+		<sysproperty key="temp.dir" file="${y.build.temp}"/>
 		<!--
       <sysproperty key="log4j.debug" value=""/>
       -->
 		<classpath>
-			<pathelement location="${y.classes}"/>
+			<pathelement location="${y.build.bytecode}"/>
 			<pathelement location="${y.deploy}/conf"/>
 			<path refid="compile.classpath"/>
 		</classpath>
 		<formatter type="brief" usefile="false"/>
 		<batchtest if="test">
-			<fileset dir="${y.classes}" includes="org/yooreeka/test/beanshellscripts/**/${test}.class"/>
+			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/${test}.class"/>
 		</batchtest>
 		<batchtest unless="test">
-			<fileset dir="${y.classes}" includes="org/yooreeka/test/beanshellscripts/**/*Test.class"/>
+			<fileset dir="${y.build.bytecode}" includes="org/yooreeka/test/beanshellscripts/**/*Test.class"/>
 		</batchtest>
 	</junit>
 	<fail if="test.failed">Test(s) failed!!!</fail>
