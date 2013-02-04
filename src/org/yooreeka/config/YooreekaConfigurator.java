@@ -30,6 +30,7 @@
  */
 package org.yooreeka.config;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -199,14 +200,16 @@ public class YooreekaConfigurator {
 	 * we can provide a default set of values (which is what they would get from the "Download" distro by
 	 * default anyway) ...
 	 * 
-	 * Obviously, this will only work on MS Windows ...
+	 * Obviously, this will only work on MS Windows ... 
+	 * change the <tt>rootDir</tt> value for another OS
 	 */
 	public static void setStaticProperties() {
-		props.put("yooreeka.home", "C:/iWeb2");
-		props.put("yooreeka.data.dir", "C:/iWeb2/data");
-		props.put("yooreeka.crawl.dir", "C:/iWeb2/data/crawls");
-		props.put("yooreeka.temp.dir", "C:/iWeb2/deploy/temp");
-		props.put("yooreeka.movielens.data.dir", "C:/iWeb2/data/ch03/MovieLens");
+		String rootDir="C:/iWeb2";
+		props.put("yooreeka.home", rootDir);
+		props.put("yooreeka.data.dir", rootDir+"/data");
+		props.put("yooreeka.crawl.dir", rootDir+"/data/crawls");
+		props.put("yooreeka.temp.dir", rootDir+"/deploy/temp");
+		props.put("yooreeka.movielens.data.dir", rootDir+"/data/ch03/MovieLens");
 	}
 	
 	private static void printNoPropertiesFound() {
