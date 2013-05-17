@@ -101,7 +101,7 @@ public class DiggData {
 					user.addRating(r);
 				}
 			}
-			ds.add(user);
+			ds.add(user, true);
 			System.out.println("Generated " + user.getAllRatings().size()
 					+ " ratings for user id: " + user.getId() + ", name: "
 					+ user.getName() + ", average rating: "
@@ -118,12 +118,14 @@ public class DiggData {
 	private static Delphi createItemContentDelphi() {
 		BaseDataset ds = new BaseDataset();
 		for (DiggUser user : allUsers) {
-			ds.add(user);
+			ds.add(user, true);
 		}
 
 		for (DiggStoryItem item : allStories) {
 			System.out.println("Description:" + item.getDescription());
-			ds.addItem(item);
+			// The boolean value of true in the method signature indicates
+			// that this is a content related item
+			ds.addItem(item, true);
 		}
 
 		return new Delphi(ds, RecommendationType.ITEM_CONTENT_BASED, true);
