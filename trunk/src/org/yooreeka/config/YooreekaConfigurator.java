@@ -30,6 +30,8 @@
  */
 package org.yooreeka.config;
 
+import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -65,17 +67,27 @@ public class YooreekaConfigurator {
 
 	/*
 	 * Default resource name that will be used to load properties.
+	 * The path is relative to Yooreeka's root directory, which should be set
+	 * by defining the property yooreeka.home
 	 */
-	private static String defaultResourceName = "/yooreeka.properties";
+	private static String defaultResourceName = "/deploy/conf/yooreeka.properties";
 
 	private static Properties properties = new Properties();
 
 	private static Properties logProps = new Properties();
+	
 	static {
+		
 		// logger.debug("Initializing application properties...");
 		String resourceName = System.getProperty(systemPropertyName);
+		
+		String resourcePath = System.getProperty("yooreeka.home"); 
+
+		if (resourcePath == null) 
+			resourcePath=System.getProperty("user.dir");
+			
 		if (resourceName == null) {
-			resourceName = defaultResourceName;
+			resourceName = resourcePath+defaultResourceName;
 			// logger.debug("System property '" + systemPropertyName +
 			// "' not found. Loading configuration from default resource: '" +
 			// defaultResourceName + "'.");
@@ -90,7 +102,7 @@ public class YooreekaConfigurator {
 
 	public static String getHome() {
 
-		return properties.getProperty("yooreeka.home");
+		return System.getProperty("yooreeka.home");
 	}
 
 	public static Level getLevel(String cName) {
@@ -163,12 +175,14 @@ public class YooreekaConfigurator {
 
 	public static void readProperties(String resourceName) {
 
+		//P.hline(); P.println("resourceName: "+resourceName); P.hline();
+		
+		File propsFile = new File(resourceName);
+		
 		try {
 
-			InputStream inStream = YooreekaConfigurator.class.getResourceAsStream(resourceName);
-			
-			if (inStream != null) {
-				properties.load(inStream);
+			if (propsFile.exists() && propsFile.canRead()) {
+				properties.load(new FileReader(propsFile));
 			} else {
 				printNoPropertiesFound();
 				setStaticProperties();
