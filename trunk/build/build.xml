@@ -50,6 +50,7 @@
 		<include name="lucene-memory-4.0.0-BETA.jar"/>
 		<include name="lucene-queryparser-4.0.0-BETA.jar"/>
 		<include name="nekohtml.jar"/>
+		<include name="ojalgo-34.0.jar"/>
 		<include name="poi-3.0.2-FINAL-20080204.jar"/>
 		<include name="resolver.jar"/>
 		<include name="rooster.jar"/>
