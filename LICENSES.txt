@@ -1,0 +1,158 @@
+_________________________________________________________________________________
+
+           LICENSES OF THIRD PARTY LIBRARIES USED BY YOOREEKA
+_________________________________________________________________________________
+
+Yooreeka leverages a number of other open source libraries for some functionality.
+The libraries here are categorized based on their license. We also show the
+specific classes that rely on a given library.
+_________________________________________________________________________________
+
+ 
+ APACHE LICENSE v2.0
+ ------------------------------------------------------------------------------
+ http://www.apache.org/licenses/LICENSE-2.0.html
+ ------------------------------------------------------------------------------
+ 
+   super-csv-2.1.0.jar
+   |
+   |---> org.yooreeka.algos.reco.collab.data.DiggData
+   |---> org.yooreeka.algos.clustering.test.SFData
+ 
+ Apache Commons
+ 
+   commons-codec-1.8.jar
+   |
+   |---> 
+   
+     
+   commons-lang3-3.1.jar
+   |
+   |---> org.yooreeka.algos.taxis.tree.Node
+   
+   
+   commons-logging-1.1.1.jar
+   |
+   |---> 
+   
+   
+   f2jutil.jar
+   |
+   |---> 
+   
+   httpclient-4.2.2.jar
+   |
+   |---> 
+   
+   httpcore-4.2.2.jar
+   |
+   |---> 
+   
+   httpmime-4.2.2.jar
+   |
+   |---> 
+   
+   jfreechart.jar
+   |
+   |---> 
+   
+   jgraph.jar
+   |
+   |---> 
+   
+   jigg-0.1.jar
+   |
+   |---> 
+   
+   jsr173_1.0_api.jar
+   |
+   |---> 
+   
+   junit-4.1.jar
+   |
+   |---> 
+   
+   juniversalchardet-1.0.3.jar
+   |
+   |---> 
+   
+   log4j-1.2.17.jar
+   |
+   |---> 
+   
+   lucene-analyzers-common-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-core-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-demo-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-memory-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   lucene-queryparser-4.0.0-BETA.jar
+   |
+   |---> 
+   
+   nekohtml.jar
+   |
+   |---> 
+   
+   ojalgo-34.0.jar
+   |
+   |---> 
+   
+   poi-3.0.2-FINAL-20080204.jar
+   |
+   |---> 
+   
+   resolver.jar
+   |
+   |---> 
+   
+   rooster.jar
+   |
+   |---> 
+   
+   secondstring-20070327.jar
+   |
+   |---> 
+   
+   serializer.jar
+   |
+   |---> 
+   
+   servlet-api.jar
+   |
+   |---> 
+   
+   tm-extractors-1.0.jar
+   |
+   |---> 
+   
+   xercesImpl.jar
+   |
+   |---> 
+   
+   xml-apis.jar
+   |
+   |---> 
+   
+ 
+ 
+ LGPL
+ ------------------------------------------------------------------------------
+ URL: http://www.gnu.org/licenses/lgpl.html
+ ------------------------------------------------------------------------------
+  
+ Bean Shell ... bsh-2.0b4.jar
+ 
+ 
+
+ 
