@@ -88,7 +88,7 @@ public class SFData {
 					filename)), CsvPreference.EXCEL_PREFERENCE);
 
 			// Load all available headers from CSV file
-			String[] csvHeaders = csvReader.getCSVHeader(true);
+			String[] csvHeaders = csvReader.getHeader(true);
 
 			// Map attribute names to field IDs from CSV file using header names
 			int[] attrFieldIndexes = new int[attrNames.length];
