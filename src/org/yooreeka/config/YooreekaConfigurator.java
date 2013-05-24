@@ -32,7 +32,6 @@ package org.yooreeka.config;
 
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStream;
 import java.util.Properties;
 import java.util.logging.Level;
 
