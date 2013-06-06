@@ -31,12 +31,13 @@
 package org.yooreeka.algos.mappings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import org.yooreeka.data.VectorSet;
 import org.yooreeka.util.C;
 import org.yooreeka.util.P;
-import org.yooreeka.util.gui.XyGui;
+import org.yooreeka.util.gui.ScatterGui;
 
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
@@ -48,6 +49,7 @@ public class SammonMap {
 	public static final double ALPHA_UPPER_BOUND = 0.4d;
 	
 	public static final double EPSILON=0.000001d;
+	public static final double E2=0.00000000001d;
 	
 	// This is the same set of points whose dimensionality has been reduced
 	private VectorSet y;
@@ -58,7 +60,7 @@ public class SammonMap {
 	private double alpha=0.3;
 	
 	// This is a cache of sorts. It holds the distance matrix of the original vector.
-	private double[][] d;
+	private double[][] distanceMatrix;
 	
 	// This is a cache of sorts. It holds the normalizing constant of the original vector.
 	private double c;
@@ -79,83 +81,134 @@ public class SammonMap {
 
 	public VectorSet map(VectorSet x) {
 		
-		//Initialize
-		y.populate(x.getPoints().size());
+		int numOfPoints = x.getPoints().size();
 		
-		// The distance matrix of the original vector set
-		d = x.getDistanceMatrix();
-
-		// Get the normalizing constant of the original vector
-		c = x.getNormalizingConstant();
+		//Initialize
+		x.computeDistanceMatrix();
+		
+		double range = Double.MIN_VALUE;
+		for(int j=0; j<x.getDimensionality(); j++) {
+		
+			if (x.getRange(j) > range)
+				range = x.getRange(j);
+		}
+		y.populate(numOfPoints, range);
+		y.computeDistanceMatrix();
+		//y.print();
 		
 		// we need two vector sets because we iterate
 		// However, a more compact implementation is possible
-		VectorSet y2 = new VectorSet(newDimensionality);
-		y2.populate(x.getPoints().size());
+		VectorSet nextY = new VectorSet(newDimensionality);
 		
-		
-		// Counter for the iterations
 		int m=0;
-		
-		while (y.diff(y2) > EPSILON) {
-		
-			//Replace the old with the new (corrected) set of points
-			y.replace(y2);
-			
-			//make sure we clean up the old values
-			y2.getPoints().clear();
-			
+		boolean hasConverged=false;
+		while (!hasConverged) {
+			P.hline();
+			if(m>0) {
+				//Replace the old with the new (corrected) set of points
+				y.replaceWith(nextY);
+				c = y.getNormalizingConstant();
+				y.computeDistanceMatrix();
+				nextY.getPoints().clear();
+			}
+
 			//y2 = y - alpha* (num/denum);
-			for(int p=0; p < y.getPoints().size(); p++) {
-				ArrayList<Double> point = y.getPoints().get(p);
-				ArrayList<Double> newPoint = new ArrayList<Double>(newDimensionality);
+			for(int p=0; p < numOfPoints; p++) {
+				
+				double[] point = y.getPoints().get(p);
+				double[] newPoint = new double[newDimensionality];
+				
 				for (int q=0; q<newDimensionality; q++) {
 					
-					newPoint.add(q, point.get(q) - alpha *(getNumerator(p,q)/getDenumerator(p,q)));					
+					newPoint[q] = point[q] - alpha *(getNumerator(p,q,x)/getDenumerator(p,q,x));
 				}
-				y2.add(newPoint);
+				P.println("Point["+p+"]: "+Arrays.toString(point));
+				P.println("newPoint["+p+"]: "+Arrays.toString(newPoint));
+				nextY.add(newPoint);
 			}
 			
+			P.println(m+" iterations completed");
 			m++;
-			if (m%100==0) {
-				P.println(m+" iterations completed");
+			
+			if (y.diff(nextY)<C.SMALL_DOUBLE) {
+				hasConverged=true;
 			}
 		}
+		
+		P.println("y.diff(y2) = "+y.diff(nextY));
 		
 		return y;
 	}
 	
-	private double getNumerator(int p, int q) {
+	private double getNumerator(int p, int q, VectorSet x) {
 		double num=0.0d;
-		for(int j=0; j<y.getPoints().size(); j++) {			
-			for(int k=0; k<y.getPoints().size(); k++) {
-				if (k!=p) {
-					double deltaD = d[k][j]-y.getDistanceMatrix()[k][j];
-					double prodD = d[k][j]*y.getDistanceMatrix()[k][j];
-					double deltaY = y.get(p, q) - y.get(j, q);
+		for(int j=0; j<x.getPoints().size(); j++) {			
+			if (p!=j) {
+				//original distances
+				double dpjOld = x.getDistance(j,p);
+				
+				//distances between the points in the reduced dimensionality space
+				double dpjNew = y.getDistance(j,p);
+				
+				double deltaD = dpjOld - dpjNew;
 					
-					num += (deltaD/prodD)*deltaY;
-				}
+				double prodD = dpjOld * dpjNew;
+
+				double deltaY = y.get(p, q) - y.get(j, q);
+
+				//TODO: Remove
+				if (prodD < E2)
+					throw new RuntimeException();
+				
+				num += (deltaD/prodD)*deltaY;
 			}	
 		}
+
+		if (Math.abs(c)<EPSILON) {
+			c += EPSILON;
+		}
+
 		return -(2.0d/c)*num;
 	}
 	
-	private double getDenumerator(int p, int q) {
+	private double getDenumerator(int p, int q, VectorSet x) {
 		double denum=0.0d;
-		for(int j=0; j<y.getPoints().size(); j++) {			
-			for(int k=0; k<y.getPoints().size(); k++) {
-				if (k!=p) {
-					double dkj = y.getDistanceMatrix()[k][j];
-					double deltaD = d[k][j]-dkj;
-					double prodD = d[k][j]*dkj;
-					double deltaY = y.get(p, q) - y.get(j, q);
-					double deltaY2 = deltaY*deltaY;
+		for(int j=0; j<x.getPoints().size(); j++) {			
+			if (p!=j) {
+				
+				//original distances
+				double dpjOld = x.getDistance(j,p);
+				
+				//distances between the points in the reduced dimensionality space 
+				double dpjNew = y.getDistance(j,p);
 					
-					denum += (deltaD-(deltaY2/dkj)*(C.ONE_DOUBLE + (deltaD/dkj)))/prodD;
-				}
+				double deltaD = dpjOld - dpjNew;
+					
+				double prodD = dpjOld * dpjNew;
+					
+				double deltaY = y.get(p, q) - y.get(j, q);	
+				double deltaY2 = deltaY*deltaY;
+					
+				//P.println("("+j+") | dpj:"+dpjOld+" | deltaD: "+deltaD+" | prodD: "+prodD+" | deltaY: "+deltaY+" | deltaY2: "+deltaY2);
+					
+				double f01 = C.ONE_DOUBLE + (deltaD/dpjNew);
+					
+				double f02 = deltaY2/dpjNew;
+				
+				double f03 = f02*f01;
+					
+				denum = denum + (deltaD-f03)/prodD;
 			}	
 		}
+		
+		if (Math.abs(denum)<E2) {
+			denum += E2;
+		}
+				
+		if (Math.abs(c)<EPSILON) {
+			c += EPSILON;
+		}
+
 		return -(2.0d/c)*denum;
 	}
 
@@ -164,14 +217,13 @@ public class SammonMap {
 	 */
 	public static void main(String[] args) {
 		
-		VectorSet v = getTestData(100,4);
+		VectorSet v = getTestData(32,4);
 	
 		SammonMap sMap = new SammonMap(2);
 		VectorSet w = sMap.map(v);
 		
-		XyGui ui = new org.yooreeka.util.gui.XyGui ("The plot of the data in 2D",w.getDimData(0),w.getDimData(1));
+		ScatterGui ui = new org.yooreeka.util.gui.ScatterGui ("Sammon Projection in 2D",w.getDimData(0),w.getDimData(1));
 		ui.plot();
-		
 	}
 
 	/**
@@ -222,19 +274,32 @@ public class SammonMap {
 		
 		//Create two clusters of N points
 		for (int i=0; i<N; i++) {
-			ArrayList<Double> point = new ArrayList<Double>();
+			double[] point = new double[N];
 
 			if (i<N/2) {
 				for (int j=0; j<dim; j++) {
-					point.add(C.ONE_DOUBLE+rand.nextDouble()*0.0001d);
+					point[j] = C.ONE_DOUBLE+rand.nextDouble()*0.001d;
 				}
 			} else {
 				for (int j=0; j<dim; j++) {
-					point.add(-C.ONE_DOUBLE+rand.nextDouble()*0.0001d);
+					point[j] = -C.ONE_DOUBLE-rand.nextDouble()*0.001d;
 				}
 			}
 			v.add(point);
 		}
 		return v;
+	}	
+	
+	private static VectorSet getZeroData(int N) {
+		VectorSet v = new VectorSet(1);
+		
+		for (int i=0; i<N; i++) {
+			double[] point = new double[1];
+
+			point[0] = C.ZERO_DOUBLE;
+			v.add(point);
+		}
+		return v;
 	}
+
 }

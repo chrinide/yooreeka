@@ -31,9 +31,11 @@
 package org.yooreeka.data;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import org.yooreeka.util.C;
+import org.yooreeka.util.P;
 import org.yooreeka.util.metrics.EuclideanDistance;
 
 /**
@@ -46,10 +48,12 @@ import org.yooreeka.util.metrics.EuclideanDistance;
 public class VectorSet {
 
 	// The dimensionality of the space
-	private int n;
+	private int dimensionality;
 	
 	//This is the list of all the points
-	private ArrayList<ArrayList<Double>> points;
+	private ArrayList<double[]> points;
+	
+	private double[] valueMax, valueMin;
 	
 	// Normalizing constant
 	private double c=C.ZERO_DOUBLE;
@@ -60,131 +64,172 @@ public class VectorSet {
 	 * 
 	 */
 	public VectorSet(int dimensionality) {
-		this.n = dimensionality;
-		points = new ArrayList<ArrayList<Double>>();
+		this.dimensionality = dimensionality;
+
+		points = new ArrayList<double[]>();
+
+		valueMax = new double[dimensionality];
+		for(int j=0; j<dimensionality; j++) {
+			valueMax[j] = Double.MIN_VALUE;
+		}
+
+		valueMin = new double[dimensionality];
+		for(int j=0; j<dimensionality; j++) {
+			valueMin[j] = Double.MAX_VALUE;
+		}
 	}
 
 	/**
-	 * @return the n
+	 * @return the dimensionality
 	 */
-	public int getN() {
-		return n;
+	public int getDimensionality() {
+		return dimensionality;
 	}
 
 	/**
 	 * @return the points
 	 */
-	public ArrayList<ArrayList<Double>> getPoints() {
+	public ArrayList<double[]> getPoints() {
 		return points;
 	}
 
-	public double[][] getDistanceMatrix() {
-		if (distances ==null) {
-			distances=new double[points.size()][points.size()];
-		
-			for (int i=0; i < points.size(); i++) {
-				for (int j=i; j<points.size(); j++) {
-					if (j==i) {
-						distances[i][j] = C.ZERO_DOUBLE;
-					} else {
-						distances[i][j] = d(points.get(i),points.get(j));
-						c += distances[i][j];
-					}
-				}
-			}
-		}		
-		return distances;
-	}
-	
-	private double d(ArrayList<Double> x_i, ArrayList<Double> x_j) {
-		double d=0;
+	/**
+	 * This method finds the pairwise distances of all points in the <tt>VectorSet</tt>.
+	 * 
+	 * This implementation is not optimal from a storage perspective.
+	 * 
+	 * @return distances in matrix form
+	 */
+	public void computeDistanceMatrix() {
 
-		Double[] xi = new Double[x_i.size()];
-		for (int i=0; i < x_i.size(); i++) {
-			xi[i] = x_i.get(i);
+		points.trimToSize();
+		int s = points.size(); // current size
+
+		if (distances==null) 
+			distances = new double[s][s];
+
+		for (int i = 0; i < s; i++) {
+			// Calculate only half the points (due to symmetry)
+			for (int j = i + 1; j < points.size(); j++) {
+				distances[i][j] = EuclideanDistance.calculate(points.get(i), points.get(j));
+			}
 		}
-		
-		Double[] xj = new Double[x_j.size()];
-		for (int i=0; i < x_j.size(); i++) {
-			xj[i] = x_j.get(i);
-		}
-		
-		if (x_i.size() == n && x_j.size() == n) {
-			
-			d = EuclideanDistance.getDistance(xi, xj);
-			
-		} else if (x_i.size() == n && x_j.size() < n) {
-			
-			Double[] paddedXj = new Double[n];
-			for (int k=0; k < x_j.size(); k++) {
-				paddedXj[k] = xj[k];
-			}
-			for (int k=x_j.size(); k < n; k++) {
-				paddedXj[k] = C.ZERO_DOUBLE;
-			}
-			d = EuclideanDistance.getDistance(xi, paddedXj);
-			
-		} else if (x_i.size() < n && x_j.size() == n) {
-			
-			Double[] paddedXi = new Double[n];
-			for (int k=0; k < x_i.size(); k++) {
-				paddedXi[k] = xi[k];
-			}
-			for (int k=x_i.size(); k < n; k++) {
-				paddedXi[k] = C.ZERO_DOUBLE;
-			}
-			d = EuclideanDistance.getDistance(xi, paddedXi);
-			
-		} else 
-			throw new IllegalArgumentException("Every vector should have dimensionality equal to or less than "+n);
-		
-		return d;
 	}
-	
+		
 	public double getNormalizingConstant() {
+		
+		c = C.ZERO_DOUBLE;
+		points.trimToSize();
+		int currentSize = points.size();
+		
+		for (int i=0; i < currentSize; i++) {
+			for (int j=i+1; j < currentSize; j++) {
+				c += distances[i][j];
+			}
+		}
 		return c;
 	}
 	
 	public double diff(VectorSet z) {
-		double delta=0;
+		double delta=0d;
+		
+		if (getDimensionality() != z.getDimensionality())
+			throw new IllegalArgumentException("You can't diff two sets that do not have the same dimensionality");
+
+		P.println("points.size() = "+points.size());
+		P.println("z.getPoints().size() = "+z.getPoints().size());
 		
 		if (points.size() != z.getPoints().size())
 			throw new IllegalArgumentException("You can't diff two sets that do not have the same number of points");
 		
+		print();
+		P.hline();
+		z.print();
+		
+		double dp=0.0d;
 		for (int i=0; i < points.size(); i++) {
 			
+			dp=0.0d;
+			for(int d=0; d < dimensionality; d++) {
+				dp += Math.pow(get(i, d) - z.get(i, d), 2);				
+			}
+			
+			delta += dp;
 		}
+		P.println("delta: "+delta);
 		return delta;
 	}
 	
-	public void add(ArrayList<Double> p) {
+	public void add(double[] p) {
 		points.add(p);
+		
+		for(int j=0; j<dimensionality; j++) {
+			
+			if (p[j] > valueMax[j])
+				valueMax[j]=p[j];
+			
+			if (p[j] < valueMin[j])
+				valueMin[j]=p[j];
+		}
+	}
+	
+	public double[] get(int i) {
+		return points.get(i);
 	}
 	
 	public double get(int i, int j) {
 	
-		return points.get(i).get(j);
+		return points.get(i)[j];
 	}
 	
-	public void replace(VectorSet vs) {
+	public void set(int i, int j, double val) {
+	
+		points.get(i)[j] = val;
+		
+		if (points.get(i)[j] > valueMax[j])
+			valueMax[j]=points.get(i)[j];
+		
+		if (points.get(i)[j] < valueMin[j])
+			valueMin[j]=points.get(i)[j];		
+	}
+	
+	public double getMaxValue(int dimIndex) {
+		return valueMax[dimIndex];
+	}
+	
+	public double getMinValue(int dimIndex) {
+		return valueMin[dimIndex];
+	}
+	
+	public double getRange(int dimIndex) {
+		return valueMax[dimIndex]-valueMin[dimIndex];
+	}
+	
+	public void replaceWith(VectorSet vs) {
 
+		if (vs.dimensionality != dimensionality)
+			throw new IllegalArgumentException("You can only replace a VectorSet with a VectorSet of the same dimensionality");
+		
 		points.clear();
 		
 		for (int i=0; i<vs.getPoints().size(); i++) {
-			ArrayList<Double> v = new ArrayList<Double>(n);
-			for (int j=0; j<n; j++) {
-				v.add(vs.get(i, j));
-			}
-			points.add(v);
+			points.add(vs.get(i));
 		}
 	}
 	
-	public void populate(int numberOfPoints) {
+	public void populate(int numberOfPoints, double range) {
+		
+		points.clear();
+		
 		Random rand = new Random(99991); // this is a prime, just in case you wonder ...
+		
 		for (int i=0; i<numberOfPoints; i++) {
-			ArrayList<Double> v = new ArrayList<Double>(n);
-			for (int j=0; j<n; j++) {
-				v.add(rand.nextDouble());
+			
+			double[] v = new double[dimensionality];
+			
+			for (int j=0; j<dimensionality; j++) {
+				int sign = rand.nextBoolean() ? -1 : 1;
+				v[j] = sign*rand.nextDouble()*range*0.5d;
 			}
 			points.add(v);
 		}
@@ -201,4 +246,25 @@ public class VectorSet {
 		
 		return x;
 	}
+	
+	public double getDistance(int i, int j) {
+		double d;
+		if (i==j) {
+			d= C.ZERO_DOUBLE;
+		} else {
+			if (distances[i][j]>0) {
+				d = distances[i][j];
+			} else {
+				d = distances[j][i];
+			}
+		}
+		return d;
+	}
+	public void print() {
+		P.hline();
+		for (int i=0; i<points.size(); i++) {
+			P.println(Arrays.toString(points.get(i))+"\n");
+		}
+		P.hline();
+	}	
 }
