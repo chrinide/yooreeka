@@ -47,5 +47,21 @@ public class EuclideanDistance implements NumericDistance {
 		}
 		return Math.sqrt(sumXY2);
 	}
+	
+	/**
+	 * For backwards compatibility, we are adding a new static method for calculating
+	 * the Euclidean distance between two arbitrary vectors.
+	 * 
+	 * @param x vector
+	 * @param y vector
+	 * @return the distance between vector <tt>x</tt> and <tt>y</tt>
+	 */
+	public static double calculate(double[] x, double[] y) {
+		double sumXY2 = 0.0;
+		for (int i = 0, n = x.length; i < n; i++) {
+			sumXY2 += Math.pow(x[i] - y[i], 2);
+		}
+		return Math.sqrt(sumXY2);
+	}
 
 }
