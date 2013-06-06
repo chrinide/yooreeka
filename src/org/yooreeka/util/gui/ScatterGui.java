@@ -33,6 +33,7 @@ package org.yooreeka.util.gui;
 import java.awt.event.WindowEvent;
 
 import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
@@ -57,17 +58,17 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
-public class XyGui extends ApplicationFrame {
+public class ScatterGui extends ApplicationFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2878334413514645876L;
-
+	private static final long serialVersionUID = 6703945430655378237L;
+	
 	private StringBuilder errMsg;
 	private int loopInt;
 
-	public XyGui(String title, double[] x, double[] y) {
+	public ScatterGui(String title, double[] x, double[] y) {
 
 		super(title);
 
@@ -84,13 +85,14 @@ public class XyGui extends ApplicationFrame {
 
 			XYSeriesCollection xycollection = new XYSeriesCollection(xydata);
 
-			final JFreeChart chart = ChartFactory.createXYLineChart(
-					title+" (XY Plot)", "X", "Y", xycollection,
+			final JFreeChart chart = ChartFactory.createScatterPlot(
+					title+" (Scatter Plot)", "X", "Y", xycollection,
 					PlotOrientation.VERTICAL, true, true, false);
 
 			final ChartPanel chartPanel = new ChartPanel(chart);
 			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 			setContentPane(chartPanel);
+						
 		} else {
 			System.err.println(errMsg.toString());
 		}
@@ -106,7 +108,7 @@ public class XyGui extends ApplicationFrame {
 	 * @param items
 	 *            values/categories that correspond to data values
 	 */
-	public XyGui(String title, String nameForData1, String nameForData2,
+	public ScatterGui(String title, String nameForData1, String nameForData2,
 			String[] items, double[] data1, double[] data2) {
 
 		super(title);
