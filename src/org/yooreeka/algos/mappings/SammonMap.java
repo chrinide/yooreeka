@@ -30,8 +30,6 @@
  */
 package org.yooreeka.algos.mappings;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Random;
 
 import org.yooreeka.data.VectorSet;
@@ -58,9 +56,6 @@ public class SammonMap {
 	
 	//The range of alpha is between 0.3 and 0.4
 	private double alpha=0.3;
-	
-	// This is a cache of sorts. It holds the distance matrix of the original vector.
-	private double[][] distanceMatrix;
 	
 	// This is a cache of sorts. It holds the normalizing constant of the original vector.
 	private double c;
@@ -102,8 +97,9 @@ public class SammonMap {
 		
 		int m=0;
 		boolean hasConverged=false;
+		
 		while (!hasConverged) {
-			P.hline();
+
 			if(m>0) {
 				//Replace the old with the new (corrected) set of points
 				y.replaceWith(nextY);
@@ -122,8 +118,11 @@ public class SammonMap {
 					
 					newPoint[q] = point[q] - alpha *(getNumerator(p,q,x)/getDenumerator(p,q,x));
 				}
-				P.println("Point["+p+"]: "+Arrays.toString(point));
-				P.println("newPoint["+p+"]: "+Arrays.toString(newPoint));
+
+				// DEBUG
+				//		P.println("   Point["+p+"]: "+Arrays.toString(point));
+				//		P.println("newPoint["+p+"]: "+Arrays.toString(newPoint));
+				
 				nextY.add(newPoint);
 			}
 			
@@ -156,10 +155,6 @@ public class SammonMap {
 
 				double deltaY = y.get(p, q) - y.get(j, q);
 
-				//TODO: Remove
-				if (prodD < E2)
-					throw new RuntimeException();
-				
 				num += (deltaD/prodD)*deltaY;
 			}	
 		}
@@ -217,7 +212,7 @@ public class SammonMap {
 	 */
 	public static void main(String[] args) {
 		
-		VectorSet v = getTestData(32,4);
+		VectorSet v = getTestData(1024,3);
 	
 		SammonMap sMap = new SammonMap(2);
 		VectorSet w = sMap.map(v);
@@ -271,35 +266,54 @@ public class SammonMap {
 
 		VectorSet v = new VectorSet(dim);
 		Random rand = new Random(99991);
-		
+		double dt = 0.25d;
+		double r = C.ONE_DOUBLE;
+		double pi = Math.PI;
+
 		//Create two clusters of N points
 		for (int i=0; i<N; i++) {
-			double[] point = new double[N];
+			
+			double[] point = new double[dim];
+			
+			//Upper right corner for any dimensionality
+//			if (i<N/2) {
+//				for (int j=0; j<dim; j++) {
+//					point[j] = C.ONE_DOUBLE+rand.nextDouble()*0.1d;
+//				}
+//			} else {
+//				for (int j=0; j<dim; j++) {
+//					point[j] = -C.ONE_DOUBLE+rand.nextDouble()*0.1d;
+//				}
+//			}
+					
+			//Points on a helix for 3-d with some perturbations added for x-y
+//			for (int j=0; j<dim; j++) {
+//				if (j==0) {
+//					point[j] = Math.cos(dt*j)+rand.nextDouble()*C.SMALL_DOUBLE;
+//				} else if (j==1) {
+//					point[j] = Math.sin(dt*j)+rand.nextDouble()*C.SMALL_DOUBLE;
+//				} else {
+//					point[j] = dt*j;
+//				}
+//			}
+			
+			//Points on two spheres
+			double theta = ((double) i/ (double)N)*2.0d*pi;
+			double phi = ((double) i/ (double)N)*pi;
 
-			if (i<N/2) {
-				for (int j=0; j<dim; j++) {
-					point[j] = C.ONE_DOUBLE+rand.nextDouble()*0.001d;
-				}
+			if (i%2==0) {
+				point[0] = 2.0d+r*Math.cos(theta)*Math.sin(phi);
+				point[1] = 2.0d+r*Math.sin(theta)*Math.sin(phi);
+				point[2] = 2.0d+r*Math.cos(phi);				
 			} else {
-				for (int j=0; j<dim; j++) {
-					point[j] = -C.ONE_DOUBLE-rand.nextDouble()*0.001d;
-				}
+				point[0] = -2.0d+r*Math.cos(theta)*Math.sin(phi);
+				point[1] = -2.0d+r*Math.sin(theta)*Math.sin(phi);
+				point[2] = -2.0d+r*Math.cos(phi);
 			}
+			
 			v.add(point);
 		}
+		v.print();
 		return v;
-	}	
-	
-	private static VectorSet getZeroData(int N) {
-		VectorSet v = new VectorSet(1);
-		
-		for (int i=0; i<N; i++) {
-			double[] point = new double[1];
-
-			point[0] = C.ZERO_DOUBLE;
-			v.add(point);
-		}
-		return v;
-	}
-
+	}		
 }

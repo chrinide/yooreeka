@@ -142,9 +142,9 @@ public class VectorSet {
 		if (points.size() != z.getPoints().size())
 			throw new IllegalArgumentException("You can't diff two sets that do not have the same number of points");
 		
-		print();
-		P.hline();
-		z.print();
+//		print();
+//		P.hline();
+//		z.print();
 		
 		double dp=0.0d;
 		for (int i=0; i < points.size(); i++) {
@@ -156,6 +156,7 @@ public class VectorSet {
 			
 			delta += dp;
 		}
+
 		P.println("delta: "+delta);
 		return delta;
 	}

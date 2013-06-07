@@ -45,7 +45,7 @@ public class C {
 	public final static long ZERO_LONG = 0;
 	public final static double ZERO_DOUBLE = 0.0d;
 	
-	public final static double SMALL_DOUBLE = 0.000001d;
+	public final static double SMALL_DOUBLE = 0.00001d;
 
 	public final static int  ONE_INT = 1;
 	public final static long ONE_LONG = 1;
