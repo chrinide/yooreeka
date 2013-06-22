@@ -33,7 +33,6 @@ package org.yooreeka.util.gui;
 import java.awt.event.WindowEvent;
 
 import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartFrame;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
