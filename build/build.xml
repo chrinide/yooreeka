@@ -30,15 +30,11 @@
 	<!-- list of all jars that are currently used in iweb2 app -->
 	<patternset id="thirdparty.jars">
 		<include name="bsh-2.0b4.jar"/>
-		<!--  include name="commons-codec-1.6.jar"/ -->
 		<include name="commons-lang3-3.1.jar"/>
 		<include name="commons-logging-1.1.1.jar"/>
-		<include name="f2jutil.jar"/>
 		<include name="httpclient-4.2.2.jar"/>
 		<include name="httpcore-4.2.2.jar"/>
-		<include name="httpmime-4.2.2.jar"/>
 		<include name="jfreechart.jar"/>
-		<include name="jgraph.jar"/>
 		<include name="jigg-0.1.jar"/>
 		<include name="jsr173_1.0_api.jar"/>
 		<include name="junit-4.1.jar"/>

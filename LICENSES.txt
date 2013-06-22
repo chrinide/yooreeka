@@ -4,8 +4,9 @@ ________________________________________________________________________________
 _________________________________________________________________________________
 
 Yooreeka leverages a number of other open source libraries for some functionality.
-The libraries here are categorized based on their license. We also show the
-specific classes that rely on a given library.
+The libraries here are categorized based on their license. For some of them, we 
+also show the specific classes that rely on a given library and what part of the 
+library they use.
 _________________________________________________________________________________
 
  
@@ -14,51 +15,47 @@ ________________________________________________________________________________
  http://www.apache.org/licenses/LICENSE-2.0.html
  ------------------------------------------------------------------------------
  
-   super-csv-2.1.0.jar
+   super-csv-2.1.0.jar (http://supercsv.sourceforge.net/index.html)
    |
    |---> org.yooreeka.algos.reco.collab.data.DiggData
    |---> org.yooreeka.algos.clustering.test.SFData
  
- Apache Commons
+   Apache Commons
  
-   commons-codec-1.8.jar
-   |
-   |---> 
-   
-     
-   commons-lang3-3.1.jar
+   commons-lang3-3.1.jar (http://commons.apache.org/proper/commons-lang/)
    |
    |---> org.yooreeka.algos.taxis.tree.Node
+         |
+         |-->  org.apache.commons.lang3.StringUtils
    
    
-   commons-logging-1.1.1.jar
-   |
-   |---> 
-   
-   
-   f2jutil.jar
-   |
-   |---> 
+   ----------------------------------------------------------------------------
+   commons-logging-1.1.1.jar | This is a runtime dependency for httpclient
+   ----------------------------------------------------------------------------
    
    httpclient-4.2.2.jar
    |
-   |---> 
+   |---> org.yooreeka.util.internet.crawling.transport.http.HTTPTransport
+         |
+         |--> org.apache.http.client.CookieStore;
+         |--> org.apache.http.client.HttpClient;
+         |--> org.apache.http.client.methods.HttpGet;
+         |--> org.apache.http.client.protocol.ClientContext;
+         |--> org.apache.http.cookie.Cookie;
+         |--> org.apache.http.impl.client.BasicCookieStore;
+         |--> org.apache.http.impl.client.DefaultHttpClient;
    
    httpcore-4.2.2.jar
    |
-   |---> 
-   
-   httpmime-4.2.2.jar
-   |
-   |---> 
-   
-   jfreechart.jar
-   |
-   |---> 
-   
-   jgraph.jar
-   |
-   |---> 
+   |---> org.yooreeka.util.internet.crawling.transport.http.HTTPTransport
+         |
+         |--> org.apache.http.Header;
+         |--> org.apache.http.HttpEntity;
+         |--> org.apache.http.HttpResponse;
+         |--> org.apache.http.protocol.BasicHttpContext;
+         |--> org.apache.http.protocol.HttpContext;
+         |--> org.apache.http.util.EntityUtils;
+
    
    jigg-0.1.jar
    |
@@ -145,13 +142,15 @@ ________________________________________________________________________________
    |---> 
    
  
+_________________________________________________________________________________
  
- LGPL
- ------------------------------------------------------------------------------
- URL: http://www.gnu.org/licenses/lgpl.html
- ------------------------------------------------------------------------------
+ Lesser GPL      http://www.gnu.org/licenses/lgpl.html
+_________________________________________________________________________________
   
  Bean Shell ... bsh-2.0b4.jar
+
+ JFreeChart
+    jfreechart.jar   (http://www.jfree.org/jfreechart/)
  
  
 
