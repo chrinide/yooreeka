@@ -30,8 +30,6 @@
  */
 package org.yooreeka.algos.mappings;
 
-import java.util.Random;
-
 import org.yooreeka.data.VectorSet;
 import org.yooreeka.util.C;
 import org.yooreeka.util.P;
@@ -265,8 +263,7 @@ public class SammonMap {
 	private static VectorSet getTestData(int N, int dim) {
 
 		VectorSet v = new VectorSet(dim);
-		Random rand = new Random(99991);
-		double dt = 0.25d;
+
 		double r = C.ONE_DOUBLE;
 		double pi = Math.PI;
 
