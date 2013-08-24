@@ -9,15 +9,12 @@ set Y_DROOLS_LIBS=%Y_LIBS%\drools
 set Y_CRAWL_LIBS=%Y_LIBS%\crawler4j-libs
 
 set LIBJARS=
-set LIBJARS=%LIBJARS%;%Y_LIBS%\commons-codec-1.6.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\commons-lang-2.3.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\commons-lang3-3.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\commons-logging-1.1.1.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\f2jutil.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\httpclient-4.2.2.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\httpcore-4.2.2.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\httpmime-4.2.2.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\jfreechart.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\jgraph.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\jcommon-1.0.18.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\jfreechart-1.0.15.jar
 
 set LIBJARS=%LIBJARS%;%Y_LIBS%\jigg-0.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\jsr173_1.0_api.jar
@@ -39,7 +36,7 @@ set LIBJARS=%LIBJARS%;%Y_LIBS%\rooster.jar
 
 set LIBJARS=%LIBJARS%;%Y_LIBS%\secondstring-20070327.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\serializer.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\SuperCSV-1.16.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\super-csv-2.1.0.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\tm-extractors-1.0.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\xercesImpl.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\xml-apis.jar
