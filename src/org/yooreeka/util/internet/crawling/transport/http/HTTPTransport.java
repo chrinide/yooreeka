@@ -85,7 +85,7 @@ public class HTTPTransport implements Transport {
 			System.out.println("WARNING: Retrieved document larger than "
 					+ MAX_DOCUMENT_LENGTH + " [bytes]");
 
-		ByteBuffer byteBuffer = ByteBuffer.allocate(contentLength);
+		ByteBuffer byteBuffer = ByteBuffer.allocate(2*contentLength);
 
 		// Construct the BufferedInputStream object
 		bufferedInput = new BufferedInputStream(entity.getContent());
