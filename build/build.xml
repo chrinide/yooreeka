@@ -2,7 +2,6 @@
 
 <project name="Yooreeka" default="dist" basedir=".">
 
-
 	<!-- set global properties for this build -->
 	<property name="project.Name" value="Yooreeka: A library for data mining, machine learning, soft computing, and mathematical analysis"/>
 
@@ -34,23 +33,26 @@
 		<include name="commons-logging-1.1.1.jar"/>
 		<include name="httpclient-4.2.2.jar"/>
 		<include name="httpcore-4.2.2.jar"/>
-		<include name="jfreechart.jar"/>
+		
+		<include name="jcommon-1.0.18.jar"/>
+		<include name="jfreechart-1.0.15.jar"/>
+		
 		<include name="jigg-0.1.jar"/>
-		<include name="jsr173_1.0_api.jar"/>
+		
 		<include name="junit-4.1.jar"/>
 		<include name="juniversalchardet-1.0.3.jar"/>
-		<include name="log4j-1.2.17.jar"/>
-		<include name="lucene-analyzers-common-4.0.0-BETA.jar"/>
-		<include name="lucene-core-4.0.0-BETA.jar"/>
-		<include name="lucene-demo-4.0.0-BETA.jar"/>
-		<include name="lucene-memory-4.0.0-BETA.jar"/>
-		<include name="lucene-queryparser-4.0.0-BETA.jar"/>
+		
+		<include name="lucene-analyzers-common-4.4.0.jar"/>
+		<include name="lucene-core-4.4.0.jar"/>
+		<include name="lucene-demo-4.4.0.jar"/>
+		<include name="lucene-memory-4.4.0.jar"/>
+		<include name="lucene-queryparser-4.4.0.jar"/>
+		
 		<include name="nekohtml.jar"/>
-		<include name="ojalgo-34.0.jar"/>
-		<include name="poi-3.0.2-FINAL-20080204.jar"/>
+		<include name="poi-3.9-20121203.jar"/>
 		<include name="resolver.jar"/>
 		<include name="rooster.jar"/>
-		<include name="secondstring-20070327.jar"/>
+		<include name="secondstring-20120620.jar"/>
 		<include name="serializer.jar"/>
 		<include name="super-csv-2.1.0.jar"/>
 		<include name="tm-extractors-1.0.jar"/>
