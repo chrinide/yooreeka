@@ -83,10 +83,14 @@ public class MSWordDocumentParser implements DocumentParser {
 		wordDoc.setDocumentId(doc.getDocumentId());
 		wordDoc.setDocumentURL(doc.getDocumentURL());
 
-		InputStream contentData = new ByteArrayInputStream(
-				doc.getDocumentContent());
+		InputStream contentData = new ByteArrayInputStream(doc.getDocumentContent());
+		
 		WordTextExtractorFactory wteFactory = new WordTextExtractorFactory();
-
+		
+		//
+		//TODO: Replace the tm-extractor library
+		//   
+		// The new POI breaks the script ch2_3
 		try {
 			TextExtractor txtExtractor = wteFactory.textExtractor(contentData);
 			String text = txtExtractor.getText();
