@@ -3,17 +3,22 @@ ________________________________________________________________________________
            LICENSES OF THIRD PARTY LIBRARIES USED BY YOOREEKA
 _________________________________________________________________________________
 
+Yooreeka 2.x is licensed under the Apache 2.0 license
+
 Yooreeka leverages a number of other open source libraries for some functionality.
+Those other libraries are governed by their own licenses.
+
 The libraries here are categorized based on their license. For some of them, we 
 also show the specific classes that rely on a given library and what part of the 
 library they use.
 _________________________________________________________________________________
-
  
  APACHE LICENSE v2.0
- ------------------------------------------------------------------------------
- http://www.apache.org/licenses/LICENSE-2.0.html
- ------------------------------------------------------------------------------
+ _______________________________________________________________________________
+|                                                                               |
+| http://www.apache.org/licenses/LICENSE-2.0.html                               |
+|_______________________________________________________________________________|
+
  
    super-csv-2.1.0.jar (http://supercsv.sourceforge.net/index.html)
    |
@@ -56,14 +61,15 @@ ________________________________________________________________________________
          |--> org.apache.http.protocol.HttpContext;
          |--> org.apache.http.util.EntityUtils;
 
+      
+   jsr173_1.0_api.jar  (Streaming API for XML)
+   |
+   |---> 
    
    jigg-0.1.jar
    |
-   |---> 
+   |--->
    
-   jsr173_1.0_api.jar
-   |
-   |---> 
    
    junit-4.1.jar
    |
