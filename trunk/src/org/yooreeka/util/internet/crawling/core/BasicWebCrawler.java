@@ -179,6 +179,7 @@ public class BasicWebCrawler {
 							pause();
 						}
 					} catch (Exception e) {
+						e.printStackTrace();
 						System.out
 								.println("Failed to fetch document from url: '"
 										+ url + "'.\n" + e.getMessage());
