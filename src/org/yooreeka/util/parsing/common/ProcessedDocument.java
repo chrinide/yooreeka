@@ -48,6 +48,14 @@ public class ProcessedDocument implements AbstractDocument {
 	public static final String TYPE_TEXT = "text/plain";
 	public static final String TYPE_HTML = "text/html";
 	public static final String TYPE_MSWORD = "application/msword";
+	public static final String TYPE_PDF = "application/pdf";
+	
+	public static final String TYPE_DIRECTORY = "FILE DIRECTORY";
+	
+	public static final String TEXT_ENDS_WITH = ".txt";
+	public static final String HTML_ENDS_WITH = ".html";
+	public static final String MSWORD_ENDS_WITH = ".doc";
+	public static final String PDF_ENDS_WITH = ".pdf";
 
 	/*
 	 * Unique document id.
