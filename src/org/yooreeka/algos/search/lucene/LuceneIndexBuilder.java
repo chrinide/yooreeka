@@ -88,9 +88,7 @@ public class LuceneIndexBuilder implements CrawlDataProcessor {
 				indexDocument(indexWriter,
 						parsedDocsService.loadDocument(docId));
 			}
-
-			indexWriter.close();
-
+			
 		} catch (IOException ioX) {
 			throw new RuntimeException("Error while creating lucene index: ",
 					ioX);
@@ -143,10 +141,16 @@ public class LuceneIndexBuilder implements CrawlDataProcessor {
 	}
 
 	public void run() {
-		List<String> allGroups = crawlData.getProcessedDocsDB()
-				.getAllGroupIds();
+		List<String> allGroups = crawlData.getProcessedDocsDB().getAllGroupIds();
 		for (String groupId : allGroups) {
 			buildLuceneIndex(groupId, crawlData.getProcessedDocsDB());
+		}
+		
+		try {
+			indexWriter.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 }
