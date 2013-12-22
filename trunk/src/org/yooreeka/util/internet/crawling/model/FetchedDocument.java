@@ -111,9 +111,9 @@ public class FetchedDocument implements AbstractDocument {
 		P.println("Content Type   : " + this.contentType);
 		P.println("Content Charset: " + this.contentCharset);
 		P.hline();
-		P.println("CONTENT\n"
-				+ new String(this.getDocumentContent(), Charset
-						.forName(contentCharset)));
+//		P.println("CONTENT\n"
+//				+ new String(this.getDocumentContent(), Charset
+//						.forName(contentCharset)));
 		P.hline();
 	}
 
