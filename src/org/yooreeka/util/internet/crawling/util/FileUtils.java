@@ -115,24 +115,39 @@ public class FileUtils {
 	               result.add(entry);
 	           }
 	       } catch (DirectoryIteratorException ex) {
-	           // I/O error encounted during the iteration, the cause is an IOException
+	           // I/O error encountered during the iteration
 	           throw ex.getCause();
 	       }
 	       return result;
 	   }
 	
+	
 	/**
+	 * List all the files with the <tt>allowedExtensions</tt> within <tt>dir</tt> 
 	 * 
-	 * @param dir
-	 * @param allowedExtensions, e.g. <tt>{c,h,cpp,hpp,java}</tt>
+	 * @param directoryPath
+	 * @param allowedExtensions, e.g. <tt>{c:h:cpp:hpp:java}</tt>
 	 * @return
 	 * @throws IOException
 	 */
-	public static List<Path> listFiles(Path dir, String allowedExtensions) throws IOException {
+	public static List<Path> listFiles(Path directoryPath, String allowedExtensions) throws IOException {
+		
 	       List<Path> result = new ArrayList<>();
-	       try (DirectoryStream<Path> stream = Files.newDirectoryStream(dir, "*."+allowedExtensions)) {
+	       
+	       String[] ext = allowedExtensions.split(":");
+	       
+	       try (DirectoryStream<Path> stream = Files.newDirectoryStream(directoryPath)) {
 	           for (Path entry: stream) {
-	               result.add(entry);
+	        	   if(entry.toFile().isDirectory()) {
+	        		   //recurse
+	        		   result.addAll(listFiles(entry,allowedExtensions));
+	        	   } else {
+	        		   for (String s : ext) {
+	        			   if(entry.toString().endsWith(s)){
+	        				   result.add(entry);
+	        			   }
+	        		   }
+	        	   }
 	           }
 	       } catch (DirectoryIteratorException ex) {
 	           // I/O error encounted during the iteration, the cause is an IOException
@@ -140,7 +155,6 @@ public class FileUtils {
 	       }
 	       return result;
 	   }
-
 
 	public static void prepareDir(File dir, boolean useExisting)
 			throws IOException {
