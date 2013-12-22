@@ -302,12 +302,11 @@ public class ProcessedDocsDB {
 	private Map<String, String> loadProperties(File f, String delimiter) {
 		Map<String, String> props = new HashMap<String, String>();
 		try {
-			InputStreamReader r = new InputStreamReader(new FileInputStream(f),
-					"UTF-8");
+			InputStreamReader r = new InputStreamReader(new FileInputStream(f), "UTF-8");
 			BufferedReader reader = new BufferedReader(r);
 			String line = null;
 			while ((line = reader.readLine()) != null) {
-				if (line.length() == 0) {
+				if (line.length() == 0 || line.indexOf(delimiter) < 0) {
 					continue;
 				}
 
