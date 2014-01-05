@@ -143,7 +143,6 @@ public class FetchAndProcessCrawler {
 
 	public void run() {
 		
-		
 		webCrawler.addSeedUrls(getSeedUrls());
 
 		webCrawler.setURLFilter(urlFilter);

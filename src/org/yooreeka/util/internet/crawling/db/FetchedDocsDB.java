@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.model.FetchedDocument;
 import org.yooreeka.util.internet.crawling.util.DocumentIdUtils;
 import org.yooreeka.util.internet.crawling.util.FileUtils;
@@ -249,6 +250,7 @@ public class FetchedDocsDB {
 	}
 
 	private void saveContent(File f, byte[] content) {
+		P.println("Writing file: "+f.getName());
 		try {
 			FileOutputStream fout = new FileOutputStream(f);
 			BufferedOutputStream bout = new BufferedOutputStream(fout);
@@ -261,6 +263,9 @@ public class FetchedDocsDB {
 	}
 
 	public void saveDocument(FetchedDocument doc) {
+		
+		P.println("Saving fetched document with ID:"+doc.getDocumentId());
+		
 		/* create directory for current group if it doesn't exist yet. */
 		String groupId = docIdUtils.getDocumentGroupId(doc.getDocumentId());
 		createGroup(groupId);
