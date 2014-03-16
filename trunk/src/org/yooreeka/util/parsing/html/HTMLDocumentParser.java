@@ -53,7 +53,6 @@ import org.w3c.dom.traversal.NodeFilter;
 import org.w3c.dom.traversal.NodeIterator;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import org.yooreeka.util.P;
 import org.yooreeka.util.internet.crawling.model.Outlink;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;

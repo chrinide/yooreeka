@@ -41,6 +41,7 @@ import org.yooreeka.util.internet.crawling.core.CrawlData;
 import org.yooreeka.util.internet.crawling.core.URLFilter;
 import org.yooreeka.util.internet.crawling.core.URLNormalizer;
 
+@SuppressWarnings("deprecation")
 public class FetchAndProcessCrawler {
 
 	private final static Logger log = Logger.getLogger(FetchAndProcessCrawler.class.getName());
