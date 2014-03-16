@@ -99,9 +99,11 @@ public class MSWordDocumentParser implements DocumentParser {
     }  
  
     /**
+     * Pretty print of all the metadata
+     * 
 	 * @param docProperties
 	 */
-	private void printProperties(DocumentProperties dp) {
+	public void printProperties(DocumentProperties dp) {
 		P.hline();
 		P.println("Adt          : "+dp.getAdt());
 		P.println("CCh          : "+dp.getCCh());

@@ -76,8 +76,6 @@ public class BasicWebCrawler {
 	private long DEFAULT_PAUSE_IN_MILLIS = 500;
 	private long pauseBetweenFetchesInMillis = DEFAULT_PAUSE_IN_MILLIS;
 
-	private DocumentIdUtils docIdUtils = new DocumentIdUtils();
-	
 	/*
 	 * Number of URLs to fetch and parse at a time.
 	 */
@@ -209,7 +207,7 @@ public class BasicWebCrawler {
 
 						} else {
 
-							String documentId = docIdUtils.getDocumentId(groupId, docSequenceInGroup);
+							String documentId = DocumentIdUtils.getDocumentId(groupId, docSequenceInGroup);
                             doc.setDocumentId(documentId);
                             fetchedDocsDB.saveDocument(doc);
 						}

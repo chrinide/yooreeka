@@ -30,6 +30,7 @@
  */
 package org.yooreeka.algos.mappings;
 
+import org.yooreeka.data.SammonTestData;
 import org.yooreeka.data.VectorSet;
 import org.yooreeka.util.C;
 import org.yooreeka.util.P;
@@ -210,13 +211,18 @@ public class SammonMap {
 	 */
 	public static void main(String[] args) {
 		
-		VectorSet v = getTestData(1024,3);
+		
+		SammonTestData data = new SammonTestData(128,6); 
+		VectorSet v = data.getSquareClusters(); //.getStraightLines();
 	
 		SammonMap sMap = new SammonMap(2);
 		VectorSet w = sMap.map(v);
 		
-		ScatterGui ui = new org.yooreeka.util.gui.ScatterGui ("Sammon Projection in 2D",w.getDimData(0),w.getDimData(1));
-		ui.plot();
+		String title = "Sammon Projection in 2D";
+		ScatterGui ui = new org.yooreeka.util.gui.ScatterGui (title);
+		ui.setWindowDimensionX(1000);
+		ui.setWindowDimensionY(750);
+		ui.plot(ui.createScatterPlot(w.getDimData(0),w.getDimData(1)));
 	}
 
 	/**
@@ -259,58 +265,4 @@ public class SammonMap {
 	public int getNewDimensionality() {
 		return newDimensionality;
 	}
-
-	private static VectorSet getTestData(int N, int dim) {
-
-		VectorSet v = new VectorSet(dim);
-
-		double r = C.ONE_DOUBLE;
-		double pi = Math.PI;
-
-		//Create two clusters of N points
-		for (int i=0; i<N; i++) {
-			
-			double[] point = new double[dim];
-			
-			//Upper right corner for any dimensionality
-//			if (i<N/2) {
-//				for (int j=0; j<dim; j++) {
-//					point[j] = C.ONE_DOUBLE+rand.nextDouble()*0.1d;
-//				}
-//			} else {
-//				for (int j=0; j<dim; j++) {
-//					point[j] = -C.ONE_DOUBLE+rand.nextDouble()*0.1d;
-//				}
-//			}
-					
-			//Points on a helix for 3-d with some perturbations added for x-y
-//			for (int j=0; j<dim; j++) {
-//				if (j==0) {
-//					point[j] = Math.cos(dt*j)+rand.nextDouble()*C.SMALL_DOUBLE;
-//				} else if (j==1) {
-//					point[j] = Math.sin(dt*j)+rand.nextDouble()*C.SMALL_DOUBLE;
-//				} else {
-//					point[j] = dt*j;
-//				}
-//			}
-			
-			//Points on two spheres
-			double theta = ((double) i/ (double)N)*2.0d*pi;
-			double phi = ((double) i/ (double)N)*pi;
-
-			if (i%2==0) {
-				point[0] = 2.0d+r*Math.cos(theta)*Math.sin(phi);
-				point[1] = 2.0d+r*Math.sin(theta)*Math.sin(phi);
-				point[2] = 2.0d+r*Math.cos(phi);				
-			} else {
-				point[0] = -2.0d+r*Math.cos(theta)*Math.sin(phi);
-				point[1] = -2.0d+r*Math.sin(theta)*Math.sin(phi);
-				point[2] = -2.0d+r*Math.cos(phi);
-			}
-			
-			v.add(point);
-		}
-		v.print();
-		return v;
-	}		
 }

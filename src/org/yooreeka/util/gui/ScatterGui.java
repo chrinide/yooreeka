@@ -41,6 +41,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
+import org.yooreeka.util.P;
 
 /**
  * 
@@ -58,6 +59,11 @@ import org.jfree.ui.RefineryUtilities;
  * 
  */
 public class ScatterGui extends ApplicationFrame {
+	
+	private int windowDimensionX = 700, windowDimensionY = 400;
+	
+	private String xLabel = "X";
+	private String yLabel = "Y";
 
 	/**
 	 * 
@@ -67,34 +73,10 @@ public class ScatterGui extends ApplicationFrame {
 	private StringBuilder errMsg;
 	private int loopInt;
 
-	public ScatterGui(String title, double[] x, double[] y) {
+	public ScatterGui(String title) {
 
 		super(title);
-
 		errMsg = new StringBuilder();
-		setLoopInt(x.length);
-
-		if (checkX(x) && checkY(x.length, y)) {
-
-			XYSeries xydata = new XYSeries(title);
-
-			for (int i = 0; i < loopInt; i++) {
-				xydata.add(x[i], y[i]);
-			}
-
-			XYSeriesCollection xycollection = new XYSeriesCollection(xydata);
-
-			final JFreeChart chart = ChartFactory.createScatterPlot(
-					title+" (Scatter Plot)", "X", "Y", xycollection,
-					PlotOrientation.VERTICAL, true, true, false);
-
-			final ChartPanel chartPanel = new ChartPanel(chart);
-			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-			setContentPane(chartPanel);
-						
-		} else {
-			System.err.println(errMsg.toString());
-		}
 	}
 
 	/**
@@ -107,25 +89,80 @@ public class ScatterGui extends ApplicationFrame {
 	 * @param items
 	 *            values/categories that correspond to data values
 	 */
-	public ScatterGui(String title, String nameForData1, String nameForData2,
-			String[] items, double[] data1, double[] data2) {
+//	public ScatterGui(String title, String nameForData1, String nameForData2,
+//			String[] items, double[] data1, double[] data2) {
+//
+//		super(title);
+//	}
 
-		super(title);
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		for (int i = 0, n = items.length; i < n; i++) {
-			dataset.addValue(data1[i], nameForData1, items[i]);
-			dataset.addValue(data2[i], nameForData2, items[i]);
-		}
+	public void plot(final JFreeChart chart) {
+		plot(chart, getWindowDimensionX(),getWindowDimensionY());
+	}
+	
+	public void plot(final JFreeChart chart, int wX, int wY) {
 
-		final JFreeChart chart = ChartFactory.createLineChart(
-				"User Similarity", "Items", "Rating", dataset,
-				PlotOrientation.VERTICAL, true, true, false);
-
-		final ChartPanel chartPanel = new ChartPanel(chart);
-		chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
-		setContentPane(chartPanel);
+		ChartPanel chartPanel = new ChartPanel(chart);
+		chartPanel.setPreferredSize(new java.awt.Dimension(wX, wY));
+		setContentPane(chartPanel);					
+		
+		this.pack();
+		RefineryUtilities.centerFrameOnScreen(this);
+		this.setVisible(true);
 	}
 
+	public final JFreeChart createScatterPlot(double[] valX, double[] valY) {
+
+		XYSeries xydata = null;
+		
+		if (checkX(valX) && checkY(valX.length, valY)) {
+
+			xydata = new XYSeries(getTitle());
+
+			for (int i = 0; i < loopInt; i++) {
+				xydata.add(valX[i], valY[i]);
+			}
+		} else {
+			P.println(errMsg.toString());
+		}
+
+		XYSeriesCollection xycollection = new XYSeriesCollection(xydata);
+		
+		//TODO: Externalize the hardcoded values later
+		final JFreeChart chart = ChartFactory.createScatterPlot(getTitle()+" (Scatter Plot)", 
+				getXLabel(), 
+				getYLabel(), 
+				xycollection,
+				PlotOrientation.VERTICAL, 
+				true, // does it have a legend?
+				true, // does it have tooltips?
+				false); // does it have URLs?
+
+		return chart;
+	}
+	
+	public JFreeChart createLineChart(String[] items, LineChartData data1, LineChartData data2) {
+		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+		for (int i = 0, n = items.length; i < n; i++) {
+			dataset.addValue(data1.getData()[i], data1.getLabel(), items[i]);
+			dataset.addValue(data2.getData()[i], data2.getLabel(), items[i]);
+		}
+		//TODO: Externalize the hardcoded values
+		final JFreeChart chart = ChartFactory.createLineChart(getTitle(), 
+				getXLabel(), 
+				getYLabel(), 
+				dataset,
+				PlotOrientation.VERTICAL, 
+				true, // does it have a legend?
+				true, // does it have tooltips?
+				false); // does it have URLs?
+		
+		return chart;
+	}
+	
+	// ==================================================================================
+	// VALIDATIONS, GETTERS & SETTERS
+	// ==================================================================================
+	
 	private boolean checkX(double[] val) {
 
 		boolean isOK = true;
@@ -136,6 +173,7 @@ public class ScatterGui extends ApplicationFrame {
 			isOK = false;
 		}
 
+		setLoopInt(val.length);
 		return isOK;
 	}
 
@@ -176,12 +214,6 @@ public class ScatterGui extends ApplicationFrame {
 		return isOK;
 	}
 
-	public void plot() {
-		this.pack();
-		RefineryUtilities.centerFrameOnScreen(this);
-		this.setVisible(true);
-	}
-
 	private void setLoopInt(int val) {
 		loopInt = val;
 	}
@@ -202,6 +234,62 @@ public class ScatterGui extends ApplicationFrame {
 			// System.exit(0);
 			// -----------------------------------------
 		}
+	}
+
+	/**
+	 * @return the windowDimensionX
+	 */
+	public int getWindowDimensionX() {
+		return windowDimensionX;
+	}
+
+	/**
+	 * @param windowDimensionX the windowDimensionX to set
+	 */
+	public void setWindowDimensionX(int windowDimensionX) {
+		this.windowDimensionX = windowDimensionX;
+	}
+
+	/**
+	 * @return the windowDimensionY
+	 */
+	public int getWindowDimensionY() {
+		return windowDimensionY;
+	}
+
+	/**
+	 * @param windowDimensionY the windowDimensionY to set
+	 */
+	public void setWindowDimensionY(int windowDimensionY) {
+		this.windowDimensionY = windowDimensionY;
+	}
+
+	/**
+	 * @return the xLabel
+	 */
+	public String getXLabel() {
+		return xLabel;
+	}
+
+	/**
+	 * @param xLabel the xLabel to set
+	 */
+	public void setxLabel(String xLabel) {
+		this.xLabel = xLabel;
+	}
+
+	/**
+	 * @return the yLabel
+	 */
+	public String getYLabel() {
+		return yLabel;
+	}
+
+	/**
+	 * @param yLabel the yLabel to set
+	 */
+	public void setyLabel(String yLabel) {
+		this.yLabel = yLabel;
 	}
 
 }

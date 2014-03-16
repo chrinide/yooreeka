@@ -119,7 +119,7 @@ public class FetchedDocsDB {
 	private File getDocumentFile(String documentId, String ext) {
 		String groupId = docIdUtils.getDocumentGroupId(documentId);
 		File docDirFile = new File(rootDirFile, groupId);
-		String docFilename = docIdUtils.getDocumentSequence(documentId) + ext;
+		String docFilename = DocumentIdUtils.getDocumentSequence(documentId) + ext;
 		File docFile = new File(docDirFile, docFilename);
 		return docFile;
 	}
@@ -151,7 +151,7 @@ public class FetchedDocsDB {
 			for (File f : dataFiles) {
 				String name = f.getName();
 				String itemId = name.substring(0, name.indexOf("."));
-				String documentId = docIdUtils.getDocumentId(groupId, itemId);
+				String documentId = DocumentIdUtils.getDocumentId(groupId, itemId);
 				documentIds.add(documentId);
 			}
 		}

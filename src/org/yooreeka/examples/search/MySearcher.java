@@ -49,7 +49,6 @@ import org.yooreeka.algos.search.lucene.LuceneIndexBuilder;
 import org.yooreeka.algos.search.ranking.Rank;
 import org.yooreeka.algos.taxis.bayesian.NaiveBayes;
 import org.yooreeka.algos.taxis.core.intf.Concept;
-import org.yooreeka.util.P;
 import org.yooreeka.util.internet.behavior.UserClick;
 import org.yooreeka.util.internet.behavior.UserQuery;
 
