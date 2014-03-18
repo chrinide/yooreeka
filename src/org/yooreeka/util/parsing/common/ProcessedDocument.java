@@ -100,12 +100,28 @@ public class ProcessedDocument implements AbstractDocument {
 		return this.content;
 	}
 
+	/**
+	 * This method uses the bytes of the field <tt>content</tt>
+	 */
 	@Override
 	public String getContentCharset() {
+
+		return getContentCharset(getContent().getBytes());
+	}
+	
+	/**
+	 * This is a general utility method that attempts to detect the character set 
+	 * by reading a byte array. 
+	 * We rely on the <tt>org.mozilla.universalchardet.UniversalDetector</tt> class.
+	 * 
+	 * @param val
+	 * @return
+	 */
+	public String getContentCharset(byte[] val) {
+
 		byte[] buf = new byte[4096];
 
-		ByteArrayInputStream fis = new ByteArrayInputStream(getContent()
-				.getBytes());
+		ByteArrayInputStream fis = new ByteArrayInputStream(val);
 
 		// (1)
 		UniversalDetector detector = new UniversalDetector(null);
