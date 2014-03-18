@@ -41,7 +41,6 @@ import org.yooreeka.util.internet.crawling.core.CrawlData;
 import org.yooreeka.util.internet.crawling.core.URLFilter;
 import org.yooreeka.util.internet.crawling.core.URLNormalizer;
 
-@SuppressWarnings("deprecation")
 public class FetchAndProcessCrawler {
 
 	private final static Logger log = Logger.getLogger(FetchAndProcessCrawler.class.getName());
@@ -117,9 +116,9 @@ public class FetchAndProcessCrawler {
 	}
 
 	/**
-	 * @return the maxNumberOfCrawls
+	 * @return the maximum depth of the crawl
 	 */
-	public int getMaxNumberOfCrawls() {
+	public int getMaxDepth() {
 		return maxDepth;
 	}
 
