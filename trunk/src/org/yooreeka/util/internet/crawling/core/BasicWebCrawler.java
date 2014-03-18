@@ -60,7 +60,7 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
  * future versions.
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
- * @deprecated
+ *
  * 
  */
 public class BasicWebCrawler {
