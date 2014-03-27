@@ -85,7 +85,7 @@ public class Chapter_07 {
 		// Classification
 		script_07_04();
 
-		P.time(t);
+		P.timePassedSince(t);
 	}
 
 	private void init() {

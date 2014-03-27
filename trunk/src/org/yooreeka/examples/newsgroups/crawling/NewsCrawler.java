@@ -51,7 +51,6 @@ import org.yooreeka.util.internet.crawling.core.URLNormalizer;
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  */
-@SuppressWarnings("deprecation")
 public class NewsCrawler {
 
 	public static final int DEFAULT_MAX_DEPTH = 1;
