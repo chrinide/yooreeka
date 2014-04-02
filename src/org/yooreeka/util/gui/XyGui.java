@@ -64,6 +64,7 @@ public class XyGui extends ApplicationFrame {
 	 */
 	private static final long serialVersionUID = 2878334413514645876L;
 
+	private XYSeriesCollection xycollection;
 	private StringBuilder errMsg;
 	private int loopInt;
 
@@ -82,12 +83,13 @@ public class XyGui extends ApplicationFrame {
 				xydata.add(x[i], y[i]);
 			}
 
-			XYSeriesCollection xycollection = new XYSeriesCollection(xydata);
+			xycollection = new XYSeriesCollection(xydata);
 
 			final JFreeChart chart = ChartFactory.createXYLineChart(
 					title+" (XY Plot)", "X", "Y", xycollection,
 					PlotOrientation.VERTICAL, true, true, false);
 
+			
 			final ChartPanel chartPanel = new ChartPanel(chart);
 			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 			setContentPane(chartPanel);
@@ -96,6 +98,18 @@ public class XyGui extends ApplicationFrame {
 		}
 	}
 
+	public void addSeries(String title, double[] x, double[] y) {
+		
+		XYSeries xydata = new XYSeries(title);
+
+		for (int i = 0; i < loopInt; i++) {
+			xydata.add(x[i], y[i]);
+		}
+
+		xycollection.addSeries(xydata);
+	}
+	
+	
 	/**
 	 * @param title
 	 *            chart title

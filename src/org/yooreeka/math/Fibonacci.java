@@ -31,6 +31,7 @@
 package org.yooreeka.math;
 
 import org.yooreeka.util.P;
+import org.yooreeka.util.gui.XyGui;
 
 /**
  * A class that can create generalized Fibonacci sequences.
@@ -48,8 +49,8 @@ public class Fibonacci {
 	 * This constructor allows us to create an implementation that is more efficient
 	 * than the recursive implementation.
 	 * 
-	 * @param k the order of the generalized Fibonacci
-	 * @param n the number in the sequence to be evaluate
+	 * @param order is the order of the generalized Fibonacci
+	 * @param size is the number of Fibonacci numbers that we intend to evaluate
 	 */
 	public Fibonacci(int order, int size) {
 		this.order = order;
@@ -59,7 +60,12 @@ public class Fibonacci {
 	}
 	
 	/**
-	 * We i
+	 * We initialize the values of the sequence as follows:
+	 * <UL>
+	 *   <LI>Between <tt>0</tt> and <tt>order</tt> we set the value of the Fibonacci number equal to the index</LI>
+	 *   <LI>Between <tt>order</tt> and <tt>size</tt> we set the value of the Fibonacci number equal to minus 1</LI>
+	 * </UL>
+	 * 
 	 */
 	private void init() {
 		for (int i=0; i<size; i++) {
@@ -82,7 +88,8 @@ public class Fibonacci {
 	}
 
 	/**
-	 * This method stores previously computed values in "memory".
+	 * This method stores previously computed values in "memory". The recursive method
+	 * is called only when needed and it doesn't really recurse! 
 	 * 
 	 * @param n is the index of the generalized Fibonacci number that we want to compute
 	 * 
@@ -96,33 +103,66 @@ public class Fibonacci {
 	}
 	
 	/**
-	 * This is a recursive implementation of a generalization of the Fibbonacci sequence.
+	 * This is a recursive implementation of a generalization of the Fibonacci sequence.
+	 * DO NOT USE this, it has exponential complexity. It is provided for instructive purposes alone.
 	 * 
-	 * @param k the order of generalization
+	 * @param order the order of generalization
 	 * @param n the number
 	 * @return the generalized Fibbonacci number
 	 */
-	public static long recursive(final int k, int n) {
+	public long recursive(final int order, int n) {
 		long val=0;
 
-		if (n<k) {
-			val = n;
+		if (n<order) {
+			val = memory[n];
 		} else {
 			
-			for (int i=1; i<=k; i++) {
-				val = val + recursive(k,n-i);				
+			for (int i=1; i<=order; i++) {
+				val = val + recursive(order,n-i);				
 			}
 		}
 		return val;
 	}
 
+	public double[] powerSeries(int terms, int points, double start, double dx) {
+		
+		double[] y = new double[points];
+		
+		double val=0, x;
+		for (int point=0; point < points; point++) {
+			x = start+point*dx;
+			for (int i=1; i < terms; i++) {
+				val += get(i)*Math.pow(x, i);
+			}
+			y[point] = val;
+			val=0;
+		}
+		return y;
+	}
 	
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
 
-//		Fibonacci f2 = new Fibonacci(2,11);
+		int terms=32, points=20; double dx=0.05;
+		Fibonacci f2 = new Fibonacci(2,terms);
+		
+		double[] gX=new double[points], gXX=new double[points], gY; 
+		double start=-0.5;
+		
+		gY = f2.powerSeries(terms, points, start, dx);
+
+		for (int i=0; i<points; i++) {
+			gX[i] = start + i*dx;
+			//gXX[i] = (gX[i])/(1-gX[i]-gX[i]*gX[i]);
+		}
+		
+		
+		XyGui g = new org.yooreeka.util.gui.XyGui ("Fibonacci power series defined function",gX,gY);
+//		g.addSeries("Exact", gX, gXX);
+		g.plot();
+		
 //		Fibonacci f3 = new Fibonacci(3,11);
 //		Fibonacci f4 = new Fibonacci(4,11);
 //		Fibonacci f5 = new Fibonacci(5,11);

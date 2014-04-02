@@ -51,8 +51,8 @@ public class TestSandbox {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		int seriesSize = 51;
-		double[] x = new double[seriesSize], y = new double[seriesSize];
+		int seriesSize = 32;
+		double[][] x = new double[seriesSize][seriesSize], y = new double[seriesSize][seriesSize];
 		
 		StringBuilder msg = new StringBuilder();
 		msg.append("Fib [").append(seriesSize-1).append("] = ");
@@ -61,24 +61,47 @@ public class TestSandbox {
 		
 		for (int i=0; i<seriesSize; i++) {
 			for (int j=2; j<seriesSize; j++) {
+				//Create the classic Fibonacci series and all higher orders up to seriesSize
 				fibonacci[j-2] = new Fibonacci(j,seriesSize);
 				
-				if (i == seriesSize-1) {
-					x[j-2] = (double) j;
-					y[j-2] = (double) fibonacci[j-2].get(i);
+//				if (i == seriesSize-1) {
+					x[j-2][i] = (double) i;
+					y[j-2][i] = (double) fibonacci[j-2].get(i);
 					
 					if (j<seriesSize-1)
 						msg.append(fibonacci[j-2].get(i)).append(", ");
 					else
 						msg.append(fibonacci[j-2].get(i));
-				}
+//				}
 			}
 		}
 		P.println(msg.toString());
 		P.hline();
-		P.println(x, y);
 		
-		XyGui g = new org.yooreeka.util.gui.XyGui ("A plot",x,y);
+		double[] gX=new double[seriesSize],gY=new double[seriesSize]; 
+		
+		int eval = 2;
+		
+		for (int i=0; i<seriesSize; i++) {
+			gX[i] = x[eval][i]; //[eval];
+			gY[i] = y[eval][i]; //[eval];
+		}
+		
+		P.println(gX, gY);
+
+		XyGui g = new org.yooreeka.util.gui.XyGui ("Eval-"+eval,gX,gY);
+		
+		while (eval < 6) {
+		
+			eval++;
+			
+			for (int i=0; i<seriesSize; i++) {
+				gX[i] = x[eval][i];
+				gY[i] = y[eval][i];
+			}
+			g.addSeries("Eval-"+eval, gX, gY);
+		}
+		
 		g.plot();
 
 	}
