@@ -47,6 +47,9 @@ public class C {
 	
 	public final static double SMALL_DOUBLE = 0.000001d;
 	public final static double MILLI_DOUBLE = 0.001d;
+	public final static double CENTI_DOUBLE = 0.01d;
+	public final static double DECI_DOUBLE = 0.1d;
+	
 
 	public final static int  ONE_INT = 1;
 	public final static long ONE_LONG = 1;
