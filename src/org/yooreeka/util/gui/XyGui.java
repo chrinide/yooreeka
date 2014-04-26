@@ -30,12 +30,16 @@
  */
 package org.yooreeka.util.gui;
 
+import java.awt.Color;
 import java.awt.event.WindowEvent;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.LogarithmicAxis;
+import org.jfree.chart.axis.NumberAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -89,10 +93,21 @@ public class XyGui extends ApplicationFrame {
 					title+" (XY Plot)", "X", "Y", xycollection,
 					PlotOrientation.VERTICAL, true, true, false);
 
-			
+			final XYPlot plot = chart.getXYPlot();
+	        
+			final NumberAxis domainAxis = new NumberAxis("x");
+	        plot.setDomainAxis(domainAxis);
+	        
+	        final NumberAxis rangeAxis = new NumberAxis("y");
+	        plot.setRangeAxis(rangeAxis);
+	        
+	        chart.setBackgroundPaint(Color.white);
+	        plot.setOutlinePaint(Color.black);
+	        
 			final ChartPanel chartPanel = new ChartPanel(chart);
 			chartPanel.setPreferredSize(new java.awt.Dimension(500, 270));
 			setContentPane(chartPanel);
+
 		} else {
 			System.err.println(errMsg.toString());
 		}
@@ -216,5 +231,4 @@ public class XyGui extends ApplicationFrame {
 			// -----------------------------------------
 		}
 	}
-
 }
