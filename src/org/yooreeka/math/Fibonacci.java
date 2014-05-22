@@ -104,7 +104,7 @@ public class Fibonacci {
 	
 	/**
 	 * This is a recursive implementation of a generalization of the Fibonacci sequence.
-	 * DO NOT USE this, it has exponential complexity. It is provided for instructive purposes alone.
+	 * DO NOT USE this, it has exponential complexity. 
 	 * 
 	 * @param order the order of generalization
 	 * @param n the number
@@ -118,7 +118,7 @@ public class Fibonacci {
 		} else {
 			
 			for (int i=1; i<=order; i++) {
-				val = val + recursive(order,n-i);				
+				val += recursive(order,n-i);				
 			}
 		}
 		return val;
@@ -145,22 +145,22 @@ public class Fibonacci {
 	 */
 	public static void main(String[] args) {
 
-		int terms=32, points=20; double dx=0.05;
+		int terms=16, points=30; double dx=0.05;
 		Fibonacci f2 = new Fibonacci(2,terms);
 		
 		double[] gX=new double[points], gXX=new double[points], gY; 
-		double start=-0.5;
+		double start=-0.75;
 		
 		gY = f2.powerSeries(terms, points, start, dx);
 
 		for (int i=0; i<points; i++) {
 			gX[i] = start + i*dx;
-			//gXX[i] = (gX[i])/(1-gX[i]-gX[i]*gX[i]);
+			gXX[i] = (gX[i])/(1-gX[i]-gX[i]*gX[i]);
 		}
 		
 		
-		XyGui g = new org.yooreeka.util.gui.XyGui ("Fibonacci power series defined function",gX,gY);
-//		g.addSeries("Exact", gX, gXX);
+		XyGui g = new org.yooreeka.util.gui.XyGui ("Fibonacci",gX,gY);
+		g.addSeries("Exact", gX, gXX);
 		g.plot();
 		
 //		Fibonacci f3 = new Fibonacci(3,11);
