@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.Charset;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.AbstractDocument;
 import org.yooreeka.util.parsing.common.DataEntry;
 import org.yooreeka.util.parsing.common.DocumentParser;
@@ -96,6 +97,9 @@ public class CSVParser implements DocumentParser {
 	 */
 	public CSVDocument parse(BufferedReader bR) throws IOException {
 
+		long t0 = System.currentTimeMillis();
+		StringBuilder msg= new StringBuilder("\nProcessed ");
+		
 		d = new CSVDocument();
 
 		linesParsed = 0;
@@ -114,15 +118,19 @@ public class CSVParser implements DocumentParser {
 			} else {
 
 				CSVEntry csvEntry = new CSVEntry(line, getSeparator());
-				if (linesParsed == 0) {
-					d.setHeaders(csvEntry); 
+				if (linesParsed == 0 && csvFile.hasHeaders()) {
+					d.setHeaders(csvEntry);
+					P.print(csvEntry.toString());
 				} else {
 					d.getCsvData().add(csvEntry);					
 				}
 				linesParsed++;
 			}
 		}
-
+		msg.append(linesParsed).append(" lines from file: ").append(csvFile.getFile().getAbsolutePath());
+		msg.append("\n in "+(System.currentTimeMillis()-t0)+"ms\n");
+		P.println(msg.toString());
+		
 		return d;
 	}
 
