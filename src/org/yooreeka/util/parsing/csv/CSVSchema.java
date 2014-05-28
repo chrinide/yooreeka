@@ -31,8 +31,9 @@
 package org.yooreeka.util.parsing.csv;
 
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.DataField;
 import org.yooreeka.util.parsing.common.DataType;
 
@@ -47,49 +48,72 @@ public class CSVSchema implements Serializable {
 
 	private String name;
 	
-	private HashSet<DataField> fields;
+	private ArrayList<DataField> fields;
 	private DataField primaryKey;
 
-	// TODO: Fix this -- good enough for now
-	private int orderAdded=0;
-	private int primaryKeyIndex;
-	
 	public CSVSchema() {
-		fields = new HashSet<DataField>();
+		fields = new ArrayList<DataField>();
 	}
 
-	public void setPrimaryKey(DataField f) {
-	
-		for (DataField field : fields) {
-			
-			if (field.equals(f)) {
-				if (field.getDataType() == DataType.LONG) {
-					field.setAsPrimaryKey();
-					primaryKey=field;
-					primaryKeyIndex=orderAdded;
-				} else {
-					throw new IllegalArgumentException("The primary key can only be a long integer.");
-				}
-			}
-		}
-	}
-	
 	public DataField getPrimaryKey() {
 		return primaryKey;
 	}
 	
 	public int getPrimaryKeyIndex() {
+		int primaryKeyIndex=0;
+		Object[] fs = fields.toArray();
+		for (int i=0; i < fields.size(); i++) {
+			DataField f = (DataField) fs[i];
+			if (f.isPrimaryKey()) {
+				primaryKeyIndex=i;
+			}
+		}
 		return primaryKeyIndex;
 	}
 	
+	public void addField(DataField field, boolean isPrimaryKey) {
+		
+		if (field.getDataType() == DataType.LONG) {
+			fields.add(field);
+			field.setAsPrimaryKey();
+			primaryKey=field;
+		} else {
+			throw new IllegalArgumentException("The primary key can only be a long integer.");
+		}
+	}
+
 	public void addField(DataField field) {
 		
 		fields.add(field);
-		
-		//Everytime we add a field the counter increases by one
-		orderAdded++;
 	}
 
+	/**
+	 * The tacit assumption here is that the values of the fields in all CSV entries 
+	 * are ordered in the same way that the schema fields are ordered, which must be true 
+	 * for well defined data. However, you should remember that the schema ordering is "hardcoded",
+	 * not inferred, in the present implementation.  
+	 * 
+	 * @param fieldName
+	 * 
+	 * @return the index of the <tt>DataField</tt> in the schema and therefore
+	 * the proper index for retrieving the value of the field from any <tt>CSVEntry</tt>
+	 * that conforms with the schema.
+	 * 
+	 */
+	public int getIndex(String fieldName) {
+		
+		int index=-1;
+		
+		for (int i=0; i< fields.size(); i++) {
+			DataField f = fields.get(i);
+			if (f.getName().equalsIgnoreCase(fieldName)) {
+				index = i;
+				break;
+			}
+		}
+		return index;
+	}
+	
 	public int getNumberOfFields() {
 		return fields.size();
 	}
