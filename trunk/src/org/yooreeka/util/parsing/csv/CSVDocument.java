@@ -45,8 +45,11 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
 public class CSVDocument extends ProcessedDocument {
 
 	private CSVEntry headers;
-	private Hashtable<Long, CSVEntry> csvData;
+	
 	private boolean hasHeaders;
+	private Hashtable<Long, CSVEntry> csvData;
+	
+	private CSVSchema schema;
 
 	public CSVDocument() {
 		csvData = new Hashtable<Long, CSVEntry>();
@@ -93,5 +96,19 @@ public class CSVDocument extends ProcessedDocument {
 	 */
 	public void setHeaders(CSVEntry headers) {
 		this.headers = headers;
+	}
+
+	/**
+	 * @return the schema
+	 */
+	public CSVSchema getSchema() {
+		return schema;
+	}
+
+	/**
+	 * @param schema the schema to set
+	 */
+	public void setSchema(CSVSchema schema) {
+		this.schema = schema;
 	}
 }

@@ -36,11 +36,12 @@ import java.io.FileReader;
 import java.io.IOException;
 
 import org.yooreeka.util.P;
-import org.yooreeka.util.parsing.common.DataField;
-import org.yooreeka.util.parsing.common.DataType;
 
 /**
- * 
+ * TODO: If the <tt>CSVFile</tt> has headers then we can infer the fields and their order.
+ * The problem with automatically defining the fields is that the data field type can be ill-defined
+ * or insufficient (e.g. knowing that a data field is an email address can help us apply additional validations) 
+ * or inefficient (e.g. integers represented as doubles). 
  * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
@@ -85,6 +86,7 @@ public class CSVFile {
 		CSVEntry e = getHeaders();
 		if (e != null)
 			P.println(e.toString());
+		P.hline();
 	}
 
 	public boolean hasHeaders() {
@@ -99,6 +101,9 @@ public class CSVFile {
 		CSVParser csvParser = new CSVParser(this);
 		doc = csvParser.parse(bReader);
 
+		// Now, link the schema
+		doc.setSchema(schema);
+		
 		bReader.close();
 		
 		return doc;
@@ -114,6 +119,8 @@ public class CSVFile {
 	public CSVEntry query(Long id) {
 		return doc.getCsvData().get(id);
 	}
+	
+	
 	
 	/**
 	 * @param args

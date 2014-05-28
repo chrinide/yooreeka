@@ -51,9 +51,8 @@ public class AtlasDataLoader {
 		CSVSchema s = new CSVSchema();
 
 		DataField f1 = new DataField("EventId", DataType.LONG);
-		s.addField(f1);
-		s.setPrimaryKey(f1);
-
+		s.addField(f1,true);
+		
 		DataField f2 = new DataField("DER_mass_MMC", DataType.DOUBLE);
 		s.addField(f2);
 
@@ -143,7 +142,7 @@ public class AtlasDataLoader {
 
 		DataField f31 = new DataField("PRI_jet_all_pt", DataType.DOUBLE);
 		s.addField(f31);
-
+		
 		DataField f32 = new DataField("Weight", DataType.DOUBLE);
 		s.addField(f32);
 

@@ -106,7 +106,7 @@ public class CSVParser implements DocumentParser {
 		d = new CSVDocument();
 
 		// TODO: This is broken
-		// int pkIndex = csvFile.getSchema().getPrimaryKeyIndex();
+		int pkIndex = csvFile.getSchema().getPrimaryKeyIndex();
 		
 		linesParsed = 0;
 
@@ -129,7 +129,7 @@ public class CSVParser implements DocumentParser {
 					P.print(csvEntry.toString());
 				} else {
 					//TODO: This is hardcoded ...
-					d.getCsvData().put(Long.valueOf(csvEntry.getEntryAt(0)), csvEntry);					
+					d.getCsvData().put(Long.valueOf(csvEntry.getEntryAt(pkIndex)), csvEntry);					
 				}
 				linesParsed++;
 			}

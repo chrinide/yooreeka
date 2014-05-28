@@ -87,9 +87,6 @@ public class HiggsBoson {
 		higgs.learn();
 		
 		P.println(higgs.query(100001).toString());
-		P.println(higgs.query(120001).toString());
-		P.println(higgs.query(140001).toString());
-		
 
 	}
 
