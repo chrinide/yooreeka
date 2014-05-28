@@ -47,6 +47,8 @@ import org.yooreeka.util.parsing.common.DataType;
  */
 public class CSVFile {
 
+	private boolean isVerbose=false;
+	
 	private File file;
 
 	private String separator;
@@ -147,5 +149,13 @@ public class CSVFile {
 	 */
 	public File getFile() {
 		return file;
+	}
+	
+	public void isVerbose(boolean val) {
+		isVerbose=val;
+	}
+	
+	public boolean isVerbose() {
+		return isVerbose;
 	}
 }
