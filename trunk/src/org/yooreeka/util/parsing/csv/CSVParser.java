@@ -105,6 +105,9 @@ public class CSVParser implements DocumentParser {
 		
 		d = new CSVDocument();
 
+		// TODO: This is broken
+		// int pkIndex = csvFile.getSchema().getPrimaryKeyIndex();
+		
 		linesParsed = 0;
 
 		boolean hasMoreLines = true;
@@ -125,7 +128,8 @@ public class CSVParser implements DocumentParser {
 					d.setHeaders(csvEntry);
 					P.print(csvEntry.toString());
 				} else {
-					d.getCsvData().add(csvEntry);					
+					//TODO: This is hardcoded ...
+					d.getCsvData().put(Long.valueOf(csvEntry.getEntryAt(0)), csvEntry);					
 				}
 				linesParsed++;
 			}

@@ -51,103 +51,104 @@ public class AtlasDataLoader {
 		CSVSchema s = new CSVSchema();
 
 		DataField f1 = new DataField("EventId", DataType.LONG);
-		s.addColumn(f1);
+		s.addField(f1);
+		s.setPrimaryKey(f1);
 
 		DataField f2 = new DataField("DER_mass_MMC", DataType.DOUBLE);
-		s.addColumn(f2);
+		s.addField(f2);
 
 		DataField f3 = new DataField("DER_mass_transverse_met_lep", DataType.DOUBLE);
-		s.addColumn(f3);
+		s.addField(f3);
 
 		DataField f4 = new DataField("DER_mass_vis", DataType.DOUBLE);
-		s.addColumn(f4);
+		s.addField(f4);
 
 		DataField f5 = new DataField("DER_pt_h", DataType.DOUBLE);
-		s.addColumn(f5);
+		s.addField(f5);
 
 		DataField f6 = new DataField("DER_deltaeta_jet_jet", DataType.DOUBLE);
-		s.addColumn(f6);
+		s.addField(f6);
 
 		DataField f7 = new DataField("DER_mass_jet_jet", DataType.DOUBLE);
-		s.addColumn(f7);
+		s.addField(f7);
 
 		DataField f8 = new DataField("DER_prodeta_jet_jet", DataType.DOUBLE);
-		s.addColumn(f8);
+		s.addField(f8);
 
 		DataField f9 = new DataField("DER_deltar_tau_lep", DataType.DOUBLE);
-		s.addColumn(f9);
+		s.addField(f9);
 
 		DataField f10 = new DataField("DER_pt_tot", DataType.DOUBLE);
-		s.addColumn(f10);
+		s.addField(f10);
 
 		DataField f11 = new DataField("DER_sum_pt", DataType.DOUBLE);
-		s.addColumn(f11);
+		s.addField(f11);
 
 		DataField f12 = new DataField("DER_pt_ratio_lep_tau", DataType.DOUBLE);
-		s.addColumn(f12);
+		s.addField(f12);
 
 		DataField f13 = new DataField("DER_met_phi_centrality", DataType.DOUBLE);
-		s.addColumn(f13);
+		s.addField(f13);
 
 		DataField f14 = new DataField("DER_lep_eta_centrality", DataType.DOUBLE);
-		s.addColumn(f14);
+		s.addField(f14);
 
 		DataField f15 = new DataField("PRI_tau_pt", DataType.DOUBLE);
-		s.addColumn(f15);
+		s.addField(f15);
 
 		DataField f16 = new DataField("PRI_tau_eta", DataType.DOUBLE);
-		s.addColumn(f16);
+		s.addField(f16);
 
 		DataField f17 = new DataField("PRI_tau_phi", DataType.DOUBLE);
-		s.addColumn(f17);
+		s.addField(f17);
 
 		DataField f18 = new DataField("PRI_lep_pt", DataType.DOUBLE);
-		s.addColumn(f18);
+		s.addField(f18);
 
 		DataField f19 = new DataField("PRI_lep_eta", DataType.DOUBLE);
-		s.addColumn(f19);
+		s.addField(f19);
 
 		DataField f20 = new DataField("PRI_lep_phi", DataType.DOUBLE);
-		s.addColumn(f20);
+		s.addField(f20);
 
 		DataField f21 = new DataField("PRI_met", DataType.DOUBLE);
-		s.addColumn(f21);
+		s.addField(f21);
 
 		DataField f22 = new DataField("PRI_met_phi", DataType.DOUBLE);
-		s.addColumn(f22);
+		s.addField(f22);
 
 		DataField f23 = new DataField("PRI_met_sumet", DataType.DOUBLE);
-		s.addColumn(f23);
+		s.addField(f23);
 
 		DataField f24 = new DataField("PRI_jet_num", DataType.DOUBLE);
-		s.addColumn(f24);
+		s.addField(f24);
 
 		DataField f25 = new DataField("PRI_jet_leading_pt", DataType.DOUBLE);
-		s.addColumn(f25);
+		s.addField(f25);
 
 		DataField f26 = new DataField("PRI_jet_leading_eta", DataType.DOUBLE);
-		s.addColumn(f26);
+		s.addField(f26);
 
 		DataField f27 = new DataField("PRI_jet_leading_phi", DataType.DOUBLE);
-		s.addColumn(f27);
+		s.addField(f27);
 
 		DataField f28 = new DataField("PRI_jet_subleading_pt", DataType.DOUBLE);
-		s.addColumn(f28);
+		s.addField(f28);
 
 		DataField f29 = new DataField("PRI_jet_subleading_eta", DataType.DOUBLE);
-		s.addColumn(f29);
+		s.addField(f29);
 
 		DataField f30 = new DataField("PRI_jet_subleading_phi", DataType.DOUBLE);
-		s.addColumn(f30);
+		s.addField(f30);
 
 		DataField f31 = new DataField("PRI_jet_all_pt", DataType.DOUBLE);
-		s.addColumn(f31);
+		s.addField(f31);
 
 		DataField f32 = new DataField("Weight", DataType.DOUBLE);
-		s.addColumn(f32);
+		s.addField(f32);
 
 		DataField f33 = new DataField("Label", DataType.STRING);
-		s.addColumn(f33);
+		s.addField(f33);
 
 		f = new CSVFile(dataFileName, true, s);
 		f.setSeparator(C.COMMA);

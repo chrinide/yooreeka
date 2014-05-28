@@ -42,6 +42,7 @@ public class DataField implements Serializable {
 	
 	private String name;
 	private DataType dataType;
+	private boolean isPrimaryKey=false;
 
 	public DataField(String name, DataType dataType) {
 		this.name = name;
@@ -68,5 +69,13 @@ public class DataField implements Serializable {
 		boolean isValid = true;
 
 		return isValid;
+	}
+	
+	public boolean isPrimaryKey() {
+		return isPrimaryKey;
+	}
+	
+	public void setAsPrimaryKey() {
+		isPrimaryKey=true;
 	}
 }
