@@ -9,8 +9,8 @@
  *   (Manning 2009). Although the term "Web" prevailed in the title, in essence, the algorithms 
  *   are valuable in any software application.
  *  
- *   Copyright (c) 2007-2009 Haralambos Marmanis & Dmitry Babenko
- *   Copyright (c) 2009-${year} Marmanis Group LLC and individual contributors as indicated by the @author tags.  
+ *   Copyright (c) 2007-2009    Haralambos Marmanis & Dmitry Babenko
+ *   Copyright (c) 2009-2014 Marmanis Group LLC and individual contributors as indicated by the @author tags.  
  * 
  *   Certain library functions depend on other Open Source software libraries, which are covered 
  *   by different license agreements. See the NOTICE file distributed with this work for additional 
@@ -26,72 +26,71 @@
  *   the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, 
  *   either express or implied. See the License for the specific language governing permissions and
  *   limitations under the License.
- *   
+ *
  */
-package org.yooreeka.util.parsing.csv;
+package org.yooreeka.examples.higgs;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.io.IOException;
 
 import org.yooreeka.util.P;
-import org.yooreeka.util.parsing.common.ProcessedDocument;
+import org.yooreeka.util.parsing.csv.CSVEntry;
 
 /**
- * A <tt>CSVDocument</tt> is an <tt>ArrayList</tt> of <tt>CSVEntry</tt>s
- * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
- * 
+ *
  */
-public class CSVDocument extends ProcessedDocument {
+public class HiggsBoson {
 
-	private CSVEntry headers;
-	private Hashtable<Long, CSVEntry> csvData;
-	private boolean hasHeaders;
-
-	public CSVDocument() {
-		csvData = new Hashtable<Long, CSVEntry>();
+	private AtlasDataLoader loader=null;
+	
+	public HiggsBoson(String dataFileName) throws IOException {
+	
+		// This will automatically load the file
+		loader = new AtlasDataLoader(dataFileName);
+		
+		// This will print the headers
+		loader.getF().printHeaders();
+		
 	}
 	
-	public CSVDocument(Hashtable<Long, CSVEntry> data) {
-		csvData = data;
-	}
-
-	public CSVEntry getHeaders() {
-		return headers;
-	}
-	
-	public boolean hasHeaders() {
-		return	hasHeaders;
-	}
-	
-	public void hasHeaders(boolean val) {
-		hasHeaders = val;
-	}
-
 	/**
-	 * @return the csvData
+	 * Generative method call for learning
+	 * 
 	 */
-	public Hashtable<Long, CSVEntry> getCsvData() {
-		return csvData;
+	public void learn() {
+	
+		//TODO
 	}
 	
-	public void print(String printSeparator) {
-		P.hline();
-		P.println(getHeaders().toString(printSeparator));
-		P.hline();
-
-		Enumeration<CSVEntry> elements = csvData.elements();
-		while (elements.hasMoreElements()) {
-			CSVEntry e = elements.nextElement();
-			P.println(e.toString(printSeparator));
+	/**
+	 * Generative method for querying the data
+	 * @return 
+	 * 
+	 */
+	public CSVEntry query(long id) {
+		return loader.getF().getDoc().getCsvData().get(id);	
+	}
+	
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		
+		HiggsBoson higgs = null;
+		try {
+			higgs = new HiggsBoson("/home/babis/code/HiggsBoson/data/training.csv");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		P.hline();
+		
+		higgs.learn();
+		
+		P.println(higgs.query(100001).toString());
+		P.println(higgs.query(120001).toString());
+		P.println(higgs.query(140001).toString());
+		
+
 	}
 
-	/**
-	 * @param headers the headers to set
-	 */
-	public void setHeaders(CSVEntry headers) {
-		this.headers = headers;
-	}
 }

@@ -55,11 +55,15 @@ public class CSVFile {
 
 	private CSVDocument doc;
 	
+	private CSVSchema schema;
+	
 	// Whether a CSV file has Headers
 	private boolean hasHeaders;
 
 	public CSVFile(String fileName, boolean hasHeaders, CSVSchema schema) {
 
+		this.schema = schema;
+		
 		this.hasHeaders = hasHeaders;
 
 		file = new File(fileName);
@@ -107,27 +111,31 @@ public class CSVFile {
 		return doc;
 	}
 
+	public CSVEntry query(Long id) {
+		return doc.getCsvData().get(id);
+	}
+	
 	/**
 	 * @param args
 	 * @throws IOException
 	 */
 	public static void main(String[] args) throws IOException {
-		CSVSchema s = new CSVSchema();
-
-		DataField f1 = new DataField("Order Id", DataType.LONG);
-		s.addColumn(f1);
-
-		DataField f2 = new DataField("Order Status", DataType.STRING);
-		s.addColumn(f2);
-
-		DataField f3 = new DataField("Order  Amount", DataType.DOUBLE);
-		s.addColumn(f3);
-
-		DataField f4 = new DataField("Product Id", DataType.STRING);
-		s.addColumn(f4);
-
-		CSVFile f = new CSVFile(args[0], true, s);
-		f.read();
+//		CSVSchema s = new CSVSchema();
+//
+//		DataField f1 = new DataField("Order Id", DataType.LONG);
+//		s.addColumn(f1);
+//
+//		DataField f2 = new DataField("Order Status", DataType.STRING);
+//		s.addColumn(f2);
+//
+//		DataField f3 = new DataField("Order  Amount", DataType.DOUBLE);
+//		s.addColumn(f3);
+//
+//		DataField f4 = new DataField("Product Id", DataType.STRING);
+//		s.addColumn(f4);
+//
+//		CSVFile f = new CSVFile(args[0], true, s);
+//		f.read();
 	}
 
 	/**
@@ -157,5 +165,12 @@ public class CSVFile {
 	
 	public boolean isVerbose() {
 		return isVerbose;
+	}
+
+	/**
+	 * @return the schema
+	 */
+	public CSVSchema getSchema() {
+		return schema;
 	}
 }

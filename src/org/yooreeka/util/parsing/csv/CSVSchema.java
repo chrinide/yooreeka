@@ -31,10 +31,10 @@
 package org.yooreeka.util.parsing.csv;
 
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.HashSet;
 
 import org.yooreeka.util.parsing.common.DataField;
+import org.yooreeka.util.parsing.common.DataType;
 
 /**
  * 
@@ -46,19 +46,52 @@ public class CSVSchema implements Serializable {
 	private static final long serialVersionUID = -8265277706414216835L;
 
 	private String name;
-	private HashMap<UUID, DataField> columnMap;
+	
+	private HashSet<DataField> fields;
+	private DataField primaryKey;
 
+	// TODO: Fix this -- good enough for now
+	private int orderAdded=0;
+	private int primaryKeyIndex;
+	
 	public CSVSchema() {
-		columnMap = new HashMap<>();
+		fields = new HashSet<DataField>();
 	}
 
-	public void addColumn(DataField field) {
+	public void setPrimaryKey(DataField f) {
+	
+		for (DataField field : fields) {
+			
+			if (field.equals(f)) {
+				if (field.getDataType() == DataType.LONG) {
+					field.setAsPrimaryKey();
+					primaryKey=field;
+					primaryKeyIndex=orderAdded;
+				} else {
+					throw new IllegalArgumentException("The primary key can only be a long integer.");
+				}
+			}
+		}
+	}
+	
+	public DataField getPrimaryKey() {
+		return primaryKey;
+	}
+	
+	public int getPrimaryKeyIndex() {
+		return primaryKeyIndex;
+	}
+	
+	public void addField(DataField field) {
 		
-		columnMap.put(UUID.randomUUID(), field);
+		fields.add(field);
+		
+		//Everytime we add a field the counter increases by one
+		orderAdded++;
 	}
 
-	public int getNumberOfColumns() {
-		return columnMap.size();
+	public int getNumberOfFields() {
+		return fields.size();
 	}
 			
 	/**
