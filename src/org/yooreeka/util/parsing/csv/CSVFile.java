@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.DataField;
 import org.yooreeka.util.parsing.common.DataType;
 
@@ -71,6 +72,13 @@ public class CSVFile {
 		}
 
 		return e;
+	}
+	
+	public void printHeaders() {
+		P.hline();
+		CSVEntry e = getHeaders();
+		if (e != null)
+			P.println(e.toString());
 	}
 
 	public boolean hasHeaders() {
@@ -132,5 +140,12 @@ public class CSVFile {
 	 */
 	public void setSeparator(String val) {
 		separator = val;
+	}
+
+	/**
+	 * @return the file
+	 */
+	public File getFile() {
+		return file;
 	}
 }
