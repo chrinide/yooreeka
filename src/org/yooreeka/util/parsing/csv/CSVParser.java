@@ -98,7 +98,10 @@ public class CSVParser implements DocumentParser {
 	public CSVDocument parse(BufferedReader bR) throws IOException {
 
 		long t0 = System.currentTimeMillis();
-		StringBuilder msg= new StringBuilder("\nProcessed ");
+		
+		StringBuilder msg = null;
+		if (csvFile.isVerbose()) 	
+			msg= new StringBuilder("\nProcessed ");
 		
 		d = new CSVDocument();
 
@@ -127,9 +130,12 @@ public class CSVParser implements DocumentParser {
 				linesParsed++;
 			}
 		}
-		msg.append(linesParsed).append(" lines from file: ").append(csvFile.getFile().getAbsolutePath());
-		msg.append("\n in "+(System.currentTimeMillis()-t0)+"ms\n");
-		P.println(msg.toString());
+		
+		if (csvFile.isVerbose()) {
+			msg.append(linesParsed).append(" lines from file: ").append(csvFile.getFile().getAbsolutePath());
+			msg.append("\n in "+(System.currentTimeMillis()-t0)+"ms\n");
+			P.println(msg.toString());
+		}
 		
 		return d;
 	}

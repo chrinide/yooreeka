@@ -151,6 +151,7 @@ public class AtlasDataLoader {
 
 		f = new CSVFile(dataFileName, true, s);
 		f.setSeparator(C.COMMA);
+		f.isVerbose(true);
 		f.read();
 	}
 	
