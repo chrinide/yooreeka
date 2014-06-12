@@ -59,6 +59,9 @@ public class C {
 	public final static long TWO_LONG = 2;
 	public final static double TWO_DOUBLE = 2.0;
 	
+	public final static double GOLDEN_RATIO_PHI_PLUS = (1.0d+(Math.sqrt(5.0d)))/2.0d;
+	public final static double GOLDEN_RATIO_PHI_MINUS = (1.0d-(Math.sqrt(5.0d)))/2.0d;
+	
 	/*
 	 * LITERAL CONSTANTS
 	 */

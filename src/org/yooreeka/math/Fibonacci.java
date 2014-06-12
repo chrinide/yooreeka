@@ -31,7 +31,6 @@
 package org.yooreeka.math;
 
 import org.yooreeka.util.P;
-import org.yooreeka.util.gui.XyGui;
 
 /**
  * A class that can create generalized Fibonacci sequences.
@@ -145,35 +144,42 @@ public class Fibonacci {
 	 */
 	public static void main(String[] args) {
 
-		int terms=16, points=30; double dx=0.05;
+		int terms=32; //, points=30; double dx=0.05;
 		Fibonacci f2 = new Fibonacci(2,terms);
 		
-		double[] gX=new double[points], gXX=new double[points], gY; 
-		double start=-0.75;
-		
-		gY = f2.powerSeries(terms, points, start, dx);
-
-		for (int i=0; i<points; i++) {
-			gX[i] = start + i*dx;
-			gXX[i] = (gX[i])/(1-gX[i]-gX[i]*gX[i]);
-		}
-		
-		
-		XyGui g = new org.yooreeka.util.gui.XyGui ("Fibonacci",gX,gY);
-		g.addSeries("Exact", gX, gXX);
-		g.plot();
-		
-//		Fibonacci f3 = new Fibonacci(3,11);
-//		Fibonacci f4 = new Fibonacci(4,11);
-//		Fibonacci f5 = new Fibonacci(5,11);
-//		StringBuilder msg = new StringBuilder();
+//		double[] gX=new double[points], gXX=new double[points], gY; 
+//		double start=-0.75;
 //		
-//		for (int i=2; i < 11; i++) {
-//			msg.append(f2.get(i)).append(", ");
-//			msg.append(f3.get(i)).append(", ");
-//			msg.append(f4.get(i)).append(", ");
-//			msg.append(f5.get(i)).append("\n");			
+//		gY = f2.powerSeries(terms, points, start, dx);
+//
+//		for (int i=0; i<points; i++) {
+//			gX[i] = start + i*dx;
+//			gXX[i] = (gX[i])/(1-gX[i]-gX[i]*gX[i]);
 //		}
-//		P.print(msg.toString());
+//		
+//		
+//		XyGui g = new org.yooreeka.util.gui.XyGui ("Fibonacci",gX,gY);
+//		g.addSeries("Exact", gX, gXX);
+//		g.plot();
+		
+		Fibonacci f3 = new Fibonacci(3,terms);
+		Fibonacci f4 = new Fibonacci(4,terms);
+		Fibonacci f5 = new Fibonacci(5,terms);
+		Fibonacci f6 = new Fibonacci(6,terms);
+		Fibonacci f7 = new Fibonacci(7,terms);
+		Fibonacci f8 = new Fibonacci(8,terms);
+		StringBuilder msg = new StringBuilder("F2 \t\tF3 \t\tF4 \t\tF5 \t\tF6 \t\tF7 \t\tF8\n");
+		msg.append("------- ------- ------- -------\n");
+		
+		for (int i=2; i < terms; i++) {
+			msg.append(f2.get(i)).append(" \t\t");
+			msg.append(f3.get(i)).append(" \t\t");
+			msg.append(f4.get(i)).append(" \t\t");
+			msg.append(f5.get(i)).append(" \t\t");
+			msg.append(f6.get(i)).append(" \t\t");
+			msg.append(f7.get(i)).append(" \t\t");
+			msg.append(f8.get(i)).append("\n");			
+		}
+		P.print(msg.toString());
 	}
 }
