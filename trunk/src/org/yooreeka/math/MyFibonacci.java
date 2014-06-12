@@ -45,7 +45,7 @@ public class MyFibonacci {
 	private int memorySize=C.ZERO_INT;
 	private int order;
 	private int size;
-	private long[] memory;
+	private double[] memory;
 	private double[] weights;
 	private long[] initialValues;
 	
@@ -62,7 +62,7 @@ public class MyFibonacci {
 	public MyFibonacci(int order, int size) {
 		this.order = order;
 		this.size  = size;
-		memory = new long[size];
+		memory = new double[size];
 		weights= new double[order];
 		initialValues= new long[order];
 		init();
@@ -113,10 +113,10 @@ public class MyFibonacci {
 	 * 
 	 * @return the nth generalized Fibonacci number
 	 */
-	public long get(int n) {
-		if (n > order && memory[n] == Long.MIN_VALUE) {
+	public double get(int n) {
+		if (n >= order && memory[n] == Long.MIN_VALUE) {
 			memory[n] = recursive(order,n);
-		}
+		} 
 		return memory[n];
 	}
 	
@@ -160,16 +160,19 @@ public class MyFibonacci {
 	 * @param n the number
 	 * @return the generalized Fibbonacci number
 	 */
-	private long recursive(final int order, int n) {
+	private double recursive(final int order, int n) {
 		
-		long val=0;
+		double val=0;
 		
 		if (n < memorySize) {
 			val = memory[n];
+			//P.println("memory["+n+"]="+val);
 		} else {
 			for (int i=1; i<=order; i++) {
-				val += recursive(order,n-i);				
+				//P.println("val="+val+"\t\t "+weights[order-i]+"*recursive("+order+", "+(n-i)+")");
+				val = val+(weights[order-i]*recursive(order,n-i));
 			}
+			
 			memory[n] = val;
 			memorySize++;
 		}
@@ -197,39 +200,42 @@ public class MyFibonacci {
 	 */
 	public static void main(String[] args) {
 
-		int terms=32;
-		MyFibonacci f2 = new MyFibonacci(2,terms);
+		int terms=128;
+		//AWESOME: {-0.7, 0.20, 1.0};
+		double[] mf3Weights = {-0.7, 0.20, 1.0};
 		
-//		int points=20; double dx=0.05;
-//		double[] gX=new double[points], gXX=new double[points], gY; 
-//		double start=-0.5;
+		MyFibonacci mf3 = new MyFibonacci(3,terms);
+		mf3.setWeights(mf3Weights);
 		
-		f2.get(31);
+		double[] gX=new double[terms];
+		double[] gF3=new double[terms];
+		for (int i=0; i < terms; i++) {
+			gX[i] = i;
+			gF3[i] = mf3.get(i);
+		}
+
+		double[] gXX=new double[2*terms];
+		double[] sinOfX=new double[2*terms];
+		for (int i=0; i < 2*terms; i++) {
+			gXX[i] = 0.5d*i;
+			sinOfX[i] = C.TWO_DOUBLE*Math.sin(gXX[i]);
+		}
 		
-		f2.printMemory();
+		XyGui g = new org.yooreeka.util.gui.XyGui ("X-axis", gX);
+		g.addSeries("MyFibonacci (3,terms)", gX, gF3);
+		g.addSeries("Sin(x)", gXX, sinOfX);
+		g.plot();
+
+		mf3.printMemory();
 		
-//		gY = f2.powerSeries(terms, points, start, dx);
-//
-//		for (int i=0; i<points; i++) {
-//			gX[i] = start + i*dx;
-//			//gXX[i] = (gX[i])/(1-gX[i]-gX[i]*gX[i]);
-//		}
-//		
-//		
-//		XyGui g = new org.yooreeka.util.gui.XyGui ("Fibonacci",gX,gY);
-//		g.addSeries("Exact", gX, gXX);
-//		g.plot();
-		
-//		Fibonacci f3 = new Fibonacci(3,11);
-//		Fibonacci f4 = new Fibonacci(4,11);
-//		Fibonacci f5 = new Fibonacci(5,11);
 //		StringBuilder msg = new StringBuilder();
 //		
-//		for (int i=2; i < 11; i++) {
-//			msg.append(f2.get(i)).append(", ");
-//			msg.append(f3.get(i)).append(", ");
-//			msg.append(f4.get(i)).append(", ");
-//			msg.append(f5.get(i)).append("\n");			
+//		for (int i=0; i < terms; i++) {
+//			msg.append(i).append(" \t");
+//			msg.append(mf3.get(i)).append(" \t\t");
+//
+//			msg.append(P.HLINE).append("\n");;
+//			
 //		}
 //		P.print(msg.toString());
 	}

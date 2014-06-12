@@ -38,12 +38,14 @@ import java.nio.charset.Charset;
  * 
  */
 public class P {
+	
+	public final static String HLINE = "---------- ---------- ---------- ---------- ---------- ----------";
 
 	/**
 	 * Print a horizontal line with 65 characters.
 	 */
 	public static void hline() {
-		println("---------- ---------- ---------- ---------- ---------- ----------");
+		println(HLINE);
 	}
 	
 	
