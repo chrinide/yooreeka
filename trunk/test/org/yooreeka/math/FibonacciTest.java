@@ -30,13 +30,12 @@
  */
 package org.yooreeka.math;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.yooreeka.util.C;
-import org.yooreeka.util.gui.XyGui;
 
 /**
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
