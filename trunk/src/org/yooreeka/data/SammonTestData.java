@@ -66,11 +66,11 @@ public class SammonTestData {
 			//Upper right corner for any dimensionality
 			if (i<numberOfPoints/2) {
 				for (int j=0; j<numberOfDimensions; j++) {
-					point[j] = C.ONE_DOUBLE+rand.nextDouble()*0.1d;
+					point[j] = C.ONE_DOUBLE+rand.nextDouble()*C.DECI_DOUBLE;
 				}
 			} else {
 				for (int j=0; j<numberOfDimensions; j++) {
-					point[j] = -C.ONE_DOUBLE+rand.nextDouble()*0.1d;
+					point[j] = -C.ONE_DOUBLE+rand.nextDouble()*C.DECI_DOUBLE;
 				}
 			}
 			v.add(point);
