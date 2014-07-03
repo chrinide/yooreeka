@@ -37,11 +37,14 @@ import org.yooreeka.util.P;
 import org.yooreeka.util.gui.ScatterGui;
 
 /**
+ * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  *
  */
 public class SammonMap {
 
+	private final double NUMBER_TWO_DOUBLE = 2.0d;
+	
 	public static final double ALPHA_LOWER_BOUND = 0.3d;
 	public static final double ALPHA_UPPER_BOUND = 0.4d;
 	
@@ -162,7 +165,7 @@ public class SammonMap {
 			c += EPSILON;
 		}
 
-		return -(2.0d/c)*num;
+		return -(NUMBER_TWO_DOUBLE/c)*num;
 	}
 	
 	private double getDenumerator(int p, int q, VectorSet x) {
@@ -203,7 +206,7 @@ public class SammonMap {
 			c += EPSILON;
 		}
 
-		return -(2.0d/c)*denum;
+		return -(NUMBER_TWO_DOUBLE/c)*denum;
 	}
 
 	/**
@@ -212,7 +215,7 @@ public class SammonMap {
 	public static void main(String[] args) {
 		
 		
-		SammonTestData data = new SammonTestData(128,6); 
+		SammonTestData data = new SammonTestData(128,19); 
 		VectorSet v = data.getSquareClusters(); //.getStraightLines();
 	
 		SammonMap sMap = new SammonMap(2);
