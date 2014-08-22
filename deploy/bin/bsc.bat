@@ -12,8 +12,8 @@ set LIBJARS=%LIBJARS%;%Y_LIBS%\commons-lang3-3.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\commons-logging-1.1.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\httpclient-4.2.2.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\httpcore-4.2.2.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\jcommon-1.0.18.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\jfreechart-1.0.15.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\jcommon-1.0.20.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\jfreechart-1.0.16.jar
 
 set LIBJARS=%LIBJARS%;%Y_LIBS%\jigg-0.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\jsr173_1.0_api.jar
@@ -21,19 +21,19 @@ set LIBJARS=%LIBJARS%;%Y_LIBS%\junit-4.1.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\juniversalchardet-1.0.3.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\log4j-1.2.17.jar
 
-set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-analyzers-common-4.0.0-BETA.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-core-4.0.0-BETA.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-demo-4.0.0-BETA.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-memory-4.0.0-BETA.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-queryparser-4.0.0-BETA.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-analyzers-common-4.4.0.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-core-4.4.0.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-demo-4.4.0.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-memory-4.4.0.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\lucene-queryparser-4.4.0.jar
 
 set LIBJARS=%LIBJARS%;%Y_LIBS%\nekohtml.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\ojalgo-34.0.jar
-set LIBJARS=%LIBJARS%;%Y_LIBS%\poi-3.0.2-FINAL-20080204.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\poi-3.9-20121203.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\resolver.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\rooster.jar
 
-set LIBJARS=%LIBJARS%;%Y_LIBS%\secondstring-20070327.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\secondstring-20120620.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\serializer.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\super-csv-2.1.0.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\tm-extractors-1.0.jar
