@@ -137,6 +137,7 @@ Option property  = OptionBuilder.withArgName( "property=value" )
 			try {
 				// parse the command line arguments
 				CommandLine line = parser.parse(sysbench.getOptions(), args);
+				P.println(line.toString());
 				
 			} catch (ParseException exp) {
 				// oops, something went wrong
