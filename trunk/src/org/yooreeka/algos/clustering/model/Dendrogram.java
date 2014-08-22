@@ -28,7 +28,7 @@
  *   limitations under the License.
  *   
  */
-package org.yooreeka.algos.clustering.hierarchical;
+package org.yooreeka.algos.clustering.model;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -37,7 +37,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.yooreeka.algos.clustering.model.Cluster;
 import org.yooreeka.config.YooreekaConfigurator;
 
 public class Dendrogram {

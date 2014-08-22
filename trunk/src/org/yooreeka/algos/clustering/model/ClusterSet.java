@@ -28,15 +28,12 @@
  *   limitations under the License.
  *   
  */
-package org.yooreeka.algos.clustering.hierarchical;
+package org.yooreeka.algos.clustering.model;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.yooreeka.algos.clustering.model.Cluster;
-import org.yooreeka.algos.clustering.model.DataPoint;
 
 /**
  * Set of clusters.
