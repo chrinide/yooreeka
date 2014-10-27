@@ -90,7 +90,7 @@ public class XyGui extends ApplicationFrame {
 			xycollection = new XYSeriesCollection(xydata);
 
 			final JFreeChart chart = ChartFactory.createXYLineChart(
-					"Basic X-Y Plot", "X", "Y", xycollection,
+					title, "X", "Y", xycollection,
 					PlotOrientation.VERTICAL, true, true, false);
 
 			final XYPlot plot = chart.getXYPlot();
