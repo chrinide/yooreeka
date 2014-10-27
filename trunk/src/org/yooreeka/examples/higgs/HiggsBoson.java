@@ -67,7 +67,7 @@ public class HiggsBoson {
 	 * @return 
 	 * 
 	 */
-	public CSVEntry query(long id) {
+	public CSVEntry query(int id) {
 		return loader.getF().getDoc().getCsvData().get(id);	
 	}
 	

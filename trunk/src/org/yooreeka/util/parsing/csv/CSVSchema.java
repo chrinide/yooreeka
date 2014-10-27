@@ -31,7 +31,7 @@
 package org.yooreeka.util.parsing.csv;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.yooreeka.util.parsing.common.DataField;
 import org.yooreeka.util.parsing.common.DataType;
@@ -47,20 +47,32 @@ public class CSVSchema implements Serializable {
 
 	private String name;
 	
-	private ArrayList<DataField> fields;
+	private HashMap<String, DataField> fields;
 	private DataField primaryKey;
 
+	private volatile int orderCounter=0;
+	
+	/*
+	 * Clearly there should be a 1-1 association between 
+	 * the headers (if any) of the CSVFile and the data fields 
+	 * of the CSVSchema of the CSVFile.  
+	 */
 	public CSVSchema() {
-		fields = new ArrayList<DataField>();
+		fields = new HashMap<String, DataField>();
 	}
 
 	public DataField getPrimaryKey() {
 		return primaryKey;
 	}
 	
+	/**
+	 * When this returns a negative number the schema does not have a primary key
+	 * 
+	 * @return the primary key index
+	 */
 	public int getPrimaryKeyIndex() {
-		int primaryKeyIndex=0;
-		Object[] fs = fields.toArray();
+		int primaryKeyIndex=-1;
+		Object[] fs = fields.values().toArray();
 		for (int i=0; i < fields.size(); i++) {
 			DataField f = (DataField) fs[i];
 			if (f.isPrimaryKey()) {
@@ -73,7 +85,7 @@ public class CSVSchema implements Serializable {
 	public void addField(DataField field, boolean isPrimaryKey) {
 		
 		if (field.getDataType() == DataType.LONG) {
-			fields.add(field);
+			fields.put(field.getName(), field);
 			field.setAsPrimaryKey();
 			primaryKey=field;
 		} else {
@@ -82,8 +94,12 @@ public class CSVSchema implements Serializable {
 	}
 
 	public void addField(DataField field) {
-		
-		fields.add(field);
+		try {
+			field.setOrderIndex(orderCounter++);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		fields.put(field.getName(), field);
 	}
 
 	/**
@@ -97,18 +113,17 @@ public class CSVSchema implements Serializable {
 	 * @return the index of the <tt>DataField</tt> in the schema and therefore
 	 * the proper index for retrieving the value of the field from any <tt>CSVEntry</tt>
 	 * that conforms with the schema.
+	 * @throws Exception 
 	 * 
 	 */
-	public int getIndex(String fieldName) {
+	public int getIndex(String fieldName) throws Exception {
 		
-		int index=-1;
-		
-		for (int i=0; i< fields.size(); i++) {
-			DataField f = fields.get(i);
-			if (f.getName().equalsIgnoreCase(fieldName)) {
-				index = i;
-				break;
-			}
+		int index;
+
+		if (fields.containsKey(fieldName)) {
+			index = fields.get(fieldName).getOrderIndex();
+		} else {
+			throw new Exception("APPLICATION ERROR: No field found!");
 		}
 		return index;
 	}
