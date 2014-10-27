@@ -221,7 +221,7 @@ public class MyFibonacci {
 			sinOfX[i] = C.TWO_DOUBLE*Math.sin(gXX[i]);
 		}
 		
-		XyGui g = new org.yooreeka.util.gui.XyGui ("X-axis", gX);
+		XyGui g = new org.yooreeka.util.gui.XyGui ("MyFibonacci vs. Sin(x)", gX);
 		g.addSeries("MyFibonacci (3,terms)", gX, gF3);
 		g.addSeries("Sin(x)", gXX, sinOfX);
 		g.plot();
