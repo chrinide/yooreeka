@@ -30,8 +30,8 @@
  */
 package org.yooreeka.util.parsing.csv;
 
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 import org.yooreeka.util.P;
 import org.yooreeka.util.parsing.common.ProcessedDocument;
@@ -47,15 +47,15 @@ public class CSVDocument extends ProcessedDocument {
 	private CSVEntry headers;
 	
 	private boolean hasHeaders;
-	private Hashtable<Long, CSVEntry> csvData;
+	private ArrayList<CSVEntry> csvData;
 	
 	private CSVSchema schema;
 
 	public CSVDocument() {
-		csvData = new Hashtable<Long, CSVEntry>();
+		csvData = new ArrayList<CSVEntry>();
 	}
 	
-	public CSVDocument(Hashtable<Long, CSVEntry> data) {
+	public CSVDocument(ArrayList<CSVEntry> data) {
 		csvData = data;
 	}
 
@@ -74,18 +74,20 @@ public class CSVDocument extends ProcessedDocument {
 	/**
 	 * @return the csvData
 	 */
-	public Hashtable<Long, CSVEntry> getCsvData() {
+	public ArrayList<CSVEntry> getCsvData() {
 		return csvData;
 	}
-	
+		
 	public void print(String printSeparator) {
-		P.hline();
-		P.println(getHeaders().toString(printSeparator));
+		if (hasHeaders()) {
+			P.hline();
+			P.println(getHeaders().toString(printSeparator));
+		}
 		P.hline();
 
-		Enumeration<CSVEntry> elements = csvData.elements();
-		while (elements.hasMoreElements()) {
-			CSVEntry e = elements.nextElement();
+		ListIterator<CSVEntry> elements = csvData.listIterator();
+		while (elements.hasNext()) {
+			CSVEntry e = elements.next();
 			P.println(e.toString(printSeparator));
 		}
 		P.hline();

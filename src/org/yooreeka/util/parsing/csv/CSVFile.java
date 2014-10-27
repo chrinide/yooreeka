@@ -35,6 +35,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
+import org.yooreeka.util.C;
 import org.yooreeka.util.P;
 
 /**
@@ -68,6 +69,10 @@ public class CSVFile {
 		this.hasHeaders = hasHeaders;
 
 		file = new File(fileName);
+		
+		//Initialize the document that corresponds to the file
+		doc = new CSVDocument();
+		doc.setSchema(schema);
 	}
 
 	public CSVEntry getHeaders() {
@@ -94,15 +99,17 @@ public class CSVFile {
 	}
 
 	public CSVDocument read() throws IOException {
+		return read(C.ZERO_INT);
+	}
+	
+	public CSVDocument read(int skipRows) throws IOException {
 
 		FileReader fReader = new FileReader(file);
 		BufferedReader bReader = new BufferedReader(fReader);
 
 		CSVParser csvParser = new CSVParser(this);
-		doc = csvParser.parse(bReader);
-
-		// Now, link the schema
-		doc.setSchema(schema);
+		csvParser.skipRows(skipRows);
+		csvParser.parse(bReader);
 		
 		bReader.close();
 		
@@ -116,7 +123,7 @@ public class CSVFile {
 		return doc;
 	}
 
-	public CSVEntry query(Long id) {
+	public CSVEntry query(int id) {
 		return doc.getCsvData().get(id);
 	}
 	

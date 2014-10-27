@@ -44,34 +44,23 @@ import org.yooreeka.util.parsing.common.ProcessedDocument;
 
 /**
  * 
+ * 
  * @author <a href="mailto:babis@marmanis.com">Babis Marmanis</a>
  * 
  */
 public class CSVParser implements DocumentParser {
 
-	/**
-	 * 
-	 */
-	private CSVDocument d;
-
 	private CSVFile csvFile;
 	
 	private long linesParsed = 0;
+	private long linesRead = 0;
+	private int lines2Skip=0;
 
 	/**
 	 * 
 	 */
 	public CSVParser(CSVFile f) {
 		this.csvFile = f;
-	}
-
-	@Override
-	public DataEntry getDataEntry(int i) {
-		return d.getCsvData().get(i);
-	}
-
-	public long getLinesParsed() {
-		return linesParsed;
 	}
 
 	@Override
@@ -103,11 +92,6 @@ public class CSVParser implements DocumentParser {
 		if (csvFile.isVerbose()) 	
 			msg= new StringBuilder("\nProcessed ");
 		
-		d = new CSVDocument();
-
-		// TODO: This is broken
-		int pkIndex = csvFile.getSchema().getPrimaryKeyIndex();
-		
 		linesParsed = 0;
 
 		boolean hasMoreLines = true;
@@ -117,19 +101,26 @@ public class CSVParser implements DocumentParser {
 
 			line = bR.readLine();
 
-			if (line == null) {
+			if (line == null || line.trim().length() == 0) {
 
 				hasMoreLines = false;
 
 			} else {
 
-				CSVEntry csvEntry = new CSVEntry(line, getSeparator());
-				if (linesParsed == 0 && csvFile.hasHeaders()) {
-					d.setHeaders(csvEntry);
-					P.print(csvEntry.toString());
+				if (linesParsed < lines2Skip) {
+					// Skip this line
 				} else {
-					//TODO: This is hardcoded ...
-					d.getCsvData().put(Long.valueOf(csvEntry.getEntryAt(pkIndex)), csvEntry);					
+					CSVEntry csvEntry = new CSVEntry(line, getSeparator());
+					if (linesRead == 0 && csvFile.hasHeaders()) {
+						csvFile.getDoc().setHeaders(csvEntry);
+//						P.print(csvEntry.toString());
+					} else {
+						if (csvEntry.getData().length != csvFile.getSchema().getNumberOfFields()) {
+							P.println(csvEntry.toString());
+						}
+						csvFile.getDoc().getCsvData().add(csvEntry);
+					}
+					linesRead++;
 				}
 				linesParsed++;
 			}
@@ -141,7 +132,19 @@ public class CSVParser implements DocumentParser {
 			P.println(msg.toString());
 		}
 		
-		return d;
+		return csvFile.getDoc();
+	}
+
+	@Override
+	public DataEntry getDataEntry(int i) {
+		return csvFile.getDoc().getCsvData().get(i);
+	}
+
+	/**
+	 * @return the number of lines parsed
+	 */
+	public long getLinesParsed() {
+		return linesParsed;
 	}
 
 	/**
@@ -149,5 +152,19 @@ public class CSVParser implements DocumentParser {
 	 */
 	public String getSeparator() {
 		return csvFile.getSeparator();
+	}
+	
+	/**
+	 * @param val sets the number of rows that must be skipped
+	 */
+	public void skipRows(int val) {
+		lines2Skip = val;
+	}
+	
+	/** 
+	 * @return the number of lines read
+	 */
+	public long getLinesRead() {
+		return linesRead;
 	}
 }
