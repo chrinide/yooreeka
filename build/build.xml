@@ -22,7 +22,7 @@
 
 	<property name="y.deploy.lib" value="${y.deploy}/lib"/>
 
-	<property name="yooreeka.jar" value="yooreeka-2.0.jar"/>
+	<property name="yooreeka.jar" value="yooreeka-2.2.jar"/>
 
 	<property environment="env"/>
 
