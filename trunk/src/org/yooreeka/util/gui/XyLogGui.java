@@ -45,6 +45,7 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.ApplicationFrame;
 import org.jfree.ui.RefineryUtilities;
+import org.yooreeka.util.C;
 
 /**
  * 
@@ -84,6 +85,15 @@ public class XyLogGui extends ApplicationFrame {
 			XYSeries xydata = new XYSeries(title);
 
 			for (int i = 0; i < loopInt; i++) {
+				
+				if (x[i] == C.ZERO_DOUBLE || x[i] <0) {
+					x[i] = C.SMALL_DOUBLE;
+				} 
+				
+				if (y[i] == C.ZERO_DOUBLE || y[i] <0) {
+					y[i] = C.SMALL_DOUBLE;
+				}
+
 				xydata.add(x[i], y[i]);
 			}
 
@@ -118,7 +128,8 @@ public class XyLogGui extends ApplicationFrame {
 		XYSeries xydata = new XYSeries(title);
 
 		for (int i = 0; i < loopInt; i++) {
-			xydata.add(x[i], y[i]);
+			
+			xydata.add(check(x[i]), check(y[i]));
 		}
 
 		xycollection.addSeries(xydata);
@@ -154,6 +165,20 @@ public class XyLogGui extends ApplicationFrame {
 		setContentPane(chartPanel);
 	}
 
+	private double check(double val) {
+		
+		double normalizedValue=val;
+		
+		if (val == C.ZERO_DOUBLE) {
+			normalizedValue = C.SMALL_DOUBLE;
+		} 
+		
+		if (val < 0) {
+			throw new IllegalArgumentException("ERROR: Cannot have negative values ("+val+") in a logarithm");
+		}
+		return normalizedValue;
+	}
+	
 	private boolean checkX(double[] val) {
 
 		boolean isOK = true;
