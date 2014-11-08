@@ -52,6 +52,8 @@ public class CSVParser implements DocumentParser {
 
 	private CSVFile csvFile;
 	
+	private boolean verbose=false;	
+
 	private long linesParsed = 0;
 	private long linesRead = 0;
 	private int lines2Skip=0;
@@ -113,10 +115,16 @@ public class CSVParser implements DocumentParser {
 					CSVEntry csvEntry = new CSVEntry(line, getSeparator());
 					if (linesRead == 0 && csvFile.hasHeaders()) {
 						csvFile.getDoc().setHeaders(csvEntry);
-//						P.print(csvEntry.toString());
+						
+						if (isVerbose())
+							P.print(csvEntry.toString());
+						
 					} else {
 						if (csvEntry.getData().length != csvFile.getSchema().getNumberOfFields()) {
-							P.println(csvEntry.toString());
+							
+							if (isVerbose()) 
+								P.println(csvEntry.toString());
+							
 						}
 						csvFile.getDoc().getCsvData().add(csvEntry);
 					}
@@ -166,5 +174,32 @@ public class CSVParser implements DocumentParser {
 	 */
 	public long getLinesRead() {
 		return linesRead;
+	}
+	/**
+	 * @return the verbose
+	 */
+	public boolean isVerbose() {
+		return verbose;
+	}
+
+	/**
+	 * @param verbose the verbose to set
+	 */
+	public void setVerbose(boolean verbose) {
+		this.verbose = verbose;
+	}
+
+	/**
+	 * @return the csvFile
+	 */
+	public CSVFile getCsvFile() {
+		return csvFile;
+	}
+
+	/**
+	 * @return the lines2Skip
+	 */
+	public int getLines2Skip() {
+		return lines2Skip;
 	}
 }
