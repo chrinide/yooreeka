@@ -307,6 +307,12 @@ public class BasicWebCrawler {
 
 				String contentType = doc.getContentType();
 
+				 StringBuilder msg = new StringBuilder("Now processing:\n");
+				 msg.append(doc.getDocumentURL()).append("\n");
+				 P.hline();
+				 P.println(msg.toString());
+				 P.hline();
+				 
 				DocumentParser docParser = null;
 				try {
 					docParser = DocumentParserFactory.getInstance().getDocumentParser(contentType);
