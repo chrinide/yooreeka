@@ -40,7 +40,18 @@ import java.nio.charset.Charset;
 public class P {
 	
 	public final static String HLINE = "---------- ---------- ---------- ---------- ---------- ----------";
-
+	public final static String ERROR = "Error: ";
+	
+	/**
+	 * Print errors
+	 */
+	public static void error(String s) {
+		hline();
+		println(ERROR);
+		println(s);
+		hline();
+	}
+	
 	/**
 	 * Print a horizontal line with 65 characters.
 	 */

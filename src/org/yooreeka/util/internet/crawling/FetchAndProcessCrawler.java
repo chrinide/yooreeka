@@ -200,7 +200,7 @@ public class FetchAndProcessCrawler {
 		setFilesOnlyUrlFilter();
 	}
 
-	private void setFilesOnlyUrlFilter() {
+	public void setFilesOnlyUrlFilter() {
 		/* configure url filter to accept only file:// urls */
 		URLFilter urlFilter = new URLFilter();
 		urlFilter.setAllowFileUrls(true);
