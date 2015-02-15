@@ -36,6 +36,7 @@ set LIBJARS=%LIBJARS%;%Y_LIBS%\rooster.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\secondstring-20120620.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\serializer.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\super-csv-2.1.0.jar
+set LIBJARS=%LIBJARS%;%Y_LIBS%\tika-app-1.6.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\tm-extractors-1.0.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\xercesImpl.jar
 set LIBJARS=%LIBJARS%;%Y_LIBS%\xml-apis.jar
@@ -64,7 +65,7 @@ set LIBJARS=%LIBJARS%;%Y_CRAWL_LIBS%\tika-core-1.0.jar
 set LIBJARS=%LIBJARS%;%Y_CRAWL_LIBS%\tika-parsers-1.0.jar
 
 set CLASSPATH=%Y_HOME%\lib\bsh-2.0b4.jar;%LIBJARS%
-set CLASSPATH=%CLASSPATH%;%Y_HOME%\deploy\lib\yooreeka-2.0.jar;%Y_HOME%\deploy\conf
+set CLASSPATH=%CLASSPATH%;%Y_HOME%\deploy\lib\yooreeka-2.2.jar;%Y_HOME%\deploy\conf
 
 echo ---
 set PATH
@@ -76,4 +77,4 @@ echo ---
 
 
 @rem BeanShell uses "user.home" variable to locate file with startup instructions: ".bshrc".
-"%JAVA_HOME%"\bin\java -Dyooreeka.home=%Y_HOME% -Duser.home=%Y_HOME%\deploy\bin -Xms256M -Xmx1280M -cp %CLASSPATH% bsh.Interpreter
+"%JAVA_HOME%"\bin\java -Dyooreeka.home=%Y_HOME% -Duser.home=%Y_HOME%\deploy\bin -Xms1536M -Xmx1536M -cp %CLASSPATH% bsh.Interpreter
