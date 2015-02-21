@@ -74,7 +74,7 @@ public class Chapter_07 {
 		t = System.currentTimeMillis();
 		
 		// Crawling for News
-		script_07_01("http://www.manning.com/");
+		script_07_01("http://www.marmanis.com/");
 		
 		//  Run indexing and search on the default pages(no crawling) 
 		script_07_02();
